@@ -1,4 +1,4 @@
-[![GitHub](https://img.shields.io/github/license/nihoel/Anno1800SavegameVisualizer)](https://github.com/nihoel/Anno1800SavegameVisualizer/blob/master/LICENSE) [![version](https://img.shields.io/badge/latest--version-0.1-blue)](https://github.com/nihoel/Anno1800SavegameVisualizer/releases/tag/v0.1) [![Discord](https://img.shields.io/discord/571011757317947406?label=help%2Fdiscord)](https://discord.gg/JJpHWRB)
+[![GitHub](https://img.shields.io/github/license/nihoel/Anno1800SavegameVisualizer)](https://github.com/nihoel/Anno1800SavegameVisualizer/blob/master/LICENSE) [![version](https://img.shields.io/badge/latest--version-0.2-blue)](https://github.com/nihoel/Anno1800SavegameVisualizer/releases/tag/v0.2) [![Discord](https://img.shields.io/discord/571011757317947406?label=help%2Fdiscord)](https://discord.gg/JJpHWRB)
 
 
 | :exclamation:  The software is in an early stage! Read the known issues first!   |
