@@ -1,7 +1,7 @@
 from tools.a7s_model import *
 
 import ipywidgets as widgets
-import wmi  # to kill AD
+#import wmi  # to kill AD
 from PyQt5.QtWidgets import QFileDialog, QApplication
 
 # try:
