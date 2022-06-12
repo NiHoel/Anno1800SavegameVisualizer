@@ -9,7 +9,7 @@
 Turn your [Anno 1800](https://www.ubisoft.com/de-de/game/anno-1800/) savegames into [Anno Designer](https://github.com/AnnoDesigner/anno-designer) layouts with just a few clicks! Eases the creation of production layout and the process of copying islands.
 
 ## Getting started
-1. Download and install Jupyter Lab: https://github.com/jupyterlab/jupyterlab-desktop/releases/latest - The installation process consists of two stages and opens multiple windows, so make sure not to hide them. Always use the default settings (an exception is the question for whom to install the softwere, here you can opt for "just me" instead of "everyone")
+1. Download and install Jupyter Lab: https://github.com/jupyterlab/jupyterlab-desktop/releases/latest - The installation process consists of two stages and opens multiple windows, so make sure not to hide them. Always use the default settings (an exception is the question for whom to install the software, here you can opt for "just me" instead of "everyone")
 2. Download the latest release of this repository: https://github.com/nihoel/Anno1800SavegameVisualizer/releases/latest
 3. Extract the archive to some directory on your computer. Make sure to not change anything inside the tools folder!
 4. Double click on savegame_visualizer.ipynb (must open in Jupyter Lab).
@@ -17,19 +17,22 @@ Turn your [Anno 1800](https://www.ubisoft.com/de-de/game/anno-1800/) savegames i
 6. If you have some basic coding skills in Python, you can open savegame_inspector.ipynb to further explore a savegame.
 
 ## Troubleshooting
-#### The preview does not updated and the button to open Anno Designer does nothing
+#### The preview does not update and the button to open Anno Designer does nothing
 Close all instances of Anno Designer (use the task manager) and restart the software.
 
 #### Error displaying widget
 ![Error displaying widget](imgs/error_display_widget.png)
+
 That is normal when you open the software. Run the software as usual and the user interface will appear.
 
 #### Code expanded
 ![Code expanded](imgs/code_expanded.png)
-If you have opened one of the two blocks depicted above. Click on the blue bar on the left to collapse it. Make sure you didn't change anything there by accident. If strange things happen afterwards, re-download the software
+
+If you have opened one of the two blocks depicted above: Click on the blue bar on the left to collapse it. Make sure you didn't change anything there by accident. If strange things happen afterwards, re-download the software
 
 #### Error in the status bar
-Contact me if you fail to understand or resolve the error displayed there. To help me solving the issue, open the log console and copy its content.
+Contact me if you fail to understand or resolve the error displayed there. To help me solve the issue, open the log console and copy its content.
+
 ![Open log console](imgs/show_log_console.png)
 
 ## Contact and Feedback
@@ -38,15 +41,15 @@ Contact me if you fail to understand or resolve the error displayed there. To he
 * I welcome any kind of feedback: Bugs, user experience improvements, feature suggestions. Here is a list of features that does not take to much effort to implement (so write me, if you like to have one of it): Exclude blueprints, exclude groups of buildings (using the building groups specified in Anno Designer), define custom color style (color picker + building (group) selector), or extracting configuration files for my calculator: https://github.com/NiHoel/Anno1800Calculator
 
 ## Special Thanks
-* [StingMcRay](https://github.com/StingMcRay) for extracting and adding necessery information to the Anno Designer files
+* [StingMcRay](https://github.com/StingMcRay) for extracting and adding necessary information to the Anno Designer files
 * The [Anno Designer](https://github.com/AnnoDesigner/anno-designer) team for their great tool (which is part of the distributed binaries)
 * [Taubenangriff](https://github.com/taubenangriff) for his support on extracting savegames and the two tools included in the binaries:
     * [RdaConsole](https://github.com/anno-mods/RdaConsole)
     * [FileDBReader](https://github.com/anno-mods/FileDBReader)
     
 ## Known issues
-* Anno Designer doe not allow to open multiple instances. After you opened it, close it before making any modifications in the savegame visualizer. Otherwise the software may hang or fail to update the preview.
-* Some buildings are missing in the final layout (e.g. NW trad unions, some harbour buildings and many scenario related buildings)
+* Anno Designer does not allow to open multiple instances. After you opened it, close it before making any modifications in the savegame visualizer. Otherwise the software may hang or fail to update the preview.
+* Some buildings are missing in the final layout (e.g. NW trade unions, some harbour buildings and many scenario related buildings)
 * The reserved harbour space of dockland modules points into the wrong direction
 
 ## Disclaimer
