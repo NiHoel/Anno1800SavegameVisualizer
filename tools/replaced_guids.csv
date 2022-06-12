@@ -1,0 +1,88 @@
+This File is based on Anno Designer Presets version 
+4.9
+------------------------------------------------------
+GUID , Icon Filename , IdentifierName , Replaced Guids
+403,A7_highlife_skyliner_monument.png,HighLife_monument_00,404,135709,406
+24134,,Aquafarm,24658
+24829,A7_basin.png,Basin,24828
+25547,A7_tractor.png,Scenario02_tractor_module_01 (Tractor),25548
+100415,A7_townhall.png,Town hall,101285,117859
+100429,A7_visitor_harbour.png,Harbor_09 (tourism_pier_01),133890,102284
+100454,A7_Museum module.png,Culture_02_module_06_empty,1010481,101451,101452,101453,101454,1010482,101455,101456,101457,101458,1010483,101459,101460,101461,101462,1010484,100917,100918,100919,100920,100921,100922,100923,100924,100925,100926,100927,101956,100928,100929,100930,100931,100932,100933,100940,100941,100942,100943,100944,100945,114789,114790,114791,114792,114793,124786,124787,124788,124789,124790,124791,124792,124793,124794,124795,130922,130923,125029,112479,112480,112481,112482,113376
+100455,A7_Zoo module.png,Culture_01_module_06_empty,1010477,100812,101809,101984,101985,102014,1010474,100813,100814,101986,101987,101988,1010479,100815,101989,101990,101991,101992,101993,102015,100816,101810,101811,101816,102016,110255,100645,102557,102558,102559,102560,102561,102566,101954,114783,114784,114785,114786,114787,114788,125030,125031,125033,125034,112477,113763,113764,124057,124087,124088,124091,124094,124101,124102,124109,124110,124111,124112,124113,124114,124090,124084,124089,124103,124104,124105,124106,124107,124108
+100519,A7_pier.png,Harbor_08 (Pier),101344,116030,125193,117871,125028,125191,125192
+100586,A7_harbour_kontor.png,Harbor_office,101286,117860
+100783,A7_oil_habour_01.png,Harbor_14a (Oil Harbor I),101404,101403,101329,101405,101406,119259,119281,270172,119031,119032,119033
+100784,A7_oil_storage.png,Harbor_15 (Oil Storage),101330,119034
+101497,A7_cultural_props_1x1_02.png,Culture_1x1_benches,102846
+101498,A7_cultural_props_1x1_03.png,Culture_1x1_fence,102849
+101510,A7_cultural_props_1x1_04.png,Culture_1x1_fencegate,102854
+101511,A7_cultural_props_1x1_05.png,culture_1x1_fenceangle,102851
+101512,A7_cultural_props_1x1_06.png,culture_1x1_fenceend,102850
+101513,A7_cultural_props_1x1_07.png,Culture_1x1_hedge,102855
+101514,A7_cultural_props_1x1_08.png,culture_1x1_hedgeangle,102857
+101515,A7_cultural_props_1x1_09.png,culture_1x1_hedgeend,102856
+101516,A7_cultural_props_1x1_10.png,Culture_1x1_statue,102848
+101552,A7_cultural_props_1x1_11.png,culture_1x1_hedgewall,102859
+101553,A7_cultural_props_1x1_12.png,culture_1x1_fencewall,102853
+101554,A7_cultural_props_1x1_13.png,culture_1x1_hedgecrossing,102858
+101555,A7_cultural_props_1x1_14.png,culture_1x1_fencecrossing,102852
+102085,A7_park_props_1x1_21.png,Park_1x1_bigtree,102133
+102086,A7_park_props_1x1_23.png,Park_1x1_smalltree,102814,102130
+102088,A7_park_props_1x1_06.png,Park_1x1_hedge,102819
+102089,A7_park_props_1x1_08.png,park_1x1_hedgeend,102820
+102090,A7_park_props_1x1_07.png,park_1x1_hedgeangle,102821
+102091,A7_park_props_1x1_11.png,park_1x1_hedgecrossing,102822
+102092,A7_park_props_1x1_09.png,park_1x1_hedgewall,102823
+102093,A7_cultural_props_1x1_03.png,Park_1x1_fence,102829
+102094,A7_park_props_1x1_05.png,park_1x1_fenceend,102830
+102095,A7_cultural_props_1x1_05.png,park_1x1_fenceangle,102831
+102096,A7_park_props_1x1_12.png,park_1x1_fencecrossing,102832
+102097,A7_park_props_1x1_10.png,park_1x1_fencewall,102833
+102098,A7_park_props_1x1_03.png,Park_1x1_fencegate,102834,102149
+102099,A7_park_props_1x1_27.png,Park_1x1_path,102824
+102100,A7_park_props_1x1_28.png,park_1x1_pathend,102825,102140
+102101,A7_park_props_1x1_29.png,park_1x1_pathangle,102826,102141
+102102,A7_park_props_1x1_30.png,park_1x1_pathcrossing,102827,102142
+102103,A7_park_props_1x1_31.png,park_1x1_pathwall,102828,102143
+102104,A7_park_props_1x1_13.png,Park_1x1_benches,102835,102150
+102105,A7_park_props_1x1_14.png,Park_1x1_statue_grass,102836
+102106,A7_park_props_2x2_05.png,Park_2x2_horsestatue,102838
+102107,A7_park_props_2x2_06.png,Park_2x2_fountain,102840,102153
+102108,A7_park_props2x2_03.png,Park_2x2_garden,102841,102154
+102109,A7_park_props_2x2_04.png,Park_2x2_gazebo,102842,102155
+102110,A7_park_props3x3_02.png,Park_3x3_fountain,102843,102156
+102111,A7_park_props_3x3_04.png,Park_3x3_gazebo,102844,102157
+102173,A7_park_1x1_01.png,Culture_props_system_all_nohedge,102128
+102462,A7_park_props_2x2_02.png,Park_2x2_manstatue,102839
+102481,A7_park_props_1x1_32.png,Park_1x1_stand,102837
+102482,A7_cultural_props_1x1_15.png,Culture_1x1_stand,102847
+103109,A7_park_props_system_1x1_37.png,Park_1x1_poplar,102132
+103112,A7_park_props_system_1x1_36.png,Park_1x1_hedgegate,103122
+103117,A7_park_props_system_1x1_45.png,Park_1x1_wateringplace,103120
+103118,A7_park_props_system_1x1_46.png,Park_1x1_well,103121
+103119,A7_cultural_props_1x1_16_front.png,Culture_1x1_hedgegate,103123
+110935,A7_botanic_garden.png,Culture_03 (BotanicalGarden),114141
+111104,A7_botanic_module.png,C03_M06_empty,111083,111086,111088,111087,111089,111090,111091,111092,111093,112610,112609,111094,111095,111096,111097,111098,111099,111100,111101,111102,114310,114311
+111829,A7_park_props_1x1_26.png,Park_1x1_bush_03,102087
+111830,A7_park_props_1x1_01.png,Colony park_1x1_grass Mercier Unlocked,102083,102812
+112685,A7_airship_hangar.png,Monument_arctic_01_00,112687,112688,112689
+112726,A7_airship_landing_plattform.png,Kontor_airship_arctic_01,116003,116004
+113452,A7_music_pavillion.png,Entertainment_musicpavillion_empty,112486,114148,114149,114150,114151
+114435,A7_cultural_1x1_01.png,Culture_1x1_plaza,114894
+114544,A7_water_pump.png,River_colony02_03 (Water Pump),120271
+117743,A7_clay.png,River_colony02_01 (Clay Harvester),120274
+117744,A7_paper.png,River_colony02_02 (Paper Mill),120273
+118938,A7_research_center.png,ResearchCenter_01,118939,118940
+119026,A7_tractor.png,Africa_tractor_module_01 (Tractor),119027
+132765,A7_eiffel_tower.png,Tourist_monument_00,132766,132770,133928,133930,133931,133932,133933
+269837,A7_tractor.png,Tractor_module_01 (Tractor),269839,269849
+1010266,A7_wood_log.png,Agriculture_05 (Timber Yard),24657
+1010311,A7_gold_ore.png,Mining_08 (Gold Ore Mine),101311,116029
+1010371,A7_warehouse.png,Logistic_02(Warehouse I),100516,100517,269869,101323,101324,101325,112656,112657,112658,114509,114537,114635
+1010470,A7_zoo.png,Culture_01 (Zoo),102282
+1010471,A7_museum.png,Culture_02 (Museum),102283
+1010489,A7_world_fair_2.png,Monument_01_00,1010490,101336,1010491,1010492
+1010519,A7_depot.png,Harbor_01 (Depot),101278,112670,117870
+1010525,A7_repair_crane.png,Harbor_07 (Repair Crane),101573,117864
+1010540,A7_kontor_main.png,Kontor_imperial_01,1010517,100510,100511,269867,100514,100515,269879,101291,101292,101293,101295,112660,112661,112866,112867,114627,114628,114630,114631

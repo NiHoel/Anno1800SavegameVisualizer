@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Converts>
+  <InternalCompression>
+    <Element Path="//SessionData/BinaryData" CompressionVersion ="2">
+      <ReplaceTagNames>
+        <Entry Original="Delayed Construction" Replacement="DelayedConstruction"/>
+        <Entry Original="Bus Activation" Replacement="BusActivation"/>
+        <Entry Original="Active Tasks" Replacement="ActiveTasks"/>
+      </ReplaceTagNames>
+    </Element>
+  </InternalCompression>
+</Converts>

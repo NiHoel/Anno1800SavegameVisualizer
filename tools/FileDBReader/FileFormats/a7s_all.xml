@@ -1,0 +1,1377 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Converts>
+  <InternalCompression>
+    <Element Path="//SessionData/BinaryData" CompressionVersion ="2">
+      <ReplaceTagNames>
+        <Entry Original="Delayed Construction" Replacement="DelayedConstruction"/>
+        <Entry Original="Bus Activation" Replacement="BusActivation"/>
+        <Entry Original="Active Tasks" Replacement="ActiveTasks"/>
+        <Entry Original="AI Time" Replacement="AITime"/>
+      </ReplaceTagNames>
+    </Element>
+  </InternalCompression>
+  <Converts>
+      <!-- Nodes with unknown or ambigious interpretation: id, ID, Position, Value, value, val, None, size, Type, Data, Index, State, SessionID, x, y, bits, FOWArea, RemainingTime, count, FirePerSide, Path, PinnedResources, FeedbackTextPosition, ObjectSettings, TargetObjects  -->
+      <!-- maybe some sort of image: QuestTrackerIcon, DecisionBG, SessionMap -->
+      
+      
+      <Convert Path ="//guid" Type="Int32" />
+      
+      <Convert Path="//CityName" Type="String" Encoding="UTF-16"/>      
+      <Convert Path="//TownName" Type="String" Encoding="UTF-16"/> 
+      <Convert Path="//ObjectName" Type="String" Encoding="UTF-16"/> 
+      <Convert Path="//CompanyName" Type="String" Encoding="UTF-8"/> 
+      
+      <Convert Path="//objects/None/ID" Type="Int64" />
+      <Convert Path="//ObjectFolderID" Type="Int32" />
+      <Convert Path="//ObjectID" Type="Int64" />
+      <Convert Path="//FolderID" Type="Int32" />
+      <Convert Path="//TrainGuid" Type="Int32" />
+      <Convert Path="//TrainSkinGuid" Type="Int32" />
+      <Convert Path="//GameObjectIDCounter" Type="Int64" />
+      <Convert Path="//NonGameObjectIDCounter" Type="Int64" />
+      <Convert Path="//None/ParticipantID/id" Type="Int16" />
+      <Convert Path="//SequenceStartTime" Type="Int64" />
+      <Convert Path="//QuestIDs/None" Type="Int32" />
+      
+      <!-- Statistics -->
+      <Convert Path ="//AmountPerPopulation/None" Type="Int32"/>
+      <Convert Path ="//AmountPerProduct/None" Type="Int32"/>
+      <Convert Path ="//ConsumptionPerProduct/None[position() mod 2 = 1]" Type="Int32"/>
+      <Convert Path ="//ConsumptionPerProduct/None[position() mod 2 = 0]" Type="Single"/>
+      <Convert Path ="//GenerationPerProduct/None[position() mod 2 = 1]" Type="Int32"/>
+      <Convert Path ="//GenerationPerProduct/None[position() mod 2 = 0]" Type="Single"/>
+      
+
+      <!-- Network Synchronization -->
+      <Convert Path="//P1" Type="Int32" />
+      <Convert Path="//P2" Type="Int32" />
+      <Convert Path="//Counter" Type="Int32" />
+      
+      
+
+      <!-- The size of the map in some units, the largest I found is 2560x2560. You can't just change this. -->
+    <Convert Path="//MapTemplate/Size" Type="Int32" Structure="List"/>
+    <!-- The playable area of the map indicated in "x y x1 y1" format. Note that the north would be in the "y" direction. -->
+    <Convert Path="//MapTemplate/PlayableArea" Type="Int32" Structure="List"/>
+    <!-- The amount of TemplateElements -->
+    <Convert Path="//MapTemplate/ElementCount" Type="Int32"/>
+    <!-- Some maps also include a RandomlyPlacedThirdParties property, but I found them empty -->
+
+    <!--
+            Type 0 - Load the specified island
+            Type 1 - Randomize the island
+            Type 2 - Found in uninhabitable islands (as far as I remember)
+
+            Still a mistery but this could be the IslandType
+        -->
+    <Convert Path="//MapTemplate/TemplateElement/ElementType" Type="Int32"/>
+
+    <!--
+            Type 1 - Found in Old World, New World, Cape, Arctic, Enbesa
+            Type 3 - Found in Old World, New World
+            Type 4 - Found in Old World, New World
+
+            Still a mistery...
+        -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/Config/Type/id" Type="Int16" >
+      <Enum>
+        <Entry Value ="0" Name ="Normal"/>
+        <Entry Value ="1" Name ="Starter" />
+        <Entry Value ="3" Name ="Decoration" />
+        <Entry Value ="4" Name ="Pirate" />
+      </Enum>
+    </Convert>
+    <!-- A list, separated by a space, of GUIDs of fertilities -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/FertilityGuids" Type="Int32" Structure="List"/>
+    <!-- A nice label, useful for us (: -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/IslandLabel" Type="String" Encoding="UTF-8"/>
+    <!-- The path of the "a7e" file of the island in the RDA files -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/MapFilePath" Type="String" Encoding="UTF-16"/>
+    <!-- Mine Object ID -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/MineSlotMapping/None[position() mod 2 = 1]" Type="Int64"/>
+    <!--  GUID of the resource of the mine. Sometimes it is 0 - this equals to no mine on that deposit. -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/MineSlotMapping/None[position() mod 2 = 0]" Type="Int32"/>
+    <!-- The position of the island in "x y" format. The position indicates the lower-left corner of the island, being this a square. -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/Position" Type="Int32" Structure="List"/>
+
+    <!--
+            ID 0 - Normal islands
+            ID 1 - Starter islands
+            ID 2 - Decoration islands
+            ID 3 - NPC islands (opponent or neutral)
+            ID 4 - Pirate islands
+            ID 5 - Glacier islands
+        -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/RandomIslandConfig/value/Type/id" Type="Int16" UseEnum="True">
+      <Enum>
+        <Entry Value ="0" Name ="Normal" />
+        <Entry Value ="1" Name ="Starter" />
+        <Entry Value ="2" Name ="Decoration" />
+        <Entry Value ="3" Name ="ThirdParty" />
+        <Entry Value ="4" Name ="PirateIsland" />
+        <Entry Value ="5" Name ="Cliff" />
+      </Enum>
+    </Convert>
+    <!--
+            ID 0 - Normal
+            ID 1 - Hard
+        -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/RandomIslandConfig/value/Difficulty/id" Type="Int16" >
+      <Enum>
+        <Entry Value ="0" Name ="Normal" />
+        <Entry Value ="1" Name ="Hard" />
+      </Enum>
+    </Convert>
+    <Convert Path="//MapTemplate/TemplateElement/Element/RandomizeFertilities" Type="Byte"/>
+    <!--
+            0 - 0 degrees rotation
+            1 - 90 degrees rotation
+            2 - 180 degrees rotation
+            3 - 270 degrees rotation
+        -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/Rotation90" Type="Byte"/>
+    <!--
+            Size 0 - Small
+            Size 1 - Medium
+            Size 2 - Large
+        -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/Size" Type="Int16" >
+      <Enum>
+        <Entry Value ="0" Name ="Small" />
+        <Entry Value ="1" Name ="Medium" />
+        <Entry Value ="2" Name ="Large" />
+      </Enum>
+    </Convert>
+      
+      <!-- Session properties -->
+      <Convert Path="//SessionGUID" Type="Int32"/>
+      <Convert Path ="//ObjectGroups/None[not(GameObjects)]" Type="String" Encoding="UTF-8"/>
+      <Convert Path ="//GameObjects/None" Type="Int64"/>
+      <Convert Path ="//RectSize" Type="Int32" Structure="List"/>
+      <Convert Path ="//GameObjectLabelMap/None[position() mod 2 = 1]" Type="String" Encoding="UTF-8"/>
+      <Convert Path ="//GameObjectLabelMap/None[position() mod 2 = 0]" Type="Int32"/>
+      <Convert Path ="//StoredSelections/None/value/id" Type="Int16"/>
+      
+      <!-- building properties -->
+      <!-- in "x z y" format with z pointing upwards, must be after map element -->
+      
+      <Convert Path="//GameObject/objects/None/Position" Type="Single" Structure="List"/>
+      <Convert Path ="//None/Direction" Type="Single"/>
+      <Convert Path ="//CurrentSequence" Type="Int32"/>
+      <Convert Path ="//CurrentSequenceID" Type="Int32"/>
+      <Convert Path ="//IdleSequenceID" Type="Int32"/>
+      <Convert Path ="//CurrentSequenceStartTime" Type="Int64"/>
+      <Convert Path ="//flags" Type="Boolean" Structure="List"/>
+      <Convert Path ="//Orientation" Type="Single" Structure="List"/>
+      <Convert Path ="//UpgradeGUIDs" Type="Int32" Structure="List"/>
+      <Convert Path ="//BuildingModules" Type="Int32" Structure="List"/>
+      
+      <Convert Path="//Prop/Position" Type="Single" Structure="List"/>
+      <Convert Path="//Prop/Rotation" Type="Single" Structure="List"/>
+      <Convert Path="//Prop/Color" Type="Single" Structure="List"/>
+      
+      
+      <Convert Path="//CityNameList/None" Type="Int32" Structure="List"/>
+	  <Convert Path="//NextCityNameIndex/None" Type="Int32"/>
+      <Convert Path="//MetaGameManager/GameSessions/None[position() mod 2 = 1]" Type="UInt32"/>
+      <Convert Path="//MetaGameManager/SessionTradeRouteManager/RouteMap/None[position() mod 2 = 1]" Type="UInt32"/>
+      <Convert Path="//MetaGameManager/SessionTradeRouteManager/RouteMap/None/ID" Type="UInt32"/>
+      
+      <Convert Path="//AreaVisitorData/None[position() mod 2 = 1]" Type="UInt16"/>
+      <Convert Path="//AreaInfo/None[position() mod 2 = 1]" Type="UInt16"/>
+      
+      <Convert Path="//AreaInfo/None/Fertility/None" Type="Int32"/>
+      
+      
+      <!-- Residence properties -->
+      <Convert Path="//Residence7/ResidentCount" Type="Int32" />
+      <Convert Path="//Residence7/TimeBeforeRuinLeft" Type="Int32" />
+      <Convert Path="//Residence7/PopulationMoveTimeout" Type="Int64" />
+      <Convert Path="//Residence7/ProductMoneyOutput" Type="Int32" />
+      
+      
+      <!-- <Convert Path="//ProductDistributionMap/None[position() mod 2 = 0]" Type="UInt32"/>
+      -->
+      
+      <Convert Path="//ProductDistributionMap/None/ProductLeft" Type="Single"/>
+      <Convert Path="//ProductDistributionMap/None/ProductConsumption" Type="Single"/>
+      <Convert Path="//ProductDistributionMap/None/DistributionPausedInfo/None[position() mod 2 = 0]" Type="UInt32"  Structure="List"/>
+      <Convert Path="//ProductDistributionMap/None/DistributionPausedInfo/CurrentlyProvided" Type="Boolean"/>
+
+      <Convert Path="//Storage/None[position() mod 2 = 0]" Type="UInt32" Structure="List"/>
+      
+      <Convert Path="//Storage/ProductGUID" Type="UInt32"/>
+      <Convert Path="//Storage/CurrentAmount" Type="UInt32"/>
+      <Convert Path="//Storage/MaxAmount" Type="UInt32"/>
+      <Convert Path="//Storage/ReservedAmount/Parent/ObjectID" Type="UInt64"/>
+      <Convert Path="//Storage/ReservedAmount/Type" Type="UInt32"/>
+      <Convert Path="//Storage/ReservedAmount/Index" Type="UInt64"/>
+      <Convert Path="//Storage/ReservedSpace/None[position() mod 2 = 1]" Type="Int32"/>
+      <Convert Path="//Storage/ReservedSpace/Parent/ObjectID" Type="UInt64"/>
+      <Convert Path="//Storage/ReservedSpace/Type" Type="UInt32"/>
+      <Convert Path="//Storage/ReservedSpace/Index" Type="UInt64"/>
+      
+
+      
+      <!-- Street properties -->
+      <Convert Path="//StreetID/x" Type="Int32" />
+      <Convert Path="//StreetID/y" Type="Int32" />
+      <Convert Path="//m_QuayReplacementExecuted" Type="Boolean" /> 
+      <Convert Path="//SparseEnabled" Type="Boolean" />
+      <Convert Path="//mode" Type="Boolean" />
+      <Convert Path="//V2_VarMapData/x" Type="Int32" />
+      <Convert Path="//V2_VarMapData/y" Type="Int32" /> 
+      <Convert Path="//block/x" Type="Int16" />
+      <Convert Path="//block/y" Type="Int16" />
+      <Convert Path="//StreetID/val" Type="Byte" Structure="List"/>  
+
+      
+      <!-- Ship properties -->
+      <Convert Path ="//EllipsisDimensions" Type="Single" Structure="List" />
+      <Convert Path ="//LoadingPierMidPoint" Type="Single" Structure="List" />
+      <Convert Path ="//AwayFromCoast" Type="Single" Structure="List" />
+      
+      <!-- Geometrical values -->
+    
+      <Convert Path="//ContextPosition" Type="Single" Structure="List"/>
+      <Convert Path="//SpawnContextPosition" Type="Single" Structure="List"/>
+      <Convert Path="//ResultPlacePosition" Type="Single" Structure="List"/>
+      <Convert Path="//BasePosition" Type="Single" Structure="List"/>
+      <Convert Path="//positionalData" Type="Single" Structure="List"/>
+      <Convert Path="//RallyPoint" Type="Single" Structure="List"/>
+      <Convert Path="//DesiredOffsetToMid" Type="Single" Structure="List"/>
+      <Convert Path="//pos" Type="Single" Structure="List"/>
+      <Convert Path="//Up" Type="Single" Structure="List"/>
+     
+      <Convert Path="//View/Direction" Type="Single" Structure="List"/><!-- Quaternion -->
+      <Convert Path="//Reservation/Direction" Type="Single" Structure="List"/><!-- Angle -->
+      <Convert Path="//Reservation/Position" Type="Single" Structure="List"/>
+      
+      <Convert Path="//HarborPosition" Type="Single" Structure="List"/>
+      <Convert Path="//LastPosition" Type="Single" Structure="List"/>
+      <Convert Path="//TargetPosition" Type="Single" Structure="List"/>
+      <Convert Path="//From" Type="Single" Structure="List"/>
+      <Convert Path="//At" Type="Single" Structure="List"/>
+      <Convert Path="//WayPositions" Type="Single" Structure="List"/>
+      <Convert Path="//LastPos" Type="Single" Structure="List"/>
+      <Convert Path="//LastWaystepPos" Type="Single" Structure="List"/>
+      <Convert Path="//LastTickPos" Type="Single" Structure="List"/>
+      <Convert Path="//CurrentPath" Type="Single" Structure="List"/>
+      <Convert Path="//Scale" Type="Single" Structure="List"/>
+      <Convert Path="//u0" Type="Single" Structure="List"/>
+      <Convert Path="//originalPath" Type="Single" Structure="List"/>
+      
+      <Convert Path="//BezierPath/Path/TangentScale" Type="Single"/>
+      <Convert Path="//BezierPath/Path/Minimum" Type="Single" Structure="List"/>
+      <Convert Path="//BezierPath/Path/Maximum" Type="Single" Structure="List"/>
+      <Convert Path="//BezierCurve/None/p" Type="Single" Structure="List"/>
+      <Convert Path="//BezierCurve/None/i" Type="Single" Structure="List"/>
+      <Convert Path="//BezierCurve/None/o" Type="Single" Structure="List"/>
+      
+      <Convert Path="//Template" Type="String" Encoding="UTF-8"/>
+
+
+        <!-- Bools und Bytes -->
+      <!--
+      <Convert Path="//AutoClose" Type="Boolean" />
+      <Convert Path="//IsUnique" Type="Boolean" />
+      <Convert Path="//IsRead" Type="Boolean" />
+      <Convert Path="//Executed" Type="Boolean" />
+      <Convert Path="//TriggerCounts" Type="Byte" />
+      <Convert Path="//permission" Type="Boolean" />
+      <Convert Path="//UnlimitedSlotCount" Type="Boolean" />
+      <Convert Path="//UnlimitedStack" Type="Boolean" />
+      <Convert Path="//worldMapAssetCreated" Type="Boolean" />
+      <Convert Path="//expeditionOverviewEntered" Type="Boolean" />
+      <Convert Path="//CheckSpecificParticipant" Type="Boolean" />
+      <Convert Path="//StartingAmountSet" Type="Boolean" />
+      <Convert Path="//IsPermanent" Type="Boolean" />
+      <Convert Path="//UpdateManually" Type="Boolean" />
+      <Convert Path="//IsActive" Type="Boolean" />
+      <Convert Path="//ShowMainSubobjective" Type="Boolean" />
+      <Convert Path="//CounterScopeUseCurrentContext" Type="Boolean" />
+      <Convert Path="//CounterScopeKeepFirstFound" Type="Boolean" />
+      <Convert Path="//IsNegated" Type="Boolean" />
+      <Convert Path="//IsResolved" Type="Boolean" />
+      <Convert Path="//CheckParticipantID" Type="Boolean" />
+      <Convert Path="//UseProcessingParticipantID" Type="Boolean" />
+      <Convert Path="//CheckAbsoluteProduction" Type="Boolean" />
+      <Convert Path="//ConditionQuestStateIsBlacklist" Type="Boolean" />
+      <Convert Path="//UseActiveSession" Type="Boolean" />
+      <Convert Path="//IsBlacklist" Type="Boolean" />
+      <Convert Path="//IsOptional" Type="Boolean" />
+      <Convert Path="//ShowInQuestTracker" Type="Boolean" />
+      <Convert Path="//ObjectiveQuestTrackerVisibility" Type="Boolean" />
+      <Convert Path="//IsMainObjective" Type="Boolean" />
+      <Convert Path="//SetMenuVisible" Type="Boolean" />
+      <Convert Path="//IsNetSafe" Type="Boolean" />
+      <Convert Path="//HasQuestReferenceAdded" Type="Boolean" />
+      <Convert Path="//HideDecisionPanelAfterChoice" Type="Boolean" />
+      <Convert Path="//CounterScopeUseActiveSession" Type="Boolean" />
+      <Convert Path="//IsToolOneConfigured" Type="Boolean" />
+      <Convert Path="//IsNewSession" Type="Boolean" />
+      <Convert Path="//HidePortrait" Type="Boolean" />
+      <Convert Path="//SpecifyHintColorType" Type="Boolean" />
+      <Convert Path="//UseSmallPortrait" Type="Boolean" />
+      <Convert Path="//RestrictToQuestObjects" Type="Boolean" />
+      <Convert Path="//UseSpecificPortrait" Type="Boolean" />
+      <Convert Path="//IsSpawnedByQuestObjective" Type="Boolean" />
+      <Convert Path="//HideOnMinimap" Type="Boolean" />
+      <Convert Path="//UseQuestOutlines" Type="Boolean" />
+      <Convert Path="//SpreadObject" Type="Boolean" />
+      <Convert Path="//AddScrapToTreasure" Type="Boolean" />
+      <Convert Path="//IsTreasure" Type="Boolean" />
+      <Convert Path="//UseProcessingParticipant_chl" Type="Boolean" />
+      <Convert Path="//ShowScrollHintWhenOffscreen" Type="Boolean" />
+      <Convert Path="//OnlyShowOnQuestObjects" Type="Boolean" />
+      <Convert Path="//LimitToQuestArea" Type="Boolean" />
+      <Convert Path="//DeselectObjectOnClose" Type="Boolean" />
+      <Convert Path="//CheckAbsoluteCount" Type="Boolean" />
+      <Convert Path="//RestrictToMandatoryModules" Type="Boolean" />
+      <Convert Path="//CheckIrrigatedModulesOnly" Type="Boolean" />
+      <Convert Path="//SourceIsQuestOwner2" Type="Boolean" />
+      <Convert Path="//ContextAllowAny" Type="Boolean" />
+      <Convert Path="//ExpectObjectExists" Type="Boolean" />
+      <Convert Path="//ExpectTargetExists" Type="Boolean" />
+      <Convert Path="//LinkAllActionsToQuest" Type="Boolean" />
+      <Convert Path="//UseParentValues" Type="Boolean" />
+      <Convert Path="//AreaFlags" Type="Byte" />
+      <Convert Path="//SetGoodPoolLimitToAmount" Type="Boolean" />
+      <Convert Path="//UseVisibilityAutomatism" Type="Boolean" />
+      <Convert Path="//UseQuestArea" Type="Boolean" />
+      <Convert Path="//ConfirmOnReach" Type="Boolean" />
+      <Convert Path="//CheckNonIrrigated" Type="Boolean" />
+      <Convert Path="//SpecifySession" Type="Boolean" />
+      <Convert Path="//AttractivenessCheckSpecificBuilding" Type="Boolean" />
+      <Convert Path="//CoverCornersVisible" Type="Boolean" />
+      <Convert Path="//CheckSpecificShipOwner" Type="Boolean" />
+      <Convert Path="//AllowResetTrigger" Type="Boolean" />
+      <Convert Path="//UseVariableAsDelay" Type="Boolean" />
+      <Convert Path="//InheritQuestArea" Type="Boolean" />
+      <Convert Path="//ClampVariableValue" Type="Boolean" />
+      <Convert Path="//ShowPamsyMessage" Type="Boolean" />
+      <Convert Path="//IgnoreTeamAlliance" Type="Boolean" />
+      <Convert Path="//ChangeForProcessingParticipant" Type="Boolean" />
+      <Convert Path="//UnregisterTrigger" Type="Boolean" />
+      <Convert Path="//Visibility" Type="Boolean" />
+      <Convert Path="//EnableSounds" Type="Boolean" />
+      <Convert Path="//OpenNewspaperUI" Type="Boolean" />
+      <Convert Path="//JumpLocation" Type="Boolean" />
+      <Convert Path="//OmitWelcomeMessage" Type="Boolean" />
+      <Convert Path="//UseProcessingSourceParticipant" Type="Boolean" />
+      <Convert Path="//DiscoverParticipantOmitWelcomeMessage" Type="Boolean" />
+      <Convert Path="//IsQuestPoolEnabled" Type="Boolean" />
+      <Convert Path="//AllowProcessingSession" Type="Boolean" />
+      <Convert Path="//AllowQuestSession" Type="Boolean" />
+      <Convert Path="//AllowQuestArea" Type="Boolean" />
+      <Convert Path="//BuffProcessingParticipant" Type="Boolean" />
+      <Convert Path="//PerformIntegrityCheck" Type="Boolean" />
+      <Convert Path="//ConditionFulfilled" Type="Boolean" />
+      <Convert Path="//PresetAreaListValid" Type="Boolean" />
+      <Convert Path="//OnlyOneTarget" Type="Boolean" />
+      <Convert Path="//IsEnabled" Type="Boolean" />
+      <Convert Path="//IsOptionalQuest" Type="Boolean" />
+      <Convert Path="//IsTimedQuest" Type="Boolean" />
+      <Convert Path="//IsMinimized" Type="Boolean" />
+      <Convert Path="//SentToQuestArea" Type="Boolean" />
+      <Convert Path="//IsDisguised" Type="Boolean" />
+      <Convert Path="//CanFinish" Type="Boolean" />
+      <Convert Path="//IsHidden" Type="Boolean" />
+      <Convert Path="//AppliedSharkQuestHotfix" Type="Boolean" />
+      <Convert Path="//ApeDiscovered" Type="Boolean" />
+      <Convert Path="//CanBeNegative" Type="Boolean" />
+      <Convert Path="//AutoPropagandaRepeat" Type="Boolean" />
+      <Convert Path="//IsUsedForNewspaper" Type="Boolean" />
+      <Convert Path="//IsPublished" Type="Boolean" />
+      <Convert Path="//IsNew" Type="Boolean" />
+      <Convert Path="//TriggeredByPropaganda" Type="Boolean" />
+      <Convert Path="//HealingUnitSent" Type="Boolean" />
+      <Convert Path="//IsDefaultName" Type="Boolean" />
+      <Convert Path="//WaitUntilFull" Type="Boolean" />
+      <Convert Path="//HasTradeRights" Type="Boolean" />
+      <Convert Path="//IsLoading" Type="Boolean" />
+      <Convert Path="//ThrowGoodsOverboard" Type="Boolean" />
+      <Convert Path="//WaitUntilEmpty" Type="Boolean" />
+      <Convert Path="//Active" Type="Boolean" />
+      <Convert Path="//HasNeverBeenEntered" Type="Boolean" />
+      <Convert Path="//IsInitialized" Type="Boolean" />
+      <Convert Path="//default" Type="Byte" />
+      <Convert Path="//ExecuteCurrentCommand" Type="Boolean" />
+      <Convert Path="//AddLaneOffset" Type="Boolean" />
+      <Convert Path="//DangerLayerID" Type="Byte" />
+      <Convert Path="//StateMain" Type="Byte" />
+      <Convert Path="//StateSub" Type="Boolean" />
+      <Convert Path="//LeaningChanged" Type="Boolean" />
+      <Convert Path="//WasMovingLastTick" Type="Boolean" />
+      <Convert Path="//PreventDriftBack" Type="Boolean" />
+      <Convert Path="//Moving" Type="Boolean" />
+      <Convert Path="//WasMoving" Type="Boolean" />
+      <Convert Path="//ActivateEquippedItems" Type="Boolean" />
+      <Convert Path="//HarbourEvaluated" Type="Boolean" />
+      <Convert Path="//IdleTickCount" Type="Byte" />
+      <Convert Path="//ForceReachWaytepRot" Type="Boolean" />
+      <Convert Path="//StillWaitingForGroup" Type="Boolean" />
+      <Convert Path="//TargetStoppedMoving" Type="Boolean" />
+      <Convert Path="//NoLogicOutOfPlayable" Type="Boolean" />
+      <Convert Path="//IsFeedbackEnabled" Type="Boolean" />
+      <Convert Path="//Unlocked" Type="Boolean" />
+      <Convert Path="//HadCallback" Type="Boolean" />
+      <Convert Path="//InProgress" Type="Boolean" />
+      <Convert Path="//forceReturn" Type="Boolean" />
+      <Convert Path="//IsHandled" Type="Boolean" />
+      <Convert Path="//reachedDest" Type="Boolean" />
+      <Convert Path="//CanFireAtTarget" Type="Boolean" />
+      <Convert Path="//forceCut" Type="Byte" />
+      <Convert Path="//CurrentlyProvided" Type="Boolean" />
+      <Convert Path="//IsPersistent" Type="Boolean" />
+      <Convert Path="//IsBlockingAlongEdge" Type="Boolean" />
+      <Convert Path="//SuppressRenderUpdates" Type="Boolean" />
+      <Convert Path="//HasMotorizingModulePlaced" Type="Boolean" />
+-->
+      <Convert Path="//WasEverOwned" Type="Boolean" />
+      <Convert Path="//Finalized" Type="Boolean" />
+      <Convert Path="//FirstShipArrived" Type="Boolean" />
+      <Convert Path="//PrognoseTriggered" Type="Boolean" />
+      <Convert Path="//InRowIndex" Type="Byte" />
+      <Convert Path="//InUse" Type="Boolean" />
+      <Convert Path="//Reverse" Type="Boolean" />
+      <Convert Path="//PaMSyTriggerSent" Type="Boolean" />
+      <Convert Path="//IsActivated" Type="Boolean" />
+      <Convert Path="//ForceUpdateMovement" Type="Boolean" />
+      <Convert Path="//InvokedByHuman" Type="Boolean" />
+      <Convert Path="//SuppressPassiveAttack" Type="Boolean" />
+      <Convert Path="//HadNeedsRegisteredLastTick" Type="Boolean" />
+      <Convert Path="//IsPowered" Type="Boolean" />
+      <Convert Path="//PalaceExists" Type="Boolean" />
+      <Convert Path="//UnlockedState" Type="Boolean" />
+      <Convert Path="//HighlightState" Type="Boolean" />
+      <Convert Path="//DistributionPaused" Type="Boolean" />
+      <Convert Path="//Fluctuating" Type="Boolean" />
+      <Convert Path="//IsDirty" Type="Boolean" />
+      <Convert Path="//IsPreferedGood" Type="Boolean" />
+      <Convert Path="//BuysAllGoods" Type="Boolean" />
+      <Convert Path="//BuysAllItems" Type="Boolean" />
+      <Convert Path="//Stance" Type="Boolean" />
+      <Convert Path="//onSale" Type="Boolean" />
+      <Convert Path="//IsThreatened" Type="Boolean" />
+      <Convert Path="//m_AllowTakeControllOnBeeingAttacked" Type="Boolean" />
+      <Convert Path="//disabled" Type="Boolean" />
+      <Convert Path="//IsVisible" Type="Boolean" />
+      <Convert Path="//Damage" Type="Byte" />
+      <Convert Path="//Coop" Type="Boolean" />
+      <Convert Path="//Customizable" Type="Boolean" />
+      <Convert Path="//IsProductionChain" Type="Boolean" />
+      <Convert Path="//UseEffectHandler" Type="Boolean" />
+      <Convert Path="//WinQuest" Type="Boolean" />
+      <Convert Path="//AlsoSetGameLogic" Type="Boolean" />
+      <Convert Path="//ShipsLeaveMapFirst" Type="Boolean" />
+      <Convert Path="//IsWarning" Type="Boolean" />
+      <Convert Path="//hasInteraction" Type="Boolean" />
+      <Convert Path="//IsEvent" Type="Boolean" />
+      <Convert Path="//Deactivated" Type="Boolean" />
+      <Convert Path="//ReceivedStartGoods" Type="Boolean" />
+      <Convert Path="//ForceReconstruct" Type="Boolean" />
+      <Convert Path="//IgnoreSelectionBeforeActivation" Type="Boolean" />
+      <Convert Path="//EnforceStationOrder" Type="Boolean" />
+      <Convert Path="//FailObjectiveOnDetection" Type="Boolean" />
+      <Convert Path="//AddBuff" Type="Boolean" />
+      <Convert Path="//ResetTimer" Type="Boolean" />
+      <Convert Path="//IsTutorialResolved" Type="Boolean" />
+      <Convert Path="//UseParentConditionObjects" Type="Boolean" />
+      <Convert Path="//ShowConfirmOnReach" Type="Boolean" />
+      <Convert Path="//ShowMinimapPings" Type="Boolean" />
+      <Convert Path="//ShowEffect" Type="Boolean" />
+      <Convert Path="//RelativeToQuestStart" Type="Boolean" />
+      <Convert Path="//pausedLastTick" Type="Boolean" />
+      <Convert Path="//GroupBehaviourStance" Type="Boolean" />
+      <Convert Path="//IsTethered" Type="Boolean" />
+      <Convert Path="//VisitorHarborRegistered" Type="Boolean" />
+      <Convert Path="//FirstTimeUnlockAcknowledgedState" Type="Boolean" />
+      <Convert Path="//isActive" Type="Boolean" />
+      <Convert Path="//All" Type="Boolean" />
+      <Convert Path="//HasBlockedTrain" Type="Boolean" />
+      <Convert Path="//IsDead" Type="Boolean" />
+      <Convert Path="//IrrigationBoosted" Type="Boolean" />
+      <Convert Path="//IsWatered" Type="Boolean" />
+      <Convert Path="//IsWateredFutureIrrigation" Type="Boolean" />
+      <Convert Path="//Row" Type="Byte" />
+      <Convert Path="//ForceOpenArchive" Type="Boolean" />
+      <Convert Path="//HasExecutionPlace" Type="Boolean" />
+      <Convert Path="//UseSignsAndFeedback" Type="Boolean" />
+      <Convert Path="//IsDecoy" Type="Boolean" />
+      <Convert Path="//BattleActive" Type="Boolean" />
+      <Convert Path="//BattleWon" Type="Boolean" />
+      <Convert Path="//Escalated" Type="Boolean" />
+      <Convert Path="//BattleLost" Type="Boolean" />
+      <Convert Path="//goHomeOnTearDown" Type="Boolean" />
+      <Convert Path="//DisableInitialSpreading" Type="Boolean" />
+      <Convert Path="//selfResolving" Type="Boolean" />
+      <Convert Path="//LowMoraleNotificationSent" Type="Boolean" />
+      <Convert Path="//Defeated" Type="Boolean" />
+      <Convert Path="//AllowInvites" Type="Boolean" />
+      <Convert Path="//IsMultiPlayerGame" Type="Boolean" />
+      <Convert Path="//Multiplayer" Type="Boolean" />
+      <Convert Path="//ObjectWasVisible/None" Type="Boolean" /> 
+      <Convert Path="//Dirty" Type="Boolean" />
+
+      
+      <!-- Flag arrays -->
+      <!-- Do not interpret the commented lines, gigabytes of errors will be creates (seriously!) -->
+      <!--<Convert Path="//DiscoveryManager/Discovered" Type="Byte" Structure="List" />-->
+      <Convert Path="//CityData" Type="Byte" Structure="List"/>
+      <!--<Convert Path="//Conditions" Type="Byte" Structure="List"/>-->
+      <Convert Path="//Discovered" Type="Byte" Structure="List"/>
+      <!--<Convert Path="//Buffer" Type="Byte" Structure="List"/>
+      <Convert Path="//values" Type="Byte" Structure="List"/>
+      <Convert Path="//DensityBuffer" Type="Byte" Structure="List"/>
+      -->
+      <!-- <Convert Path="//Flags" Type="Byte" Structure="List"/> -->
+      
+      <!-- String encoded bit array -->
+      
+      <Convert Path="//HapinessCategoriesToCheck" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//ConditionQuestStateStates" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//ResolvedTutorialPeers" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//None/Difficulty" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//DifficultyConstructionCostRefund" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//DifficultyLossCondition" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//DifficultyOptionalQuestFrequency" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//DifficultyOptionalQuestRewards" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//DifficultyRelocateBuildings" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//DifficultyRevenue" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//DifficultyStartCredits" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//DifficultyStartShips" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//DifficultyStartWithKontor" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//AreaType" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//DistanceToBorder" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//DistanceToIsland" Type="String" Encoding="UTF-8"/> 
+      <Convert Path="//RequiredLevel" Type="String" Encoding="UTF-8"/>  
+      <Convert Path="//CheckResourceTypes" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//AllowedLayers" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//CheckMinistryUnlocks" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//ActiveDecrees" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//LastErrors" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//Warning" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//ActiveHappyDayEvents" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//DebuffCategories" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//InitialTradingStationLayerFlags" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//PlayerPossessions" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//IsBlinded" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//VisibilityMaskNew" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//allowedBuyers" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//PausedReasons" Type="String" Encoding="UTF-8"/>
+
+
+      <!-- String encoded int32 (sometimes GUIDs) -->
+      
+      <Convert Path="//ConditionKey" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//StarterConditionKey" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//ConditionTutorialKey" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//SuccessorObjectiveID" Type="String" Encoding="UTF-8"/>
+
+      
+      <!-- Shorts -->
+
+      <Convert Path="//value/id" Type="Int16" />
+      <Convert Path="//AreaID" Type="UInt16" />
+      <Convert Path="//valArea" Type="UInt16" />
+      <Convert Path="//MostAttractiveIsland" Type="UInt16" />
+      <Convert Path="//Trigger" Type="UInt16" />
+      <Convert Path="//QuestArea" Type="UInt16" />
+      <Convert Path="//PropsObjectType" Type="UInt16" />
+      <Convert Path="//ExecutionPlace" Type="UInt16" />
+      <Convert Path="//TargetArea" Type="UInt16" />
+      <Convert Path="//PictureArea" Type="UInt16" />
+      <Convert Path="//TownID" Type="UInt16" />
+      <Convert Path="//Area" Type="UInt16" />
+      <Convert Path="//SourceArea" Type="UInt16" />
+      <Convert Path="//GroupID" Type="UInt16" />
+      <Convert Path="//NextGroupID" Type="UInt16" />
+      <Convert Path="//targetArea" Type="UInt16" />
+      <Convert Path="//CommandType" Type="UInt16" />
+      <Convert Path="//areaID" Type="UInt16" />
+      <Convert Path="//AdditionalFlatHitpoints" Type="UInt16" />
+      <Convert Path="//FowIsland" Type="UInt16" />
+      <Convert Path="//PlayerPossessions" Type="UInt16" />
+      <Convert Path="//Roles" Type="UInt16" />
+      <Convert Path="//ItemStorageArea" Type="UInt16" />
+      <Convert Path="//CurrentArea" Type="UInt16" />
+      <Convert Path="//DestinationArea" Type="UInt16" />
+      <Convert Path="//HitPoints" Type="UInt16" />
+
+      <Convert Path="//feedbackRoute" Type="Int16" Structure="List"/>
+      <Convert Path="//Route" Type="Int16" Structure="List"/>
+      <Convert Path="//PresetAreaList" Type="Int16" Structure="List"/>
+
+
+      <!-- Floating Point Values -->
+     
+      <Convert Path="//DifficultyFactor" Type="Single"/>
+      <Convert Path="//ProductivityRequired" Type="Single"/>
+      <Convert Path="//ProductionRequired" Type="Single"/>
+      <Convert Path="//ModulePercentage" Type="Single"/>
+      <Convert Path="//MinObjectDistance" Type="Single"/>
+      <Convert Path="//MaxObjectDistance" Type="Single"/>
+      <Convert Path="//DistanceToContext" Type="Single"/>
+      <Convert Path="//DockingObjectDistance" Type="Single"/>
+      <Convert Path="//CircleAreaPercentage" Type="Single"/>
+      <Convert Path="//ScreenBorderPercentage" Type="Single"/>
+      <Convert Path="//Radius" Type="Single"/>
+      <Convert Path="//ModificationValueMin" Type="Single"/>
+      <Convert Path="//ModificationValueMax" Type="Single"/>
+      <Convert Path="//ModificationValue" Type="Single"/>
+      <Convert Path="//ClampValueMax" Type="Single"/>
+      <Convert Path="//ResearchStorage" Type="Single"/>
+      <Convert Path="//AccumulatedInfectionChance" Type="Single"/>
+      <Convert Path="//HappinessOnStart" Type="Single"/>
+      <Convert Path="//ExchangeRatio" Type="Single"/>
+      <Convert Path="//TargetDirection" Type="Single"/>
+      <Convert Path="//NearClip" Type="Single"/>
+      <Convert Path="//FOV" Type="Single"/>
+      <Convert Path="//FarClip" Type="Single"/>
+      <Convert Path="//DiscoverRadius" Type="Single"/>
+      <Convert Path="//growingSize" Type="Single"/>
+      <Convert Path="//ShipSpeed" Type="Single"/>
+      <Convert Path="//Leaning" Type="Single"/>
+      <Convert Path="//LastDirView" Type="Single"/>
+      <Convert Path="//LastDirLogic" Type="Single"/>
+      <Convert Path="//ExplosionCheckThreshold" Type="Single"/>
+      <Convert Path="//ExternalSpeedFactor" Type="Single"/>
+      <Convert Path="//LastDeltaDirDelta" Type="Single"/>
+      <Convert Path="//TargetDir" Type="Single"/>
+      <Convert Path="//AverageNeedSaturation" Type="Single"/>
+      <Convert Path="//CurrentSaturation" Type="Single"/>
+      <Convert Path="//AverageSaturation" Type="Single"/>
+      <Convert Path="//infectionChance" Type="Single"/>
+      <Convert Path="//infectionChanceDensity" Type="Single"/>
+      <Convert Path="//base" Type="Single"/>
+      <Convert Path="//density" Type="Single"/>
+      <Convert Path="//residenceHappiness" Type="Single"/>
+      <Convert Path="//workingCondR" Type="Single"/>
+      <Convert Path="//Productivity" Type="Single"/>
+      <Convert Path="//CurrentProductivity" Type="Single"/>
+      <Convert Path="//AverageSpeed" Type="Single"/>
+      <Convert Path="//productivity" Type="Single"/>
+      <Convert Path="//workingCondF" Type="Single"/>
+      <Convert Path="//factoryHappiness" Type="Single"/>
+      <Convert Path="//FutureBorrowedShots" Type="Single"/>
+      <Convert Path="//BonusChance" Type="Single"/>
+      <Convert Path="//heatChance" Type="Single"/>
+      <Convert Path="//attractiveness" Type="Single"/>
+      <Convert Path="//avgHappiness" Type="Single"/>
+      <Convert Path="//pollution" Type="Single"/>
+      <Convert Path="//warfare" Type="Single"/>
+      <Convert Path="//AreaInfectionChance" Type="Single"/>
+      <Convert Path="//poolVal" Type="Single"/>
+      <Convert Path="//poolThreshold" Type="Single"/>
+      <Convert Path="//RemainderDamage" Type="Single"/>
+      <Convert Path="//OptimalDistanceWS" Type="Single"/>
+      <Convert Path="//OptimalAngleWS" Type="Single"/>
+      <Convert Path="//WarMoraleOvertakeWarning" Type="Single"/>
+      <Convert Path="//feedbackDist" Type="Single"/>
+      <Convert Path="//LastAreaAttractiveness" Type="Single"/>
+      <Convert Path="//Velocity" Type="Single"/>
+      <Convert Path="//Offset" Type="Single"/>
+      <Convert Path="//TransporterRange" Type="Single"/>
+      <Convert Path="//w" Type="Single"/>
+      <Convert Path="//Turbidity" Type="Single"/>
+      <Convert Path="//HPPercentage" Type="Single"/>
+      <Convert Path="//WarMoraleOvertakeCalculated" Type="Single"/>
+      <Convert Path="//IncomeShare" Type="Single"/>
+      <Convert Path="//AvailableMoney" Type="Single"/>
+      <Convert Path="//Limit" Type="Single"/>
+      <Convert Path="//VehicleDistance" Type="Single"/>
+      <Convert Path="//Daytime" Type="Single"/>
+      <Convert Path="//VisitorIncome" Type="Single"/>
+      <Convert Path="//CurrentVisitors" Type="Single"/>
+      <Convert Path="//HealTickRemainder" Type="Single"/>
+      <Convert Path="//EscortRadius" Type="Single"/>
+      <Convert Path="//AttachRadius" Type="Single"/>
+      <Convert Path="//damage" Type="Single"/>
+      <Convert Path="//satisfaction" Type="Single"/>
+      <Convert Path="//MoralePointsDestroyed" Type="Single"/>
+      <Convert Path="//startDirection" Type="Single"/>
+      <Convert Path="//speed" Type="Single"/>
+      <Convert Path="//hideRadius" Type="Single"/>
+      <Convert Path="//endDirection" Type="Single"/>
+      <Convert Path="//CatchUpFactor" Type="Single"/>
+      <Convert Path="//intensity" Type="Single"/>
+      <Convert Path="//increaseRate" Type="Single"/>
+      <Convert Path="//healingRate" Type="Single"/>
+      <Convert Path="//Bonus" Type="Single"/>
+      <Convert Path="//TotalBonus" Type="Single"/>
+
+
+      <!-- Int32 -->
+      <Convert Path="//GameCount" Type="UInt32"/>
+      <Convert Path="//TextGUID" Type="UInt32"/>
+      <Convert Path="//CounterContext" Type="UInt32"/>
+      <Convert Path="//FactNumber" Type="Int32"/>
+      <Convert Path="//StartSessionGUID" Type="UInt32"/>
+      <Convert Path="//LastActiveSession" Type="Int32"/>
+      <Convert Path="//CurrentlyActiveSession" Type="Int32"/>
+      <Convert Path="//SelectedTextGUID" Type="UInt32"/>
+      <Convert Path="//TextGroupID" Type="UInt32"/>
+      <Convert Path="//TextGroupIDFemale" Type="UInt32"/>
+      <Convert Path="//ProfileGUID" Type="UInt32"/>
+      <Convert Path="//PortraitGUID" Type="UInt32"/>
+      <Convert Path="//SubtitleGUID" Type="UInt32"/>
+      <Convert Path="//SubtitlePoolGUID" Type="UInt32"/>
+      <Convert Path="//type" Type="Int32"/>
+      <Convert Path="//valInt" Type="Int32"/>
+      <Convert Path="//Priority" Type="Int32"/>
+      <Convert Path="//RestrictedToSessionOrRegions" Type="Int32"/>
+      <Convert Path="//PositionSessionGUID" Type="UInt32"/>
+      <Convert Path="//IDCounter" Type="UInt32"/>
+      <Convert Path="//TitleGUID" Type="UInt32"/>
+      <Convert Path="//IconGUID" Type="UInt32"/>
+      <Convert Path="//Infotip" Type="Int32"/>
+      <Convert Path="//SoundGUID" Type="UInt32"/>
+      <Convert Path="//SessionGUID" Type="UInt32"/>
+      <Convert Path="//TriggerCount" Type="UInt32"/>
+      <Convert Path="//LastValue" Type="Int32"/>
+      <Convert Path="//NegativeThresholdLevel" Type="Int32"/>
+      <Convert Path="//Reputation" Type="Int32"/>
+      <Convert Path="//ReputationMemory" Type="Int32"/>
+      <Convert Path="//MemoryTick" Type="Int32"/>
+      <Convert Path="//GeneralTick" Type="Int32"/>
+      <Convert Path="//NextMilitaryPaMSyTick" Type="Int32"/>
+      <Convert Path="//LastMilitaryValue" Type="Int32"/>
+      <Convert Path="//MetaProfile/Level" Type="Int32"/>
+      <Convert Path="//expeditionSlot" Type="Int32"/>
+      <Convert Path="//ImperialKontorSession" Type="Int32"/>
+      <Convert Path="//GUID" Type="UInt32"/>
+      <Convert Path="//Highscore" Type="Int32" Structure="List"/>
+      <Convert Path="//ShipMaintenanceScore" Type="Int32"/>
+      <Convert Path="//TotalGoodProductionScore" Type="Int32"/>
+      <Convert Path="//MostProducedGood" Type="Int32"/>
+      <Convert Path="//MostProducedGoodScore" Type="Int32"/>
+      <Convert Path="//TotalStoredGoodsScore" Type="Int32"/>
+      <Convert Path="//MostStoredGoods" Type="Int32"/>
+      <Convert Path="//MostStoredGoodsScore" Type="Int32"/>
+      <Convert Path="//TradeShipScore" Type="Int32"/>
+      <Convert Path="//AirshipScore" Type="Int32"/>
+      <Convert Path="//CompletedSetsScore" Type="Int32"/>
+      <Convert Path="//SocketedItemsScore" Type="Int32"/>
+      <Convert Path="//DiscoveredItemsScore" Type="Int32"/>
+      <Convert Path="//TotalAttractivenessScore" Type="Int32"/>
+      <Convert Path="//MostAttractiveIslandScore" Type="Int32"/>
+      <Convert Path="//UrbanizationScore" Type="Int32"/>
+      <Convert Path="//Step" Type="Int32"/>
+      <Convert Path="//CurrentAmount" Type="Int32"/>
+      <Convert Path="//UniqueIDCounter" Type="UInt32"/>
+      <Convert Path="//NonNetworkUniqueIDCounter" Type="UInt32"/>
+      <Convert Path="//ActionIDCounter" Type="UInt32"/>
+      <Convert Path="//CounterScopeContext" Type="UInt32"/>
+      <Convert Path="//UniqueID" Type="UInt32"/>
+      <Convert Path="//AssetGUID" Type="UInt32"/>
+      <Convert Path="//UnlockNeeded" Type="Int32"/>
+      <Convert Path="//ConditionQuestStateQuestGUID" Type="UInt32"/>
+      <Convert Path="//ExportLevelDesiredAmount" Type="Int32"/>
+      <Convert Path="//ObjectAmountThreshold" Type="Int32"/>
+      <Convert Path="//ObjectGUID" Type="UInt32"/>
+      <Convert Path="//Threshold" Type="Int32"/>
+      <Convert Path="//Good_CP" Type="Int32"/>
+      <Convert Path="//FertilityContext" Type="Int32"/>
+      <Convert Path="//ProductivityThreshold" Type="Int32"/>
+      <Convert Path="//QuestID" Type="UInt32"/>
+      <Convert Path="//ConditionTextGUID" Type="UInt32"/>
+      <Convert Path="//ContextGUID" Type="UInt32"/>
+      <Convert Path="//ChildContextGUIDs" Type="UInt32"/>
+      <Convert Path="//ObjectiveIndex" Type="Int32"/>
+      <Convert Path="//ActionID" Type="UInt32"/>
+      <Convert Path="//DecisionOptionText" Type="Int32"/>
+      <Convert Path="//Quest" Type="Int32"/>
+      <Convert Path="//QuestSession" Type="Int32"/>
+      <Convert Path="//TriggerAsset" Type="Int32"/>
+      <Convert Path="//DecisionFluffText" Type="Int32"/>
+      <Convert Path="//DecisionPortrait" Type="Int32"/>
+      <Convert Path="//DecisionCount" Type="UInt32"/>
+      <Convert Path="//DecisionConditionListCount" Type="UInt32"/>
+      <Convert Path="//ContextAssetInfoLayer" Type="Int32"/>
+      <Convert Path="//HintText" Type="Int32"/>
+      <Convert Path="//TutorialInteractionType" Type="Int32"/>
+      <Convert Path="//SpecificPortraitProfile" Type="Int32"/>
+      <Convert Path="//Amount" Type="Int32"/>
+      <Convert Path="//CargoGUID" Type="UInt32"/>
+      <Convert Path="//CargoAmount" Type="Int32"/>
+      <Convert Path="//SpawnedInSessionGUID" Type="UInt32"/>
+      <Convert Path="//CorrespondingQuestID" Type="UInt32"/>
+      <Convert Path="//OwnerQuestID" Type="UInt32"/>
+      <Convert Path="//MinimapToken" Type="Int32"/>
+      <Convert Path="//SpawnActionIndicies" Type="Int32"/>
+      <Convert Path="//SpawnObjectCount" Type="UInt32"/>
+      <Convert Path="//SpawnObjectSettingsIndex" Type="Int32"/>
+      <Convert Path="//TreasureGUID" Type="UInt32"/>
+      <Convert Path="//TreasureItem" Type="Int32"/>
+      <Convert Path="//AdditionalScrapItem" Type="Int32"/>
+      <Convert Path="//SpawnedTreasureGround" Type="Int32"/>
+      <Convert Path="//PopulationLevel" Type="Int32"/>
+      <Convert Path="//ShipSession" Type="Int32"/>
+      <Convert Path="//ShipTarget" Type="Int32"/>
+      <Convert Path="//ShipAmount" Type="Int32"/>
+      <Convert Path="//Infolayer" Type="Int32" Structure="List"/>
+      <Convert Path="//StarterSettingsIndex" Type="Int32"/>
+      <Convert Path="//AppearInNewspaperArticle" Type="Int32"/>
+      <Convert Path="//QuestGiver" Type="Int32"/>
+      <Convert Path="//LinkedNewspaperArticle" Type="Int32"/>
+      <Convert Path="//PhotographyObjectSettingsCount" Type="UInt32"/>
+      <Convert Path="//EventGUID" Type="UInt32"/>
+      <Convert Path="//SettingsIndex" Type="Int32"/>
+      <Convert Path="//ModuleCount" Type="UInt32"/>
+      <Convert Path="//MonocultureDelta" Type="Int32"/>
+      <Convert Path="//ResourceAmountRemaining" Type="Int32"/>
+      <Convert Path="//cpcr_ProductType" Type="Int32"/>
+      <Convert Path="//MatcherGUID" Type="UInt32"/>
+      <Convert Path="//ProductGuid" Type="Int32"/>
+      <Convert Path="//ProductAmount" Type="Int32"/>
+      <Convert Path="//AutoRemoveActionIndex" Type="Int32"/>
+      <Convert Path="//DeliveryObjectSettingsIndex" Type="Int32"/>
+      <Convert Path="//SeasonToCheck" Type="Int32"/>
+      <Convert Path="//SessionToCheck" Type="Int32"/>
+      <Convert Path="//HPTargetGUID" Type="UInt32"/>
+      <Convert Path="//Buff" Type="Int32"/>
+      <Convert Path="//RequiredAmount" Type="Int32"/>
+      <Convert Path="//HaciendaModuleCount" Type="UInt32"/>
+      <Convert Path="//CurrentAmountList" Type="Int32"/>
+      <Convert Path="//FakeDescriptionConditionListCount" Type="UInt32"/>
+      <Convert Path="//CombinedTextGUID" Type="UInt32"/>
+      <Convert Path="//SessionAsset" Type="Int32"/>
+      <Convert Path="//AttractivenessNeed" Type="Int32"/>
+      <Convert Path="//AttractivenessSessionOrRegion" Type="Int32"/>
+      <Convert Path="//AttractivenessSpecificBuilding" Type="Int32"/>
+      <Convert Path="//Text" Type="Int32"/>
+      <Convert Path="//TradeRouteCount" Type="UInt32"/>
+      <Convert Path="//CurrentTradeRouteCount" Type="UInt32"/>
+      <Convert Path="//TargetItem" Type="Int32"/>
+      <Convert Path="//ItemAmount" Type="Int32"/>
+      <Convert Path="//ItemTargetObject" Type="Int32"/>
+      <Convert Path="//PopupText" Type="Int32"/>
+      <Convert Path="//SpawnGUID" Type="UInt32"/>
+      <Convert Path="//SessionGUIDs" Type="UInt32"/>
+      <Convert Path="//ItemGUID" Type="UInt32"/>
+      <Convert Path="//SpecificSession" Type="Int32"/>
+      <Convert Path="//ConfirmationSignsAndFeedbackIndex" Type="Int32"/>
+      <Convert Path="//Range" Type="Int32"/>
+      <Convert Path="//TargetObject_sir" Type="Int32"/>
+      <Convert Path="//QuestPoolListToChange" Type="Int32"/>
+      <Convert Path="//PamsyWelcomeRequiredAsset" Type="Int32"/>
+      <Convert Path="//Articles" Type="Int32"/>
+      <Convert Path="//SessionIsland" Type="Int32"/>
+      <Convert Path="//IslandAsset" Type="Int32"/>
+      <Convert Path="//NewIslandName" Type="Int32"/>
+      <Convert Path="//TargetIsland" Type="Int32"/>
+      <Convert Path="//PositionMarker" Type="Int32"/>
+      <Convert Path="//Sound" Type="Int32"/>
+      <Convert Path="//SubtitleGroupID" Type="UInt32"/>
+      <Convert Path="//BuffAsset" Type="Int32"/>
+      <Convert Path="//MainIconGUID" Type="UInt32"/>
+      <Convert Path="//Icon01GUID" Type="UInt32"/>
+      <Convert Path="//Icon02GUID" Type="UInt32"/>
+      <Convert Path="//Icon03GUID" Type="UInt32"/>
+      <Convert Path="//Icon04GUID" Type="UInt32"/>
+      <Convert Path="//NewRiverLevelOffset" Type="Int32"/>
+      <Convert Path="//AffectedBuildingCount" Type="UInt32"/>
+      <Convert Path="//AmountItemsEquipped" Type="Int32"/>
+      <Convert Path="//Guid" Type="Int32"/>
+      <Convert Path="//AssetA" Type="Int32"/>
+      <Convert Path="//AssetB" Type="Int32"/>
+      <Convert Path="//NewVariation" Type="Int32"/>
+      <Convert Path="//Morale" Type="Int32"/>
+      <Convert Path="//HumanPlayerCount" Type="UInt32"/>
+      <Convert Path="//AllianceCount" Type="UInt32"/>
+      <Convert Path="//CallAmountCurrent" Type="Int32"/>
+      <Convert Path="//questPoolGUID" Type="UInt32"/>
+      <Convert Path="//questGUID" Type="UInt32"/>
+      <Convert Path="//QuestDifficulty" Type="Int32"/>
+      <Convert Path="//SerializeReferences" Type="Int32"/>
+      <Convert Path="//Separator" Type="Int32"/>
+      <Convert Path="//QuestLineGUID" Type="UInt32"/>
+      <Convert Path="//RelatedQuestGUID" Type="UInt32"/>
+      <Convert Path="//NextID" Type="UInt32"/>
+      <Convert Path="//MetaStorageCount" Type="UInt32"/>
+      <Convert Path="//ProductGUID" Type="UInt32"/>
+      <Convert Path="//MaxAmount" Type="Int32"/>
+      <Convert Path="//MaxResearchPopulationCount" Type="UInt32"/>
+      <Convert Path="//LoseConditionsCount" Type="UInt32"/>
+      <Convert Path="//ElementType" Type="Int32"/>
+      <Convert Path="//CurrentVolume" Type="Int32"/>
+      <Convert Path="//ArticleGUID" Type="UInt32"/>
+      <Convert Path="//NotificationID" Type="UInt32"/>
+      <Convert Path="//Volume" Type="Int32"/>
+      <Convert Path="//Logo" Type="Int32"/>
+      <Convert Path="//NewsTrackerCount" Type="UInt32"/>
+      <Convert Path="//AssetDataGuid" Type="Int32"/>
+      <Convert Path="//QuestsFailed" Type="Int32"/>
+      <Convert Path="//Session" Type="Int32"/>
+      <Convert Path="//PopulationOnStart" Type="Int32"/>
+      <Convert Path="//CityStatusOnIntervalStart" Type="Int32"/>
+      <Convert Path="//StationID" Type="UInt32"/>
+      <Convert Path="//TradeRouteID" Type="UInt32"/>
+      <Convert Path="//OwnerType" Type="Int32"/>
+      <Convert Path="//TraderGUID" Type="UInt32"/>
+      <Convert Path="//InputGUID" Type="UInt32"/>
+      <Convert Path="//InputAmount" Type="Int32"/>
+      <Convert Path="//OutputGUID" Type="UInt32"/>
+      <Convert Path="//OutputAmount" Type="Int32"/>
+      <Convert Path="//TraderRouteID" Type="UInt32"/>
+      <Convert Path="//IndexInLevel" Type="Int32"/>
+      <Convert Path="//CurrentXPModifier" Type="Int32"/>
+      <Convert Path="//XP" Type="Int32"/>
+      <Convert Path="//MaximumReachedXP" Type="Int32"/>
+      <Convert Path="//TransferID" Type="UInt32"/>
+      <Convert Path="//SourceSessionGUID" Type="UInt32"/>
+      <Convert Path="//TargetSessionGUID" Type="UInt32"/>
+      <Convert Path="//lastElement" Type="Int32"/>
+      <Convert Path="//Delta" Type="Int32"/>
+      <Convert Path="//LastWorkforceUsage" Type="Int32"/>
+      <Convert Path="//mapSize" Type="Int32"/>
+      <Convert Path="//mapType" Type="Int32"/>
+      <Convert Path="//RandomSeed" Type="Int32"/>
+      <Convert Path="//region" Type="Int32"/>
+      <Convert Path="//fertilityAmount" Type="Int32"/>
+      <Convert Path="//resourceAmount" Type="Int32"/>
+      <Convert Path="//islandSize" Type="Int32"/>
+      <Convert Path="//SessionFileVersion" Type="Int32"/>
+      <Convert Path="//SessionGameCount" Type="UInt32"/>
+      
+      <Convert Path="//AspectRatio" Type="Int32"/>
+      <Convert Path="//PresetId" Type="Int32"/>
+      <Convert Path="//CurZoomPreset" Type="Int32"/>
+      <Convert Path="//CityDataSize" Type="Int32"/>
+      <Convert Path="//GridHeight" Type="Int32"/>
+      <Convert Path="//GridWidth" Type="Int32"/>
+      <Convert Path="//NextIncidentID" Type="UInt32"/>
+      <Convert Path="//mapKey" Type="Int32"/>
+      <Convert Path="//mapContext" Type="Int32"/>
+      <Convert Path="//m_SquadID" Type="UInt32"/>
+      <Convert Path="//m_PathPlannerLayer" Type="Int32"/>
+      <Convert Path="//NextSquadID" Type="UInt32"/>
+      <Convert Path="//ShipGUID" Type="UInt32"/>
+      <Convert Path="//ItemIdCounter" Type="UInt32"/>
+      <Convert Path="//effect" Type="Int32"/>
+      <Convert Path="//StateBits" Type="Int32"/>
+      <Convert Path="//MainState" Type="Int32"/>
+      <Convert Path="//DriftingInstruction" Type="Int32"/>
+      <Convert Path="//CurrentTargetIndex" Type="Int32"/>
+      <Convert Path="//VehicleTextGuid" Type="Int32"/>
+      <Convert Path="//VehicleTextIterator" Type="Int32"/>
+      <Convert Path="//TargetStationID" Type="UInt32"/>
+      <Convert Path="//UnloadGuid" Type="Int32"/>
+      <Convert Path="//UnloadID" Type="UInt32"/>
+      <Convert Path="//TargetShip" Type="Int32"/>
+      <Convert Path="//WayTime" Type="Int32"/>
+      <Convert Path="//RouteStatus" Type="Int32"/>
+      <Convert Path="//UnloadAmount" Type="Int32"/>
+      <Convert Path="//TotalTradeGoodAmount" Type="Int32"/>
+      <Convert Path="//ProductStackSize" Type="Int32"/>
+      <Convert Path="//OverwriteSetitng" Type="Int32"/>
+      <Convert Path="//LoadGuid" Type="Int32"/>
+      <Convert Path="//LoadID" Type="UInt32"/>
+      <Convert Path="//LoadAmount" Type="Int32"/>
+      <Convert Path="//TargetSession" Type="Int32"/>
+      <Convert Path="//IncidentBuff" Type="Int32"/>
+      <Convert Path="//UpdateLevel" Type="Int32"/>
+      <Convert Path="//BaseNatureAttractiveness" Type="Int32"/>
+      <Convert Path="//Variation" Type="Int32"/>
+      <Convert Path="//DyeColor" Type="Int32"/>
+      <Convert Path="//state" Type="Int32"/>
+      <Convert Path="//TransporterGUID" Type="UInt32"/>
+      <Convert Path="//TransporterType" Type="Int32"/>
+      <Convert Path="//LoadCapacity" Type="Int32"/>
+      <Convert Path="//StorageCapacityRegistered" Type="Int32"/>
+      <Convert Path="//TargetGUID" Type="UInt32"/>
+      <Convert Path="//MaxCityStatus" Type="Int32"/>
+      <Convert Path="//CurCityStatus" Type="Int32"/>
+      <Convert Path="//CultureSlotIndex" Type="Int32"/>
+      <Convert Path="//SlotIndexGenerator" Type="Int32"/>
+      <Convert Path="//m_LoadCapacity" Type="Int32"/>
+      <Convert Path="//CityNameGuid" Type="Int32"/>
+      <Convert Path="//CityNameIterator" Type="Int32"/>
+      <Convert Path="//Estimation" Type="Int32"/>
+      <Convert Path="//GoodGuid" Type="Int32"/>
+      <Convert Path="//GoodAmount" Type="Int32"/>
+      <Convert Path="//TraderShip" Type="Int32"/>
+      <Convert Path="//RouteID" Type="UInt32"/>
+      <Convert Path="//subregion" Type="Int32"/>
+      <Convert Path="//Charges" Type="Int32"/>
+      <Convert Path="//distance" Type="Int32"/>
+      <Convert Path="//SonarGUID" Type="UInt32"/>
+      <Convert Path="//tradeRouteID" Type="UInt32"/>
+      <Convert Path="//DestructContext" Type="Int32"/>
+      <Convert Path="//DestructOptions" Type="Int32"/>
+      <Convert Path="//ArrivalTimer" Type="Int32"/>
+      <Convert Path="//AppliedDefaultBuff" Type="Int32"/>
+      <Convert Path="//GoodViewBuff" Type="Int32"/>
+      <Convert Path="//PositiveInfluence" Type="Int32"/>
+      <Convert Path="//NegativeInfluence" Type="Int32"/>
+      <Convert Path="//TotalValue" Type="Int32"/>
+      <Convert Path="//PreviousParagonLevel" Type="Int32"/>
+      <Convert Path="//NewParagonLevel" Type="Int32"/>
+      <Convert Path="//CurrentEffectRange" Type="Int32"/>
+      <Convert Path="//NewEffectRange" Type="Int32"/>
+      <Convert Path="//MaxParagonShown" Type="Int32"/>
+      <Convert Path="//citySizeIndex" Type="Int32"/>
+      <Convert Path="//EffectRange" Type="Int32"/>
+      <Convert Path="//ParagonLevel" Type="Int32"/>
+      <Convert Path="//nextFightID" Type="UInt32"/>
+      <Convert Path="//shipToBuildGUID" Type="UInt32"/>
+      <Convert Path="//ActionsLeft" Type="Int32"/>
+      <Convert Path="//currentSellAmount" Type="Int32"/>
+      <Convert Path="//TargetAmount" Type="Int32"/>
+      <Convert Path="//Width" Type="Int32"/>
+      <Convert Path="//Height" Type="Int32"/>
+      <Convert Path="//MilitaryShipLimit" Type="Int32"/>
+      <Convert Path="//EscortLevel" Type="Int32"/>
+      <Convert Path="//RenderFlags" Type="Int32"/>
+      <Convert Path="//WaterColor" Type="Int32"/>
+      <Convert Path="//RenderOrder" Type="Int32"/>
+      <Convert Path="//CurrentOffset" Type="Int32"/>
+      <Convert Path="//DifficultyFlags" Type="Int32"/>
+      <Convert Path="//TimeUntilPrepared" Type="Int32"/>
+      <Convert Path="//TotalPipes" Type="Int32"/>
+      <Convert Path="//AnimalCount" Type="UInt32"/>
+      <Convert Path="//TotalPrice" Type="Int32"/>
+      <Convert Path="//PeerCount" Type="UInt32"/>
+      <Convert Path="//CompanyPortraitGuid" Type="Int32"/>
+      <Convert Path="//CompanyLogoGuid" Type="Int32"/>
+      <Convert Path="//Asset" Type="Int32"/>
+      <Convert Path="//GameSeed" Type="Int32"/>
+      <Convert Path="//DLC" Type="Int32"/>
+      <Convert Path="//Profile" Type="Int32"/>
+      <Convert Path="//CompanyLevel" Type="Int32"/>
+      <Convert Path="//BuildingGUID" Type="UInt32"/>
+      <Convert Path="//MinimapZoom" Type="Int32"/>
+      <Convert Path="//Changelist" Type="Int32"/>
+      <Convert Path="//CorporationFileVersion" Type="Int32"/>
+      <Convert Path="//QuestPoolsToCheck" Type="Int32"/>
+      <Convert Path="//ResidentsAmount" Type="Int32"/>
+      <Convert Path="//SpecificAsset" Type="Int32"/>
+      <Convert Path="//BuildingCount" Type="UInt32"/>
+      <Convert Path="//PagesReplaced" Type="Int32"/>
+      <Convert Path="//islandDifficulty" Type="Int32"/>
+      <Convert Path="//WarMoraleOvertakeStart" Type="Int32"/>
+      <Convert Path="//WarMoraleOvertakeEnd" Type="Int32"/>
+      <Convert Path="//ScopeContext" Type="Int32"/>
+      <Convert Path="//CycleRuins" Type="Int32"/>
+      <Convert Path="//NewspaperID" Type="UInt32"/>
+      <Convert Path="//ReputationChange" Type="Int32"/>
+      <Convert Path="//CounterIDLast" Type="UInt32"/>
+      <Convert Path="//PendingMission" Type="Int32"/>
+      <Convert Path="//MetaRequestID" Type="UInt32"/>
+      <Convert Path="//Income" Type="Int32"/>
+      <Convert Path="//Expenses" Type="Int32"/>
+      <Convert Path="//Costs" Type="Int32"/>
+      <Convert Path="//CheatedBalance" Type="Int32"/>
+      <Convert Path="//NextShipID" Type="UInt32"/>
+      <Convert Path="//MilitaryShipScore" Type="Int32"/>
+      <Convert Path="//ShipInRangeForActivationText" Type="Int32"/>
+      <Convert Path="//TextTradingStation_NoItem" Type="Int32"/>
+      <Convert Path="//TextTradingStation" Type="Int32"/>
+      <Convert Path="//ObjectSettingsIndex" Type="Int32"/>
+      <Convert Path="//BringItemCount" Type="UInt32"/>
+      <Convert Path="//RetrieveItemGUID" Type="UInt32"/>
+      <Convert Path="//AttackerSettingsIndex" Type="Int32"/>
+      <Convert Path="//BringItemGUID" Type="UInt32"/>
+      <Convert Path="//RetrieveItemCount" Type="UInt32"/>
+      <Convert Path="//SustainObjectiveText" Type="Int32"/>
+      <Convert Path="//UnlockInfotipDescription" Type="Int32"/>
+      <Convert Path="//UnlockRequirementList" Type="Int32"/>
+      <Convert Path="//PickupContextObjectSettingsIndex" Type="Int32"/>
+      <Convert Path="//EventConditionCollectCount" Type="UInt32"/>
+      <Convert Path="//ConditionObjectSettingsList" Type="Int32"/>
+      <Convert Path="//TargetStateGroup" Type="Int32"/>
+      <Convert Path="//TargetState" Type="Int32"/>
+      <Convert Path="//WinLoseType" Type="Int32"/>
+      <Convert Path="//WinLoseState" Type="Int32"/>
+      <Convert Path="//GoodGUID" Type="UInt32"/>
+      <Convert Path="//feedbackTextAmount" Type="Int32"/>
+      <Convert Path="//OptimalVisitors" Type="Int32"/>
+      <Convert Path="//ShipState" Type="Int32"/>
+      <Convert Path="//ForcedActorVariation" Type="Int32"/>
+      <Convert Path="//activeType" Type="Int32"/>
+      <Convert Path="//attractivenessBonus" Type="Int32"/>
+      <Convert Path="//Tier" Type="Int32"/>
+      <Convert Path="//SkinGuid" Type="Int32"/>
+      <Convert Path="//AdditionalRequiredWorkforce" Type="Int32"/>
+      <Convert Path="//EventState" Type="Int32"/>
+      <Convert Path="//eventAttractiveness" Type="Int32"/>
+      <Convert Path="//CurrentSequenceSpeed" Type="Int32"/>
+      <Convert Path="//ResidenceState" Type="Int32"/>
+      <Convert Path="//FinishedMicrophases" Type="Int32"/>
+      <Convert Path="//CallAmount" Type="Int32"/>
+      <Convert Path="//ObjectsToSpawnIndex" Type="Int32"/>
+      <Convert Path="//CollectCount" Type="UInt32"/>
+      <Convert Path="//BailoutCounter" Type="UInt32"/>
+      <Convert Path="//ShipsLost" Type="Int32"/>
+      <Convert Path="//ShipBuiltCounter" Type="UInt32"/>
+      <Convert Path="//ShipsDestroyed" Type="Int32"/>
+      <Convert Path="//ShipGuid" Type="Int32"/>
+      <Convert Path="//CargoSlots" Type="Int32"/>
+      <Convert Path="//LastSession" Type="Int32"/>
+      <Convert Path="//gameType" Type="Int32"/>
+      <Convert Path="//Com" Type="Int32"/>
+      <Convert Path="//InfectedAreaSize" Type="Int32"/>
+      <Convert Path="//LastInfectedAreaSize" Type="Int32"/>
+      <Convert Path="//DestroyedBuildingCount" Type="UInt32"/>
+      <Convert Path="//TotalInfectedBuildings" Type="Int32"/>
+      <Convert Path="//StartBuildingGUID" Type="UInt32"/>
+      <Convert Path="//SourceReason" Type="Int32"/>
+      <Convert Path="//nextMobID" Type="UInt32"/>
+      <Convert Path="//ageWaystepList" Type="Int32"/>
+      <Convert Path="//unitCount" Type="UInt32"/>
+      <Convert Path="//forceSpawnCount" Type="UInt32"/>
+      <Convert Path="//forceSpawnGUID" Type="UInt32"/>
+      <Convert Path="//soundAsset" Type="Int32"/>
+      <Convert Path="//NewspaperMoneyOutput" Type="Int32"/>
+      <Convert Path="//activeIncident" Type="Int32"/>
+      <Convert Path="//incidentAttractiveness" Type="Int32"/>
+      <Convert Path="//TreeAreaPercent" Type="Int32"/>
+      <Convert Path="//FireTickID" Type="UInt32"/>
+      <Convert Path="//LastResult" Type="Int32"/>
+      <Convert Path="//MoraleLeft" Type="Int32"/>
+      <Convert Path="//AmountOfShares" Type="Int32"/>
+      <Convert Path="//AmountOfMorale" Type="Int32"/>
+      
+      
+      <!-- Int32 Lists (often GUIDs)-->
+     
+      <Convert Path="//events" Type="Int32" Structure="List"/>
+      <Convert Path="//DLCAssetList" Type="Int32" Structure="List"/>
+      <Convert Path="//TargetList" Type="Int32" Structure="List"/>
+      <Convert Path="//UnlockAssetGUID" Type="Int32" Structure="List"/>
+      <Convert Path="//UnhideAssetGUID" Type="Int32" Structure="List"/>
+      <Convert Path="//NeededGUIDList" Type="Int32" Structure="List"/>
+      <Convert Path="//TargetIDs" Type="Int32" Structure="List"/>
+      <Convert Path="//SelectedArticles" Type="Int32" Structure="List"/>
+      <Convert Path="//AssetListVector" Type="Int32" Structure="List"/>
+      
+      <Convert Path="//GlobalTriggered" Type="Int16" Structure="List"/>
+      <Convert Path="//PageCurrentViewCount" Type="Int32" Structure="List"/>
+      <Convert Path="//PageTargetViewCount" Type="Int32" Structure="List"/>
+      <Convert Path="//threats" Type="Int32" Structure="List"/>
+      <Convert Path="//threatDescriptions" Type="Int32" Structure="List"/>
+      <Convert Path="//MonumentEventsActive" Type="Int32" Structure="List"/>
+      <Convert Path="//BurningObjectTargets" Type="Int32" Structure="List"/>
+      <Convert Path="//VisitorHarbor" Type="Int32" Structure="List"/>
+      
+      <Convert Path="//TriggeringChain" Type="Int32" Structure="List"/>  <!--GUIDs of pools -->
+
+
+      <!-- Int64 -->
+      
+      <Convert Path="//GameTotal" Type="Int64"/>
+      <Convert Path="//MinDisplayTime" Type="Int64"/>
+      <Convert Path="//DisplayTimeout" Type="Int64"/>
+      <Convert Path="//TimeInPause" Type="Int64"/>
+      <Convert Path="//EnqueueTime" Type="Int64"/>
+      <Convert Path="//NextMetaGameObjectID" Type="Int64"/>
+      <Convert Path="//ForbidBefore" Type="Int64"/>
+      <Convert Path="//NextMilitaryCalculation" Type="Int64"/>
+      <Convert Path="//NextWorkingConditionsEvaluation" Type="Int64"/>
+      <Convert Path="//MemoryTime" Type="Int64"/>
+      <Convert Path="//DebuffEnd" Type="Int64"/>
+      <Convert Path="//m_DiscoverTime" Type="Int64"/>
+      <Convert Path="//expeditionShip" Type="Int64"/>
+      <Convert Path="//startTimeStamp" Type="Int64"/>
+      <Convert Path="//kontorID" Type="Int64"/>
+      <Convert Path="//returnToKontor" Type="Int64"/>
+      <Convert Path="//nextExpeditionSlotTime" Type="Int64"/>
+      <Convert Path="//ImperialKontorID" Type="Int64"/>
+      <Convert Path="//CounterAmount" Type="Int64"/>
+      <Convert Path="//TimeLimit" Type="Int64"/>
+      <Convert Path="//ResetTimeLimit" Type="Int64"/>
+      <Convert Path="//StartingAmount" Type="Int64"/>
+      <Convert Path="//HintDisplayTime" Type="Int64"/>
+      <Convert Path="//HintEndTime" Type="Int64"/>
+      <Convert Path="//ContextObjectID" Type="Int64"/>
+      <Convert Path="//ScannerObjectID" Type="Int64"/>
+      <Convert Path="//SpawnedObjects" Type="Int64"/>
+      <Convert Path="//ClickedObjectID" Type="Int64"/>
+      <Convert Path="//CollectorObjectID" Type="Int64"/>
+      <Convert Path="//SpawnedObjectIDs" Type="Int64"/>
+      <Convert Path="//LastCollectorID" Type="Int64"/>
+      <Convert Path="//FinalObject" Type="Int64"/>
+      <Convert Path="//NegativeOffsetAmount" Type="Int64"/>
+      <Convert Path="//ExecutionDelay" Type="Int64"/>
+      <Convert Path="//BlockingTime" Type="Int64"/>
+      <Convert Path="//MoveRiverLevelDuration" Type="Int64"/>
+      <Convert Path="//BuildObject" Type="Int64"/>
+      <Convert Path="//StartTime" Type="Int64"/>
+      <Convert Path="//ActiveTime" Type="Int64"/>
+      <Convert Path="//EndTime" Type="Int64"/>
+      <Convert Path="//SpawnedObjectsByAction" Type="Int64"/>
+      <Convert Path="//CreationTime" Type="Int64"/>
+      <Convert Path="//lastSnapshot" Type="Int64"/>
+      <Convert Path="//NewspaperCreateTimer" Type="Int64"/>
+      <Convert Path="//LowTracked" Type="Int64"/>
+      <Convert Path="//HighTracked" Type="Int64"/>
+      <Convert Path="//NextCheck" Type="Int64"/>
+      <Convert Path="//TraderShipID" Type="Int64"/>
+      <Convert Path="//ShipTransferTimer" Type="Int64"/>
+      <Convert Path="//TargetGameObject" Type="Int64"/>
+      <Convert Path="//TravelTimeLeft" Type="Int64"/>
+      <Convert Path="//TotalTravelTime" Type="Int64"/>
+      <Convert Path="//prio" Type="Int64"/>
+      <Convert Path="//Time" Type="Int64"/>
+      <Convert Path="//SessionTotalTime" Type="Int64"/>
+      <Convert Path="//growingStart" Type="Int64"/>
+      <Convert Path="//growingDuration" Type="Int64"/>
+      <Convert Path="//LastAITick" Type="Int64"/>
+      <Convert Path="//EstimatedShipArrival" Type="Int64"/>
+      <Convert Path="//LastMaxVisitorUpdate" Type="Int64"/>
+      <Convert Path="//VisitorHarberDestructionT" Type="Int64"/>
+      <Convert Path="//MinUnloadingTime" Type="Int64"/>
+      <Convert Path="//IntervalDuration" Type="Int64"/>
+      <Convert Path="//ItemID" Type="Int64"/>
+      <Convert Path="//BuffFluffIndex" Type="Int64"/>
+      <Convert Path="//TimeWhenBuffFluffIndexIncrease" Type="Int64"/>
+      <Convert Path="//HaborID" Type="Int64"/>
+      <Convert Path="//SeasonStartTime" Type="Int64"/>
+      <Convert Path="//SeasonEndTime" Type="Int64"/>
+      <Convert Path="//KamikazeDecal" Type="Int64"/>
+      <Convert Path="//NextTickTime" Type="Int64"/>
+      <Convert Path="//TargetObjectID" Type="Int64"/>
+      <Convert Path="//EscortMetaID" Type="Int64"/>
+      <Convert Path="//Dragger" Type="Int64"/>
+      <Convert Path="//MetaID" Type="Int64"/>
+      <Convert Path="//TargetBuildingID" Type="Int64"/>
+      <Convert Path="//TargetLoadingHarbour" Type="Int64"/>
+      <Convert Path="//OldUnitID" Type="Int64"/>
+      <Convert Path="//ActivationTime" Type="Int64"/>
+      <Convert Path="//LastAttackerID" Type="Int64"/>
+      <Convert Path="//IslandWarFlagID" Type="Int64"/>
+      <Convert Path="//LastDamageTime" Type="Int64"/>
+      <Convert Path="//LastDamageByAttacker" Type="Int64"/>
+      <Convert Path="//NextReservationTime" Type="Int64"/>
+      <Convert Path="//ShowTime" Type="Int64"/>
+      <Convert Path="//WaitingTime" Type="Int64"/>
+      <Convert Path="//TradeWaitingTime" Type="Int64"/>
+      <Convert Path="//DriftingOffset" Type="Int64"/>
+      <Convert Path="//DriftingForce" Type="Int64"/>
+      <Convert Path="//nextTick" Type="Int64"/>
+      <Convert Path="//EventStartTime" Type="Int64"/>
+      <Convert Path="//protected" Type="Int64"/>
+      <Convert Path="//intensityInterval" Type="Int64"/>
+      <Convert Path="//nextTimestamp" Type="Int64"/>
+      <!--<Convert Path="//TransporterID" Type="Int64"/>-->
+      <Convert Path="//ProcessingTime" Type="Int64"/>
+      <Convert Path="//ProcessingEndTime" Type="Int64"/>
+      <Convert Path="//TravelTime" Type="Int64"/>
+      <Convert Path="//ArrivalTime" Type="Int64"/>
+      <Convert Path="//dummyObject" Type="Int64"/>
+      <Convert Path="//unlockTime" Type="Int64"/>
+      <Convert Path="//specialActionCooldown" Type="Int64"/>
+      <Convert Path="//LoadingHarbourID" Type="Int64"/>
+      <Convert Path="//AutoAttackID" Type="Int64"/>
+      <Convert Path="//Origin" Type="Int64"/>
+      <Convert Path="//TrainID" Type="Int64"/>
+      <Convert Path="//EnterTime" Type="Int64"/>
+      <Convert Path="//LeaveTime" Type="Int64"/>
+      <Convert Path="//ParentFactoryID" Type="Int64"/>
+      <Convert Path="//Collector" Type="Int64"/>
+      <Convert Path="//TimeToTarget" Type="Int64"/>
+      <Convert Path="//LastTrainSend" Type="Int64"/>
+      <Convert Path="//m_EarliestTrain" Type="Int64"/>
+      <Convert Path="//LastAttackTime" Type="Int64"/>
+      <Convert Path="//LastPointTime" Type="Int64"/>
+      <Convert Path="//ExecutionTime" Type="Int64"/>
+      <Convert Path="//EstimatedLoadingTime" Type="Int64"/>
+      <Convert Path="//ContinueTimestamp" Type="Int64"/>
+      <Convert Path="//BuyItemActionCooldown" Type="Int64"/>
+      <Convert Path="//rerollTimer" Type="Int64"/>
+      <Convert Path="//lastShipProduction" Type="Int64"/>
+      <Convert Path="//SpreadCooldownEnd" Type="Int64"/>
+      <Convert Path="//QueueWaitingTime" Type="Int64"/>
+      <Convert Path="//NextChange" Type="Int64"/>
+      <Convert Path="//shipBuildTimer" Type="Int64"/>
+      <Convert Path="//shipObj" Type="Int64"/>
+      <Convert Path="//LastReHideTime" Type="Int64"/>
+      <Convert Path="//IntervalEnd" Type="Int64"/>
+      <Convert Path="//TimeUntilUpdate" Type="Int64"/>
+      <Convert Path="//TimeUntilBuild" Type="Int64"/>
+      <Convert Path="//TimeUntilDefense" Type="Int64"/>
+      <Convert Path="//TimeUntilEscort" Type="Int64"/>
+      <Convert Path="//TimeUntilPatrol" Type="Int64"/>
+      <Convert Path="//TimeUntilRepairCheck" Type="Int64"/>
+      <Convert Path="//TimeUntilSquadLogicCheck" Type="Int64"/>
+      <Convert Path="//LockPosition" Type="Int64"/>
+      <Convert Path="//CorporationTime" Type="Int64"/>
+      <Convert Path="//Timestamp" Type="Int64"/>
+      <Convert Path="//LastModTime" Type="Int64"/>
+      <Convert Path="//LivingTime" Type="Int64"/>
+      <Convert Path="//LastReservationTime" Type="Int64"/>
+      <Convert Path="//LastDestroyShipTick" Type="Int64"/>
+      <Convert Path="//LastAttack" Type="Int64"/>
+      <Convert Path="//SecondLastAttack" Type="Int64"/>
+      <Convert Path="//LastBudgetTick" Type="Int64"/>
+      <Convert Path="//LastTick" Type="Int64"/>
+      <Convert Path="//LastConsistencyCheck" Type="Int64"/>
+      <Convert Path="//LastShipProgress" Type="Int64"/>
+      <Convert Path="//LastBuildingProgress" Type="Int64"/>
+      <Convert Path="//LastCheck" Type="Int64"/>
+      <Convert Path="//LastCleanupTick" Type="Int64"/>
+      <Convert Path="//LastForceRemove" Type="Int64"/>
+      <Convert Path="//LastQuery" Type="Int64"/>
+      <Convert Path="//m_NextCalculationTime" Type="Int64"/>
+      <Convert Path="//BuffTimeout" Type="Int64"/>
+      <Convert Path="//SustainTime" Type="Int64"/>
+      <Convert Path="//DespawnDelay" Type="Int64"/>
+      <Convert Path="//Timer" Type="Int64"/>
+      <Convert Path="//DurationInLowProductivity" Type="Int64"/>
+      <Convert Path="//ConstructionTime" Type="Int64"/>
+      <Convert Path="//lastReducedAttractivenessTimestamp" Type="Int64"/>
+      <Convert Path="//ShipObject" Type="Int64"/>
+      <Convert Path="//currentRepairTarget" Type="Int64"/>
+      <Convert Path="//EscortID" Type="Int64"/>
+      <Convert Path="//EntryKillTime" Type="Int64"/>
+      <Convert Path="//BlockedGameObjectID" Type="Int64"/>
+      <Convert Path="//BlockDuration" Type="Int64"/>
+      <Convert Path="//ShipID" Type="Int64"/>
+      <Convert Path="//InfectionInterval" Type="Int64"/>
+      <Convert Path="//LastDestroyedBuildingID" Type="Int64"/>
+      <Convert Path="//FallbackBuildingID" Type="Int64"/>
+      <Convert Path="//StartBuildingID" Type="Int64"/>
+      <Convert Path="//dummyID" Type="Int64"/>
+      <Convert Path="//mobCooldown" Type="Int64"/>
+      <Convert Path="//remainingGroupTime" Type="Int64"/>
+      <Convert Path="//SavegameStepcount" Type="Int64"/>
+      <Convert Path="//SavegameChecksum" Type="Int64"/>
+      
+      <Convert Path="//Ships" Type="Int64" Structure="List"/>
+      <Convert Path="//RepeatableActionZero" Type="Int64" Structure="List"/>
+      <Convert Path="//Units" Type="Int64" Structure="List"/>
+      <Convert Path="//FeedbackTextIcon" Type="Int64" Structure="List"/>
+      <Convert Path="//FeedbackTextGUID" Type="Int64" Structure="List"/>
+      
+      <Convert Path="//AreaExtents" Type="Single" Structure="List"/>
+      <Convert Path="//PtPos" Type="Single" Structure="List"/>
+            
+      <Convert Path="//EventDataString" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//ContextMarkerLabel" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//CreatingAccountID" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//ObjectLabel" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//AccountId" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//FormerAccountId" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//InvitedByAccountId" Type="String" Encoding="UTF-8"/>
+      
+      <Convert Path="//Name" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//ParticipantName" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//Filename" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//RouteName" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//ConfigFilename" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//SavegameFolderW" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//CorporationVersionName" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//CorporationSaveGameName" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//IconString" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//Label" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//BackgroundAnimation" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//NotificationLabel" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//VehicleName" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//Callback" Type="String" Encoding="UTF-16"/>
+      
+      <Convert Path="//DyeColorDetail" Type="Byte"  Structure="List" /> 
+      
+  </Converts>
+</Converts>

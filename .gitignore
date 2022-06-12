@@ -127,3 +127,25 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Exclude binaries and folders for temporary stuff
+/tools/.idea
+/tools/Visual Studio 2019
+/tools/venv
+/tools/Anno Designer/Microsoft.Xaml.Behaviors.dll
+/tools/Anno Designer/Newtonsoft.Json.dll
+/tools/Anno Designer/NLog.dll
+/tools/Anno Designer/Octokit.dll
+/tools/Anno Designer/System.IO.Abstractions.dll
+/tools/Anno Designer/treeLocalization.json
+/tools/Anno Designer/Xceed.Wpf.Toolkit.dll
+/tools/Anno Designer/AnnoDesigner.Core.dll
+/tools/Anno Designer/AnnoDesigner.exe
+/tools/Anno Designer/AnnoDesigner.exe.config
+/tools/Anno Designer/CommandLine.dll
+/tools/Anno Designer/icons.json
+/tools/Anno Designer/Microsoft.Bcl.HashCode.dll
+/tools/Anno Designer/logs
+/tools/Anno Designer/icons
+/tools/FileDBReader
+/tools/RdaConsole.exe

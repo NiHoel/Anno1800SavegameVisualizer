@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Converts>
+  <InternalCompression>
+    <Element Path="//SessionData/BinaryData" CompressionVersion ="2">
+      <ReplaceTagNames>
+        <Entry Original="Delayed Construction" Replacement="DelayedConstruction"/>
+        <Entry Original="Bus Activation" Replacement="BusActivation"/>
+        <Entry Original="Active Tasks" Replacement="ActiveTasks"/>
+        <Entry Original="AI Time" Replacement="AITime"/>
+      </ReplaceTagNames>
+    </Element>
+  </InternalCompression>
+  <Converts>
+      <!-- Nodes with different datatypes: id, ID, Position-->
+  
+      <Convert Path ="//guid" Type="Int32" />
+
+      <Convert Path="//CityName" Type="String" Encoding="UTF-16"/>      
+      <Convert Path="//TownName" Type="String" Encoding="UTF-16"/> 
+      <Convert Path="//ObjectName" Type="String" Encoding="UTF-16"/>
+      
+      <Convert Path="//objects/None/ID" Type="Int64" />
+      <Convert Path="//ObjectFolderID" Type="Int32" />
+      <Convert Path="//ObjectID" Type="Int64" />
+      <Convert Path="//FolderID" Type="Int32" />
+      <Convert Path="//TrainGuid" Type="Int32" />
+      <Convert Path="//TrainSkinGuid" Type="Int32" />
+      <Convert Path="//GameObjectIDCounter" Type="Int64" />
+      <Convert Path="//NonGameObjectIDCounter" Type="Int64" />
+      <Convert Path="//None/ParticipantID/id" Type="Int16" />
+      <Convert Path="//SequenceStartTime" Type="Int64" />
+      <Convert Path="//QuestIDs/None" Type="Int32" />
+      <Convert Path="//LastQuery" Type="Int64" />
+
+      
+      
+
+      <!-- The size of the map in some units, the largest I found is 2560x2560. You can't just change this. -->
+    <Convert Path="//MapTemplate/Size" Type="Int32" Structure="List"/>
+    <!-- The playable area of the map indicated in "x y x1 y1" format. Note that the north would be in the "y" direction. -->
+    <Convert Path="//MapTemplate/PlayableArea" Type="Int32" Structure="List"/>
+    <!-- The amount of TemplateElements -->
+    <Convert Path="//MapTemplate/ElementCount" Type="Int32"/>
+    <!-- Some maps also include a RandomlyPlacedThirdParties property, but I found them empty -->
+
+    <!--
+            Type 0 - Load the specified island
+            Type 1 - Randomize the island
+            Type 2 - Found in uninhabitable islands (as far as I remember)
+
+            Still a mistery but this could be the IslandType
+        -->
+    <Convert Path="//MapTemplate/TemplateElement/ElementType" Type="Int32"/>
+
+    <!--
+            Type 1 - Found in Old World, New World, Cape, Arctic, Enbesa
+            Type 3 - Found in Old World, New World
+            Type 4 - Found in Old World, New World
+
+            Still a mistery...
+        -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/Config/Type/id" Type="Int16" >
+      <Enum>
+        <Entry Value ="0" Name ="Normal"/>
+        <Entry Value ="1" Name ="Starter" />
+        <Entry Value ="3" Name ="Decoration" />
+        <Entry Value ="4" Name ="Pirate" />
+      </Enum>
+    </Convert>
+    <!-- A list, separated by a space, of GUIDs of fertilities -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/FertilityGuids" Type="Int32" Structure="List"/>
+    <!-- A nice label, useful for us (: -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/IslandLabel" Type="String" Encoding="UTF-8"/>
+    <!-- The path of the "a7e" file of the island in the RDA files -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/MapFilePath" Type="String" Encoding="UTF-16"/>
+    <!-- Mine Object ID -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/MineSlotMapping/None[position() mod 2 = 1]" Type="Int64"/>
+    <!--  GUID of the resource of the mine. Sometimes it is 0 - this equals to no mine on that deposit. -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/MineSlotMapping/None[position() mod 2 = 0]" Type="Int32"/>
+    <!-- The position of the island in "x y" format. The position indicates the lower-left corner of the island, being this a square. -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/Position" Type="Int32" Structure="List"/>
+
+    <!--
+            ID 0 - Normal islands
+            ID 1 - Starter islands
+            ID 2 - Decoration islands
+            ID 3 - NPC islands (opponent or neutral)
+            ID 4 - Pirate islands
+            ID 5 - Glacier islands
+        -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/RandomIslandConfig/value/Type/id" Type="Int16" UseEnum="True">
+      <Enum>
+        <Entry Value ="0" Name ="Normal" />
+        <Entry Value ="1" Name ="Starter" />
+        <Entry Value ="2" Name ="Decoration" />
+        <Entry Value ="3" Name ="ThirdParty" />
+        <Entry Value ="4" Name ="PirateIsland" />
+        <Entry Value ="5" Name ="Cliff" />
+      </Enum>
+    </Convert>
+    <!--
+            ID 0 - Normal
+            ID 1 - Hard
+        -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/RandomIslandConfig/value/Difficulty/id" Type="Int16" >
+      <Enum>
+        <Entry Value ="0" Name ="Normal" />
+        <Entry Value ="1" Name ="Hard" />
+      </Enum>
+    </Convert>
+    <Convert Path="//MapTemplate/TemplateElement/Element/RandomizeFertilities" Type="Byte"/>
+    <!--
+            0 - 0 degrees rotation
+            1 - 90 degrees rotation
+            2 - 180 degrees rotation
+            3 - 270 degrees rotation
+        -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/Rotation90" Type="Byte"/>
+    <!--
+            Size 0 - Small
+            Size 1 - Medium
+            Size 2 - Large
+        -->
+    <Convert Path="//MapTemplate/TemplateElement/Element/Size" Type="Int16" >
+      <Enum>
+        <Entry Value ="0" Name ="Small" />
+        <Entry Value ="1" Name ="Medium" />
+        <Entry Value ="2" Name ="Large" />
+      </Enum>
+    </Convert>
+      
+      <!-- Session properties -->
+      <Convert Path="//SessionGUID" Type="Int32"/>
+      <Convert Path ="//ObjectGroups/None[not(GameObjects)]" Type="String" Encoding="UTF-8"/>
+      <Convert Path ="//GameObjects/None" Type="Int64"/>
+      <Convert Path ="//RectSize" Type="Int32" Structure="List"/>
+      <Convert Path ="//GameObjectLabelMap/None[position() mod 2 = 1]" Type="String" Encoding="UTF-8"/>
+      <Convert Path ="//GameObjectLabelMap/None[position() mod 2 = 0]" Type="String"/>
+      <Convert Path ="//StoredSelections/None/value/id" Type="Int16"/>
+      
+      <!-- building properties -->
+      <!-- in "x z y" format with z pointing upwards, must be after map element -->
+      
+      <Convert Path="//GameObject/objects/None/Position" Type="Single" Structure="List"/>
+      <Convert Path ="//None/Direction" Type="Single"/>
+      <Convert Path ="//CurrentSequence" Type="Int32"/>
+      <Convert Path ="//CurrentSequenceID" Type="Int32"/>
+      <Convert Path ="//IdleSequenceID" Type="Int32"/>
+      <Convert Path ="//CurrentSequenceStartTime" Type="Int64"/>
+      <Convert Path ="//Orientation" Type="Single" Structure="List"/>
+      <Convert Path ="//UpgradeGUIDs" Type="Int32" Structure="List"/>      
+      
+      <Convert Path="//Prop/Position" Type="Single" Structure="List"/>
+      <Convert Path="//Prop/Rotation" Type="Single" Structure="List"/>
+      <Convert Path="//Prop/Scale" Type="Single" Structure="List"/>
+      <Convert Path="//Prop/Color" Type="Single" Structure="List"/>
+      
+      <Convert Path="//CityNameList/None" Type="Int32" Structure="List"/>
+	  <Convert Path="//NextCityNameIndex/None" Type="Int32"/>
+      <Convert Path="//MetaGameManager/GameSessions/None[position() mod 2 = 1]" Type="UInt32"/>
+      <Convert Path="//MetaGameManager/SessionTradeRouteManager/RouteMap/None[position() mod 2 = 1]" Type="UInt32"/>
+      <Convert Path="//MetaGameManager/SessionTradeRouteManager/RouteMap/None/ID" Type="UInt32"/>
+      
+      <Convert Path="//AreaVisitorData/None[position() mod 2 = 1]" Type="UInt16"/>
+      <Convert Path="//AreaInfo/None[position() mod 2 = 1]" Type="UInt16"/>
+      
+      <Convert Path="//AreaInfo/None/Fertility/None" Type="Int32"/>
+      <Convert Path ="//ObjectWasVisible/None" Type="Boolean"/>
+      <Convert Path ="//Walking/None" Type="Boolean"/>
+      
+      
+      <Convert Path="//CurrentProductivity" Type="Single"/>
+
+      
+
+ 
+      
+      <!-- Residence properties -->
+      <Convert Path="//Residence7/ResidentCount" Type="Int32" />
+      <Convert Path="//Residence7/TimeBeforeRuinLeft" Type="Int32" />
+      <Convert Path="//Residence7/PopulationMoveTimeout" Type="Int64" />
+      <Convert Path="//Residence7/ProductMoneyOutput" Type="Int32" />
+      
+      <Convert Path="//ProductDistributionMap/None/ProductLeft" Type="Single"/>
+      <Convert Path="//ProductDistributionMap/None/ProductConsumption" Type="Single"/>
+      <Convert Path="//ProductDistributionMap/None/DistributionPausedInfo/None[position() mod 2 = 0]" Type="UInt32"  Structure="List"/>
+      <Convert Path="//ProductDistributionMap/None/DistributionPausedInfo/CurrentlyProvided" Type="Boolean"/>
+      <Convert Path="//Storage/None[position() mod 2 = 0]" Type="UInt32" Structure="List"/>
+
+      <Convert Path="//Storage/ProductGUID" Type="UInt32"/>
+      <Convert Path="//Storage/CurrentAmount" Type="UInt32"/>
+      <Convert Path="//Storage/MaxAmount" Type="UInt32"/>
+      <Convert Path="//Storage/ReservedAmount/Parent/ObjectID" Type="UInt64"/>
+      <Convert Path="//Storage/ReservedAmount/Type" Type="UInt32"/>
+      <Convert Path="//Storage/ReservedAmount/Index" Type="UInt64"/>
+      <Convert Path="//Storage/ReservedSpace/None[position() mod 2 = 1]" Type="Int32"/>
+      
+      <Convert Path="//Storage/ReservedSpace/Parent/ObjectID" Type="UInt64"/>
+      <Convert Path="//Storage/ReservedSpace/Type" Type="UInt32"/>
+      <Convert Path="//Storage/ReservedSpace/Index" Type="UInt64"/>
+
+
+      
+      <!-- Street properties -->
+      <Convert Path="//StreetID/x" Type="Int32" />
+      <Convert Path="//StreetID/y" Type="Int32" />
+      <Convert Path="//m_QuayReplacementExecuted" Type="Boolean" /> 
+      <Convert Path="//SparseEnabled" Type="Boolean" />
+      <Convert Path="//mode" Type="Boolean" />
+      <Convert Path="//V2_VarMapData/x" Type="Int32" />
+      <Convert Path="//V2_VarMapData/y" Type="Int32" /> 
+      <Convert Path="//block/x" Type="Int16" />
+      <Convert Path="//block/y" Type="Int16" />
+      <Convert Path="//StreetID/val" Type="Byte" Structure="List"/>  
+      
+      
+      <!-- Ship properties -->
+      <Convert Path ="//EllipsisDimensions" Type="Single" Structure="List" />
+      <Convert Path ="//LoadingPierMidPoint" Type="Single" Structure="List" />
+      <Convert Path ="//AwayFromCoast" Type="Single" Structure="List" />
+      
+      <!-- Geometrical values -->
+      <Convert Path="//ContextPosition" Type="Single" Structure="List"/>
+      <Convert Path="//SpawnContextPosition" Type="Single" Structure="List"/>
+      <Convert Path="//ResultPlacePosition" Type="Single" Structure="List"/>
+      <Convert Path="//BasePosition" Type="Single" Structure="List"/>
+      <Convert Path="//positionalData" Type="Single" Structure="List"/>
+      <Convert Path="//RallyPoint" Type="Single" Structure="List"/>
+      <Convert Path="//DesiredOffsetToMid" Type="Single" Structure="List"/>
+      <Convert Path="//pos" Type="Single" Structure="List"/>
+      <Convert Path="//Up" Type="Single" Structure="List"/>     
+      
+      <Convert Path="//View/Direction" Type="Single" Structure="List"/><!-- Quaternion -->
+      <Convert Path="//Reservation/Direction" Type="Single" Structure="List"/><!-- Angle -->
+      <Convert Path="//Reservation/Position" Type="Single" Structure="List"/>
+
+      <Convert Path="//HarborPosition" Type="Single" Structure="List"/>
+      <Convert Path="//LastPosition" Type="Single" Structure="List"/>
+      <Convert Path="//TargetPosition" Type="Single" Structure="List"/>
+      <Convert Path="//From" Type="Single" Structure="List"/>
+      <Convert Path="//At" Type="Single" Structure="List"/>
+      <Convert Path="//WayPositions" Type="Single" Structure="List"/>
+      <Convert Path="//LastPos" Type="Single" Structure="List"/>
+      <Convert Path="//LastWaystepPos" Type="Single" Structure="List"/>
+      <Convert Path="//LastTickPos" Type="Single" Structure="List"/>
+      <Convert Path="//CurrentPath" Type="Single" Structure="List"/>
+      <Convert Path="//Scale" Type="Single" Structure="List"/>
+      <Convert Path="//u0" Type="Single" Structure="List"/>
+      <Convert Path="//originalPath" Type="Single" Structure="List"/>
+            
+      <Convert Path="//BezierPath/Path/TangentScale" Type="Single"/>
+      <Convert Path="//BezierPath/Path/Minimum" Type="Single" Structure="List"/>
+      <Convert Path="//BezierPath/Path/Maximum" Type="Single" Structure="List"/>
+      <Convert Path="//BezierCurve/None/p" Type="Single" Structure="List"/>
+      <Convert Path="//BezierCurve/None/i" Type="Single" Structure="List"/>
+      <Convert Path="//BezierCurve/None/o" Type="Single" Structure="List"/>
+      
+      
+      <Convert Path="//AreaExtents" Type="Single" Structure="List"/>
+      <Convert Path="//Ships" Type="Int64" Structure="List"/>
+      
+      <Convert Path="//AreaExtents" Type="Single" Structure="List"/>
+      <Convert Path="//CreatingAccountID" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//ObjectLabel" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//AccountId" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//FormerAccountId" Type="String" Encoding="UTF-8"/>
+      <Convert Path="//InvitedByAccountId" Type="String" Encoding="UTF-8"/>
+      
+      <Convert Path="//Name" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//ParticipantName" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//Filename" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//RouteName" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//ConfigFilename" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//SavegameFolderW" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//CorporationVersionName" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//CorporationSaveGameName" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//Label" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//NotificationLabel" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//VehicleName" Type="String" Encoding="UTF-16"/>
+      <Convert Path="//Callback" Type="String" Encoding="UTF-16"/>
+      
+      <Convert Path="//DyeColorDetail" Type="Byte"  Structure="List" /> 
+  </Converts>
+</Converts>
