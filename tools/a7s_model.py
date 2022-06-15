@@ -3765,7 +3765,7 @@ class Island:
                     "B": 255 if b.index == 1 else 0
                 }
 
-            elif "random" in c_options:
+            elif "random" in c_options and b.identifier > 0:
                 val = hash(b.identifier.to_bytes(8, byteorder='little'))
                 red = abs(val % 256)
                 val = int(val/256)
