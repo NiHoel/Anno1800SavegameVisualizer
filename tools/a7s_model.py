@@ -16,6 +16,7 @@ import struct
 import sys
 import lxml.etree as ET
 import zlib
+import zipfile
 
 from ipywidgets import *
 
@@ -167,7 +168,12 @@ A7PARAMS = {
             "taiwanese": "淨化之島"
         }
     },
-    "city_names": {1000: {'chinese': '欧德亨尔', 'english': 'Roderrenge', 'french': 'Roderrenge', 'german': 'Roderrenge',
+    "scenarios": {
+        "Scenario1": 655,
+        "Scenario2": 24734,
+    },
+    "city_names": {
+                   1000: {'chinese': '欧德亨尔', 'english': 'Roderrenge', 'french': 'Roderrenge', 'german': 'Roderrenge',
                           'italian': 'Roderrenge', 'japanese': 'ロダーレンジ', 'korean': '로더렌게', 'polish': 'Roderrenge',
                           'portuguese': 'Roderrenge', 'russian': 'Родеррендж', 'spanish': 'Roderrenge',
                           'taiwanese': '歐德亨爾'},
@@ -2610,7 +2616,7 @@ def execute(args):
 
     executable = pathlib.Path(args[0]).stem + ".exe"
     print(subprocess.list2cmdline(args))
-    #if exit_code < 1000:
+    # if exit_code < 1000:
     raise Exception(
         "Executing {} failed. Please ensure that the file is not corrupt or try running this application in a different directory.".format(
             executable))
@@ -2837,7 +2843,7 @@ def show(ad_config):
         f.write(ad_json)
 
     subprocess.Popen([os.getcwd() + "/tools/Anno Designer/AnnoDesigner.exe", "open", str(path)])
-    #subprocess.Popen([os.getcwd() + "/tools/Anno Designer/AnnoDesigner.exe", str(path)])
+    # subprocess.Popen([os.getcwd() + "/tools/Anno Designer/AnnoDesigner.exe", str(path)])
 
 
 def save(ad_config, path):
@@ -2851,8 +2857,6 @@ def save(ad_config, path):
 
     with open(path, "w") as f:
         f.write(ad_json)
-
-
 
 
 def has_value(node):
@@ -2873,7 +2877,7 @@ def is_road(idx):
     return s[idx]["road"]
 
 
-def vary_color(color, random_value : float = None):
+def vary_color(color, random_value: float = None):
     """
     color: dict with keys "R", "G", "B", "A" (optional)
     random_value must be within [0,1]
@@ -2916,9 +2920,9 @@ def vary_color(color, random_value : float = None):
     if random_value is None:
         L = random.uniform(max(L - 20, 10), min(L + 20, 90))
     else:
-        min_L = max(L-20,10)
-        max_L = min(L+20,90)
-        L=min_L + random_value * (max_L - min_L)
+        min_L = max(L - 20, 10)
+        max_L = min(L + 20, 90)
+        L = min_L + random_value * (max_L - min_L)
 
     inv_f = lambda t: math.pow(t, 3) if t > (6 / 29) else 3 * (6 / 29) * (6 / 29) * (6 / 29) * (t - 4 / 29)
 
@@ -2944,6 +2948,7 @@ class Interpreter:
     Stores the XML tree of the savegame along with parsing rules
     to turn the hexadecimal values into meaningful ints, floats and strings
     """
+
     def __init__(self, savegame_path: str, keep_files=False, progress_bar=None):
         path = pathlib.Path(savegame_path)
         if not path.exists():
@@ -2999,8 +3004,7 @@ class Interpreter:
 
         tree = None
         files = list(out_path.glob("*.a7s"))  # necessary to iterate twice
-        
-        print(files)
+
         if len(files) < 4:
             raise Exception("Savegame could not be decoded or disk is full")
         elif len(files) > 4:
@@ -3026,7 +3030,9 @@ class Interpreter:
                     f.write(content)
 
                 execute([str(tools_path / "FileDBReader/FileDBReader.exe"), "decompress", "-i",
-                         str(tools_path / ("FileDBReader/FileFormats/a7s_all.xml" if decode_all else "FileDBReader/FileFormats/a7s_hex.xml")), "-f",
+                         str(tools_path / (
+                             "FileDBReader/FileFormats/a7s_all.xml" if decode_all else "FileDBReader/FileFormats/a7s_hex.xml")),
+                         "-f",
                          str(file.with_suffix(".bin")), "-y"])
 
             if progress_bar is not None:
@@ -3247,9 +3253,11 @@ class ADConfig:
     * presets: json of all buildings readily available in AD
     * colors: json (coloring information for groups of buildings)
     """
+
     def __init__(self):
         self.presets = json.load(open(os.getcwd() + "/tools/Anno Designer/presets.json", encoding="utf8"))
         self.colors = json.load(open(os.getcwd() + "/tools/Anno Designer/colors.json", encoding="utf8"))
+        self.island_outlines = dict()
         self.default_color = {
             "A": 255,
             "R": 255,
@@ -3258,6 +3266,10 @@ class ADConfig:
         }
 
         self.templates_by_guid = dict()
+        self.scenario_templates = dict()
+        for session in A7PARAMS["scenarios"].values():
+            self.scenario_templates[session] = dict()
+
         for b in self.presets["Buildings"]:
             if b.get("Guid") is None or b.get("Guid") == "0" or not b.get("Header") == "(A7) Anno 1800":
                 continue
@@ -3277,7 +3289,10 @@ class ADConfig:
                 if applies:
                     t["Color"] = copy.deepcopy(c["Color"])
 
-            self.templates_by_guid[int(b.get("Guid"))] = t
+            guid = int(b.get("Guid"))
+            if t["Template"] in A7PARAMS["scenarios"]:
+                self.scenario_templates[A7PARAMS["scenarios"][t["Template"]]][guid] = t
+            self.templates_by_guid[guid] = t
 
         self.replaced_guids = dict()
 
@@ -3301,8 +3316,21 @@ class ADConfig:
                     if not self.has_template(r_guid):
                         self.templates_by_guid[r_guid] = t
 
-    def get_template(self, guid: int) -> json:
-        t = self.templates_by_guid.get(guid)
+        self.scenario_templates[655][101259] = self.scenario_templates[655][24136] # replace boxing arena by water pump
+        for guid in [893,895,896]: # reward ornaments have scenario template but can be build everywhere
+            if guid not in self.templates_by_guid:
+                self.templates_by_guid[guid] = self.scenario_templates[655][guid]
+
+        with zipfile.ZipFile(os.getcwd() + "/tools/island_outlines.zip") as archive:
+            for file in archive.infolist():
+                path = pathlib.Path(file.filename)
+                self.island_outlines[path.stem] = json.loads(archive.read(file))
+
+    def get_template(self, guid: int, session: int = None) -> json:
+        if session in self.scenario_templates and guid in self.scenario_templates[session]:
+            t = self.scenario_templates[session][guid]
+        else:
+            t = self.templates_by_guid.get(guid)
 
         if t is None:
             return None
@@ -3312,8 +3340,19 @@ class ADConfig:
 
         return t
 
-    def has_template(self, guid: int) -> bool:
+    def has_template(self, guid: int, session: int = None) -> bool:
+        if session in self.scenario_templates and guid in self.scenario_templates[session]:
+                return True
         return guid in self.templates_by_guid
+
+    def get_island_outline(self, island_name : str):
+        if island_name in self.island_outlines:
+            return self.island_outlines[island_name].get("Objects")
+
+        return None
+
+    def has_island_outline(self, island_name: str):
+        return island_name in self.island_outlines
 
 
 class Ship:
@@ -3460,6 +3499,9 @@ class NPCIsland:
         self.island_template = template
         self.rectangle = rect
         self.island_template_name = name
+        self.rotation = hex_to_int(template.find("./Rotation90"))
+        if self.rotation is None:
+            self.rotation = 0
 
     def __str__(self):
         s = "{} (NPC) in {}".format(self.name, self.session)
@@ -3555,6 +3597,9 @@ class Island:
         self.island_template = template
         self.rectangle = rect
         self.island_template_name = name
+        self.rotation = hex_to_int(template.find("./Rotation90"))
+        if self.rotation is None:
+            self.rotation = 0
 
     def __str__(self):
         s = "{} in {}\tIsland type: {}".format(self.name, self.session, self.island_template_name)
@@ -3687,6 +3732,7 @@ class Island:
     
         The following keys are valid:
         * "exclude": Exclude certain object types (some are class names, so no quotation marks)
+                    "outline" (island outline)
                     Possible values are: Farm, Factory, Powerplant, Residence, Store,
                         "StorageBuilding", "Farmfield", "SupportBuilding", "PublicServiceBuilding",
                         "OrnamentalBuilding", "OrnamentalBuilding_Park", ... (basically all Anno Designer templates)
@@ -3718,6 +3764,7 @@ class Island:
         if "store_coverage" in c_options:
             self.calculate_coverage()
 
+        # process buildings
         for b in self.buildings.values():
             if isinstance(b, Module) or (exclude_blueprints and b.is_blueprint) or type(b) in e_options:
                 continue
@@ -3733,6 +3780,7 @@ class Island:
             if "no_1x1_ornaments" in i_options and obj["Size"] == "1,1":
                 obj["Icon"] = None
 
+            l: str
             for l in l_options:
                 if not l in b.__dict__:
                     continue
@@ -3765,24 +3813,24 @@ class Island:
                     "B": 255 if b.index == 1 else 0
                 }
 
-            elif "random" in c_options and b.identifier > 0:
-                val = hash(b.identifier.to_bytes(8, byteorder='little'))
+            elif "random" in c_options:
+                val = hash(abs(b.identifier).to_bytes(8, byteorder='little'))
                 red = abs(val % 256)
-                val = int(val/256)
+                val = int(val / 256)
                 green = abs(val % 256)
-                val = int(val/256)
+                val = int(val / 256)
                 blue = abs(val % 256)
 
                 obj["Color"] = {
                     "A": obj["Color"]["A"],
-                    #"R": random.randrange(0, 255),
+                    # "R": random.randrange(0, 255),
                     "R": red,
                     "G": green,
                     "B": blue,
                 }
 
             elif isinstance(b, Farm) and "vary_farms" in c_options:
-                h = hash(b.identifier.to_bytes(8, byteorder='little'))
+                h = hash(abs(b.identifier).to_bytes(8, byteorder='little'))
                 obj["Color"] = vary_color(obj["Color"], (h % 1001) / 1000)
 
             if "main_building" in c_options:
@@ -3821,7 +3869,9 @@ class Island:
 
             objects.append(obj)
 
-        grid = self.get_building_grid()
+
+        # process streets
+        grid = np.copy(self.get_building_grid())
 
         streets = self.get_streets()
         ad_config = self.session.world.ad_config
@@ -3834,7 +3884,7 @@ class Island:
                 if not grid[x, y] is None and not street.get("road"):
                     continue
 
-                obj = ad_config.get_template(street.get("guid"))
+                obj = ad_config.get_template(street.get("guid"), self.session.guid)
                 if obj is None:
                     obj = {
                         "Guid": street.get("guid"),
@@ -3854,6 +3904,32 @@ class Island:
                 obj["Color"] = street.get("color")
 
                 objects.append(obj)
+
+        # process outline
+        if ("outline" not in e_options and
+                ad_config.has_island_outline(self.island_template_name) and
+                self.island_template_name in A7PARAMS["island_sizes"]):
+
+            trafo = lambda x : [x[1], size[0]-x[0]-1]
+            size = np.array(A7PARAMS["island_sizes"][self.island_template_name])
+
+            if self.rotation == 1:
+                trafo = lambda x : [size[0] - x[0]-1, size[1] - x[1]-1]
+            elif self.rotation == 2:
+                trafo = lambda x: [size[1] - x[1]-1, x[0]]
+            elif self.rotation == 3:
+                trafo = lambda x: x
+
+            for obj in ad_config.get_island_outline(self.island_template_name):
+                pos = trafo([int(x) for x in obj["Position"].split(",")])
+                if grid[pos[0], pos[1]] is not None or A7PARAMS["streets"].get(streets[pos[0], pos[1]]) is not None:
+                    continue
+
+                obj = copy.deepcopy(obj)
+                obj["Position"] = "{},{}".format(pos[0], pos[1])
+                obj["Road"] = False
+                objects.append(obj)
+
 
         return {
             "FileVersion": 4,
@@ -4050,7 +4126,7 @@ class Building:
             self.rotated_size = to_int((self.bounding_rectangle[1] - self.bounding_rectangle[0])[::-1])
         else:
 
-            t = island.session.world.ad_config.get_template(self.guid)
+            t = island.session.world.ad_config.get_template(self.guid, self.island.session.guid)
             if not t is None and not t["BuildBlocker"] is None:
                 sz = t["BuildBlocker"]
                 self.size = np.array([sz["z"], sz["x"]])
@@ -4093,9 +4169,9 @@ class Building:
             return None
 
         ad_config = self.island.session.world.ad_config
-        if not ad_config.has_template(self.guid):
+        if not ad_config.has_template(self.guid, self.island.session.guid):
             return None
-        obj = copy.deepcopy(ad_config.get_template(self.guid))
+        obj = copy.deepcopy(ad_config.get_template(self.guid, self.island.session.guid))
 
         del obj["BuildBlocker"]
         obj["Direction"] = A7PARAMS["directions"][self.discrete_rotation]
@@ -4142,7 +4218,7 @@ class Farm(Building):
 
         module_guid = A7PARAMS["farm_modules"].get(self.guid)
         if not module_guid is None:
-            t = self.island.session.world.ad_config.get_template(module_guid)
+            t = self.island.session.world.ad_config.get_template(module_guid, self.island.session.guid)
             if not t is None and not t["BuildBlocker"] is None:
                 sz = t["BuildBlocker"]
                 self.module_size = np.array([sz["z"], sz["x"]])
@@ -4196,8 +4272,9 @@ class Guildhouse(Building):
     def __init__(self, node, island):
         super().__init__(node, island)
         self.items = []
-        for guid in node.findall("ItemContainer/SocketContainer/SocketItems/None/GUID") :
+        for guid in node.findall("ItemContainer/SocketContainer/SocketItems/None/GUID"):
             self.items.append(hex_to_int(guid))
+
 
 class Store(Building):
     """

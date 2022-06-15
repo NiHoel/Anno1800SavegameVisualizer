@@ -3,6 +3,9 @@ This File is based on Anno Designer Presets version
 ------------------------------------------------------
 GUID , Icon Filename , IdentifierName , Replaced Guids
 403,A7_highlife_skyliner_monument.png,HighLife_monument_00,404,135709,406
+686,A7_dam_a.png,GGJDam_01_03,949,680,685
+24134,A7_fish_ggj_1.png,Aquafarm,24658
+24794,A7_hacienda_module_farm.png,Hacienda universal farm blank,24798,25003,25005,25006,25009,25019,25020,25128
 24829,A7_basin.png,Basin,24828
 25547,A7_tractor.png,Scenario02_tractor_module_01 (Tractor),25548
 100415,A7_townhall.png,Town hall,101285,117859
@@ -18,14 +21,17 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 101061,A7_clay.png,Mining_03_slot (Clay Pit Slot),100417
 101331,A7_oil.png,Heavy_10 (Oil Heavy Industry),1010561
 101497,A7_cultural_props_1x1_02.png,Culture_1x1_benches,102846
-101498,A7_cultural_props_1x1_03.png,Culture_1x1_fence,102849
+101498,A7_cultural_props_1x1_03.png,Culture_1x1_fence,102849,102093
 101510,A7_cultural_props_1x1_04.png,Culture_1x1_fencegate,102854
 101511,A7_cultural_props_1x1_05.png,culture_1x1_fenceangle,102851
 101512,A7_cultural_props_1x1_06.png,culture_1x1_fenceend,102850
 101513,A7_cultural_props_1x1_07.png,Culture_1x1_hedge,102855
+101514,A7_cultural_props_1x1_08.png,culture_1x1_hedgeangle,102857
+101515,A7_cultural_props_1x1_09.png,culture_1x1_hedgeend,102856
+101552,A7_cultural_props_1x1_11.png,culture_1x1_hedgewall,102859
 101553,A7_cultural_props_1x1_12.png,culture_1x1_fencewall,102853
+101554,A7_cultural_props_1x1_13.png,culture_1x1_hedgecrossing,102858
 101555,A7_cultural_props_1x1_14.png,culture_1x1_fencecrossing,102852
-102083,A7_park_props_1x1_01.png,Park_1x1_grass,102812,102128
 102085,A7_park_props_1x1_21.png,Park_1x1_bigtree,102133
 102086,A7_park_props_1x1_23.png,Park_1x1_smalltree,102814,102130
 102088,A7_park_props_1x1_06.png,Park_1x1_hedge,102819
@@ -33,6 +39,11 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 102090,A7_park_props_1x1_07.png,park_1x1_hedgeangle,102821
 102091,A7_park_props_1x1_11.png,park_1x1_hedgecrossing,102822
 102092,A7_park_props_1x1_09.png,park_1x1_hedgewall,102823
+102094,A7_park_props_1x1_05.png,park_1x1_fenceend,102830
+102095,A7_cultural_props_1x1_05.png,park_1x1_fenceangle,102831
+102096,A7_park_props_1x1_12.png,park_1x1_fencecrossing,102832
+102097,A7_park_props_1x1_10.png,park_1x1_fencewall,102833
+102098,A7_park_props_1x1_03.png,Park_1x1_fencegate,102834,102149
 102099,A7_park_props_1x1_27.png,Park_1x1_path,102824
 102100,A7_park_props_1x1_28.png,park_1x1_pathend,102825,102140
 102101,A7_park_props_1x1_29.png,park_1x1_pathangle,102826,102141
@@ -46,18 +57,28 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 102109,A7_park_props_2x2_04.png,Park_2x2_gazebo,102842,102155
 102110,A7_park_props3x3_02.png,Park_3x3_fountain,102843,102156
 102111,A7_park_props_3x3_04.png,Park_3x3_gazebo,102844,102157
+102131,A7_park_props_1x1_17.png,Park_1x1_pine,102112
+102151,A7_cultural_1x1_10.png,Park_1x1_statue,101516
+102229,A7_clubrewards_pond_2x2.png,Uplay_ornament_3x2_large_fountain,103047
+102383,A7_clubrewards_statue_1x2.png,Uplay_ornament_2x1_lion_statue,103048
+102462,A7_park_props_2x2_02.png,Park_2x2_manstatue,102839
 102481,A7_park_props_1x1_32.png,Park_1x1_stand,102837
 102482,A7_cultural_props_1x1_15.png,Culture_1x1_stand,102847
+102892,A7_beta_reward_2x2.png,Uplay_ornament_2x2_pillar_chess_park,103049
 103109,A7_park_props_system_1x1_37.png,Park_1x1_poplar,102132
 103112,A7_park_props_system_1x1_36.png,Park_1x1_hedgegate,103122
+103117,A7_park_props_system_1x1_45.png,Park_1x1_wateringplace,103120
+103118,A7_park_props_system_1x1_46.png,Park_1x1_well,103121
 103119,A7_cultural_props_1x1_16_front.png,Culture_1x1_hedgegate,103123
 110935,A7_botanic_garden.png,Culture_03 (BotanicalGarden),114141
 111104,A7_botanic_module.png,C03_M06_empty,111083,111086,111088,111087,111089,111090,111091,111092,111093,112610,112609,111094,111095,111096,111097,111098,111099,111100,111101,111102,114310,114311
+111829,A7_park_props_1x1_26.png,Park_1x1_bush_03,102087
+111830,A7_park_props_1x1_01.png,Colony park_1x1_grass Mercier Unlocked,102083,102812
 112685,A7_airship_hangar.png,Monument_arctic_01_00,112687,112688,112689
 112691,A7_gas_red.png,Mining_arctic_01_slot (Gas Mine Slot),113750
 112726,A7_airship_landing_plattform.png,Kontor_airship_arctic_01,116003,116004
 113452,A7_music_pavillion.png,Entertainment_musicpavillion_empty,112486,114148,114149,114150,114151
-114435,A7_cultural_1x1_01.png,Culture_1x1_plaza,114894
+114435,A7_cultural_1x1_01.png,Culture_1x1_plaza,114894,117633
 114544,A7_water_pump.png,River_colony02_03 (Water Pump),120271
 117743,A7_clay.png,River_colony02_01 (Clay Harvester),120274
 117744,A7_paper.png,River_colony02_02 (Paper Mill),120273
@@ -68,6 +89,7 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 269837,A7_tractor.png,Tractor_module_01 (Tractor),269839,269849
 1000029,A7_mineral_desposits.png,Random slot mining,1010500,1010501,1010503,1010504,1010505,1010507
 1010266,A7_wood_log.png,Agriculture_05 (Timber Yard),24657
+1010310,A7_niter.png,Coastal_02 (Niter Coast Building),101303
 1010311,A7_gold_ore.png,Mining_08 (Gold Ore Mine),101311,116029,116038
 1010371,A7_warehouse.png,Logistic_02(Warehouse I),100516,100517,269869,101323,101324,101325,112656,112657,112658,114509,114537,114635
 1010470,A7_zoo.png,Culture_01 (Zoo),102282
@@ -79,4 +101,4 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 1010522,A7_defense_tower_pucklegun.png,Harbor_04 (Tower 01 Puckle Gun),101563,117861,123076,124528,124529
 1010523,A7_defense_tower_cannon.png,Harbor_05 (Tower 02 Cannon Tower),101570,112671,117863,120986,123074,123075
 1010525,A7_repair_crane.png,Harbor_07 (Repair Crane),101573,117864
-1010540,A7_kontor_main.png,Kontor_imperial_01,1010517,100510,100511,269867,100514,100515,269879,101291,101292,101293,101295,112660,112661,112866,112867,114627,114628,114630,114631
+1010540,A7_kontor_main.png,Kontor_imperial_01,1010517,100510,100511,269867,100514,100515,269879,101290,101291,101292,101293,101294,101295,112659,112660,112661,112865,112866,112867,114626,114627,114628,114629,114630,114631

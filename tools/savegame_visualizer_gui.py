@@ -59,6 +59,9 @@ i18n = {
     "Labels": {
         "german": "Beschriftungen"
     },
+    "Exclusion": {
+        "german": "Ausschluss"
+    },
     "Farms and modules identical": {
         "german": "Farmen und Module identisch"
     },
@@ -152,6 +155,9 @@ i18n = {
     },
     "Object ID": {
         "german": "Objekt-ID"
+    },
+    "Island outline": {
+      "german": "Inselumriss"
     },
     "Ready": {
         "chinese": "准备就绪",
@@ -334,6 +340,10 @@ class VisualizerGUI:
         g.add_option(Option("productivity", _("Productivity")))
         g.add_option(Option("guid", _("GUID of the asset")))
         g.add_option(Option("identifier", _("Object ID")))
+        self.groups.append(g)
+
+        g = Group("exclude", _("Exclusion"))
+        g.add_option(Option("outline", _("Island outline")))
         self.groups.append(g)
 
         def callback(event):

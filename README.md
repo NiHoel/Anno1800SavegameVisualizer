@@ -49,8 +49,9 @@ Contact me if you fail to understand or resolve the error displayed there. To he
     
 ## Known issues
 * Anno Designer does not allow to open multiple instances. After you opened it, close it before making any modifications in the savegame visualizer. Otherwise the software may hang or fail to update the preview.
-* Some buildings are missing in the final layout (e.g. NW trade unions, some harbour buildings and many scenario related buildings)
+* Some icons are missing in the final layout (from latest DLCs and scenarios)
 * The reserved harbour space of dockland modules points into the wrong direction
+* Niter production in scenario 2 is not correctly positioned
 
 ## Disclaimer
 The software is provided without warranty of any kind. The work was NOT endorsed by Ubisoft Blue Byte in any kind. All the assets from Anno 1800 game are © by Ubisoft.
