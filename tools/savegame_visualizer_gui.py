@@ -1,7 +1,15 @@
+VERSION = "v0.4"
+
 from tools.a7s_model import *
 
 import ipywidgets as widgets
-#import wmi  # to kill AD
+import requests
+import json
+import os
+import zipfile
+
+from io import BytesIO
+
 from PyQt5.QtWidgets import QFileDialog, QApplication
 
 # try:
@@ -159,6 +167,9 @@ i18n = {
     "Island outline": {
       "german": "Inselumriss"
     },
+    "Blueprints": {
+      "german": "Blaupausen"
+    },
     "Ready": {
         "chinese": "准备就绪",
         "english": "Ready",
@@ -204,6 +215,18 @@ i18n = {
     },
     "Failed to open Anno Designer. File was saved to: ": {
         "german": "Anno Designer konnte nicht geöffnet werden. Pfad zur Datei: "
+    },
+    "A new version is available":{
+        "german": "Eine neue Version ist verfügbar"
+    },
+    "Update": {
+        "german": "Aktualisieren"
+    },
+    "Ignore": {
+        "german": "Ignorieren"
+    },
+    "Close and re-open the application!": {
+        "german": "Schlißen und öffnen Sie die Anwendung erneut!"
     }
 }
 
@@ -267,12 +290,17 @@ class VisualizerGUI:
                                 disabled=False)
         self.model = widgets.VBox([btn_ok])
 
-
+        def hide(elem):
+            elem.layout.display = 'none'
 
         def callback(btn):
             global LANG
             LANG = lang_widget.value
-            self.show()
+
+            lang_widget.close()
+            hide(self.model.children[0])
+
+            self.check_version()
 
         btn_ok.on_click(callback)
 
@@ -344,6 +372,7 @@ class VisualizerGUI:
 
         g = Group("exclude", _("Exclusion"))
         g.add_option(Option("outline", _("Island outline")))
+        g.add_option(Option("blueprints", _("Blueprints")))
         self.groups.append(g)
 
         def callback(event):
@@ -385,15 +414,81 @@ class VisualizerGUI:
             self.txt_status
         ])
 
+    def check_version(self):
+        """
+        Check GitHub for a new release. If one was found, buttons to install the update or ignore it are displayed.
+        """
+
+        def hide(elem):
+            elem.layout.display = 'none'
+
+        try:
+            response = requests.get("https://api.github.com/repos/NiHoel/Anno1800SavegameVisualizer/releases/latest")
+            release = json.loads(response.content)
+            version = release["tag_name"]
+            if not version == VERSION:
+                label_update = widgets.Label(value=_("A new version is available"))
+                btn_download = widgets.Button(description=_("Download"))
+                btn_ignore = widgets.Button(description=_("Ignore"))
+
+                update_box = widgets.VBox([
+                    label_update,
+                    widgets.HBox([btn_download, btn_ignore])
+                ])
+
+                def callback_ignore(btn):
+                    hide(update_box)
+                    self.show()
+
+                def callback_download(btn):
+                    try:
+                        hide(update_box)
+                        asset_url = release["assets"][0]["browser_download_url"]
+                        print(asset_url)
+
+                        with open("imgs/loading-buffering.gif", "rb") as f:
+                            img_loading = widgets.Image(
+                                value=f.read(),
+                                format='gif',
+                                width="20px",
+                                margin="auto"
+                            )
+
+                            self.model.children = tuple([img_loading] + list(self.model.children[1:]))
+
+                        zip_response = requests.get(asset_url)
+                        with zipfile.ZipFile(BytesIO(zip_response.content)) as archive:
+                            archive.extractall(path=os.getcwd())
+
+                        label_restart = widgets.HTML(value="<b><font color='red' size='20px'>{}</b>".format(
+                            _("Close and re-open the application!")))
+                        self.model.children = tuple([label_restart] + list(self.model.children[1:]))
+
+                    except Exception as e:
+                        print(e)
+                        self.set_status(str(e))
+                        self.show()
+
+                btn_download.on_click(callback_download)
+                btn_ignore.on_click(callback_ignore)
+
+                # show buttons first
+                self.model.children = tuple([update_box] + list(self.model.children))
+
+            else:
+                self.show()
+        except Exception as e:
+            print(e)
+            self.set_status(str(e))
+            self.show()
+
+
     def display(self):
         return self.model
 
     def show(self):
         def hide(elem):
             elem.layout.display = 'none'
-
-        lang_widget.close()
-        hide(self.model.children[0])
 
         self.header = self.compose_header()
         self.body = self.compose_body()

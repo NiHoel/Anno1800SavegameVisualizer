@@ -1,4 +1,4 @@
-[![GitHub](https://img.shields.io/github/license/nihoel/Anno1800SavegameVisualizer)](https://github.com/nihoel/Anno1800SavegameVisualizer/blob/master/LICENSE) [![version](https://img.shields.io/badge/latest--version-0.2-blue)](https://github.com/nihoel/Anno1800SavegameVisualizer/releases/tag/v0.2) [![Discord](https://img.shields.io/discord/571011757317947406?label=help%2Fdiscord)](https://discord.gg/JJpHWRB)
+[![GitHub](https://img.shields.io/github/license/nihoel/Anno1800SavegameVisualizer)](https://github.com/nihoel/Anno1800SavegameVisualizer/blob/master/LICENSE) [![Discord](https://img.shields.io/discord/571011757317947406?label=help%2Fdiscord)](https://discord.gg/JJpHWRB)
 
 
 | :exclamation:  The software is in an early stage! Read the known issues first!   |
@@ -48,10 +48,12 @@ Contact me if you fail to understand or resolve the error displayed there. To he
     * [FileDBReader](https://github.com/anno-mods/FileDBReader)
     
 ## Known issues
+* Older savegames may not work or show unexpected behaviour.
 * Anno Designer does not allow to open multiple instances. After you opened it, close it before making any modifications in the savegame visualizer. Otherwise the software may hang or fail to update the preview.
-* Some icons are missing in the final layout (from latest DLCs and scenarios)
-* The reserved harbour space of dockland modules points into the wrong direction
-* Niter production in scenario 2 is not correctly positioned
+* Some icons are missing in the final layout (from latest DLCs and scenarios).
+* Plaza tiles are not shown.
+* The reserved harbour space of dockland modules points into the wrong direction.
+* Niter production in scenario 2 is not correctly positioned.
 
 ## Disclaimer
 The software is provided without warranty of any kind. The work was NOT endorsed by Ubisoft Blue Byte in any kind. All the assets from Anno 1800 game are © by Ubisoft.

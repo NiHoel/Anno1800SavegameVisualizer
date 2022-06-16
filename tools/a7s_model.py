@@ -3292,7 +3292,8 @@ class ADConfig:
             guid = int(b.get("Guid"))
             if t["Template"] in A7PARAMS["scenarios"]:
                 self.scenario_templates[A7PARAMS["scenarios"][t["Template"]]][guid] = t
-            self.templates_by_guid[guid] = t
+            else:
+                self.templates_by_guid[guid] = t
 
         self.replaced_guids = dict()
 
@@ -3721,7 +3722,7 @@ class Island:
 
             self.__store_coverage_computed__ = True
 
-    def get_layout(self, exclude_blueprints=False, options: dict = {}):
+    def get_layout(self, options: dict = {}):
         """
         Returns a configuration object for Anno Designer
     
@@ -3733,6 +3734,7 @@ class Island:
         The following keys are valid:
         * "exclude": Exclude certain object types (some are class names, so no quotation marks)
                     "outline" (island outline)
+                    "blueprints"
                     Possible values are: Farm, Factory, Powerplant, Residence, Store,
                         "StorageBuilding", "Farmfield", "SupportBuilding", "PublicServiceBuilding",
                         "OrnamentalBuilding", "OrnamentalBuilding_Park", ... (basically all Anno Designer templates)
@@ -3760,6 +3762,8 @@ class Island:
         l_options = options.get("label", {})
         c_options = options.get("color", {})
         i_options = options.get("icon", {})
+
+        exclude_blueprints = ("blueprints" in e_options)
 
         if "store_coverage" in c_options:
             self.calculate_coverage()
