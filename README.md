@@ -38,7 +38,7 @@ Contact me if you fail to understand or resolve the error displayed there. To he
 ## Contact and Feedback
 * Join the Anno Designer discord: https://discord.gg/5CC2pz8B3j
 * Ask questions or give feedback in the #savegame-visualizer channel or write me a message (user: DuxVitae#7882)
-* I welcome any kind of feedback: Bugs, user experience improvements, feature suggestions. Here is a list of features that does not take to much effort to implement (so write me, if you like to have one of it): Exclude blueprints, exclude groups of buildings (using the building groups specified in Anno Designer), define custom color style (color picker + building (group) selector), or extracting configuration files for my calculator: https://github.com/NiHoel/Anno1800Calculator
+* I welcome any kind of feedback: Bugs, user experience improvements, feature suggestions.
 
 ## Special Thanks
 * [StingMcRay](https://github.com/StingMcRay) for extracting and adding necessary information to the Anno Designer files
