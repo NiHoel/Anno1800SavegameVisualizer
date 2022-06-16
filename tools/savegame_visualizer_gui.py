@@ -226,7 +226,7 @@ i18n = {
         "german": "Ignorieren"
     },
     "Close and re-open the application!": {
-        "german": "Schlißen und öffnen Sie die Anwendung erneut!"
+        "german": "Schließen und öffnen Sie die Anwendung erneut!"
     }
 }
 
