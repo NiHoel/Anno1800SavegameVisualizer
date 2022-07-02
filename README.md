@@ -1,10 +1,5 @@
 [![GitHub](https://img.shields.io/github/license/nihoel/Anno1800SavegameVisualizer)](https://github.com/nihoel/Anno1800SavegameVisualizer/blob/master/LICENSE) [![Discord](https://img.shields.io/discord/571011757317947406?label=help%2Fdiscord)](https://discord.gg/JJpHWRB)
 
-
-| :exclamation:  The software is in an early stage! Read the known issues first!   |
-|----------------------------------------------------------------------------------|
-
-
 # Anno 1800 Savegame Visualizer
 Turn your [Anno 1800](https://www.ubisoft.com/de-de/game/anno-1800/) savegames into [Anno Designer](https://github.com/AnnoDesigner/anno-designer) layouts with just a few clicks! Eases the creation of production layout and the process of copying islands.
 

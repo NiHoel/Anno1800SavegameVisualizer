@@ -1,4 +1,4 @@
-VERSION = "v0.4"
+VERSION = "v0.5"
 
 from tools.a7s_model import *
 
