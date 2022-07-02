@@ -65,7 +65,7 @@ i18n = {
         "german": "Icons"
     },
     "Labels": {
-        "german": "Beschriftungen"
+        "german": "Bezeichnungen"
     },
     "Exclusion": {
         "german": "Ausschluss"
@@ -618,6 +618,8 @@ class VisualizerGUI:
 
         try:
             ad_config = island.get_layout(options=self.get_options())
+            if "Modified" in ad_config:
+                del ad_config["Modified"]
             ad_json = json.dumps(ad_config)
             path = self.get_path(ad_json)
 

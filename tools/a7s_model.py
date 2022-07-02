@@ -2260,6 +2260,7 @@ A7PARAMS = {
              'speed': 1.5, 'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': False,
              'dirt_canal': True, 'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}}},
     "directions": {0: "Up", 1: "Left", 2: "Down", 3: "Right"},
+    "direction_offsets": {601460: -1, 601463: 1, 131777: 1, 131778: 1},
     "farm_modules": {1010262: 1010270, 1010263: 1010271, 1010264: 1010272, 1010265: 1010273, 1010267: 1010275,
                      1010269: 1010277, 100654: 100656, 100655: 100657, 101331: 101332, 1010470: 100455, 1010471: 100454,
                      100448: 100455, 1010329: 1010334, 1010330: 1010335, 1010331: 1010336, 1010332: 1010337,
@@ -2533,7 +2534,8 @@ A7PARAMS = {
                              24128: [[-1.5, 1.5], [1.5, 1.5], [1.5, -1.5], [-1.5, -1.5], [1.5, -2.5], [1.5, 2.5],
                                      [6.5, 2.5], [6.5, -2.5]],
                              24129: [[-2.0, -2.0], [-2.0, 2.0], [1.0, 2.0], [1.0, -2.0]],
-                             24135: [[-2.0, -3.0], [-2.0, 3.0], [7.0, 3.0], [7.0, -3.0]]},
+                             24135: [[-2.0, -3.0], [-2.0, 3.0], [7.0, 3.0], [7.0, -3.0]],
+                             101303: [[-2.0, -3.0], [-2.0, 3.0], [8.0, 3.0], [8.0, -3.0]]},
     "ships": {101121: 3, 100438: 2, 100437: 1, 100440: 3, 100439: 3, 100441: 4, 102437: 3, 100442: 3, 100443: 2,
               1010062: 6, 100853: 1, 118718: 8, 119354: 3, 119360: 6, 80068: 4, 80067: 8, 102429: 1, 102430: 3,
               102431: 3, 102432: 2, 102420: 1, 102421: 3, 102419: 3, 102422: 2, 102423: 2, 102425: 3, 102428: 2,
@@ -3327,6 +3329,8 @@ class ADConfig:
             for file in archive.infolist():
                 path = pathlib.Path(file.filename)
                 self.island_outlines[path.stem] = json.loads(archive.read(file))
+
+
 
     def get_template(self, guid: int, session: int = None) -> json:
         if session in self.scenario_templates and guid in self.scenario_templates[session]:
@@ -4181,7 +4185,13 @@ class Building:
         obj = copy.deepcopy(ad_config.get_template(self.guid, self.island.session.guid))
 
         del obj["BuildBlocker"]
-        obj["Direction"] = A7PARAMS["directions"][self.discrete_rotation]
+
+        rot = self.discrete_rotation
+        if self.guid in A7PARAMS["direction_offsets"]:
+            rot += A7PARAMS["direction_offsets"][self.guid]
+        rot = rot % 4
+        obj["Direction"] = A7PARAMS["directions"][rot]
+
         pos = self.get_relative_position()
         obj["Size"] = "{},{}".format(self.rotated_size[0], self.rotated_size[1])
         obj["Position"] = "{},{}".format(pos[0], pos[1])

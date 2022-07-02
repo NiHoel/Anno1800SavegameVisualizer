@@ -52,8 +52,6 @@ Contact me if you fail to understand or resolve the error displayed there. To he
 * Older savegames may not work or show unexpected behaviour.
 * Auto update fails silently if Anno Designer is running.
 * Some icons are missing in the final layout (from latest DLCs and scenarios).
-* The reserved harbour space of dockland modules points into the wrong direction.
-* Niter production in scenario 2 is not correctly positioned.
 
 ## Disclaimer
 The software is provided without warranty of any kind. The work was NOT endorsed by Ubisoft Blue Byte in any kind. All the assets from Anno 1800 game are © by Ubisoft.
