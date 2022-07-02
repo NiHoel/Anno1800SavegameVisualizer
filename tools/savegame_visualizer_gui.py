@@ -649,9 +649,12 @@ class VisualizerGUI:
                     return
 
                 exit_code = execute(
-                    [os.getcwd() + "/tools/Anno Designer/AnnoDesigner.exe", "export", "--renderGrid", "False",
-                     "--gridSize",
-                     str(zoom), str(path), str(path.with_suffix(".png"))])
+                    [os.getcwd() + "/tools/Anno Designer/AnnoDesigner.exe",
+                     "export", str(path), str(path.with_suffix(".png")),
+                     "--renderGrid", "False",
+                     "--renderStatistics", "False",
+                     "--renderVersion", "False",
+                     "--gridSize", str(zoom)])
 
             if path.stem == self.img_preview_id:
                 return
@@ -697,6 +700,7 @@ class VisualizerGUI:
         #         process.Terminate()
 
         try:
-            execute([os.getcwd() + "/tools/Anno Designer/AnnoDesigner.exe", "open", str(path)])
+            # open async
+            subprocess.Popen([os.getcwd() + "/tools/Anno Designer/AnnoDesigner.exe", "open", str(path)])
         except:
             self.set_status(_("Failed to open Anno Designer. File was saved to: ") + str(path))
