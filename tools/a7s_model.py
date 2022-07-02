@@ -3556,7 +3556,8 @@ class Island:
                 if store_index > 0:
                     self.buildings[identifier] = Store(obj, store_index, self)
                     self.count_production_buildings += 1
-                elif not obj.find("./BuildingModule/ParentFactoryID") is None:
+                elif (not obj.find("./BuildingModule/ParentFactoryID") is None and
+                      not hex_to_int(obj.find("./BuildingModule/ParentFactoryID")) == 0):
                     self.buildings[identifier] = Module(obj, self)
                     self.count_modules += 1
                 elif not obj.find("./Residence7/*") is None:
