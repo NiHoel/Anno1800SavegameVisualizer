@@ -77,7 +77,7 @@ i18n = {
         "german": "Farmen variieren"
     },
     "Coverage by stores": {
-        "german": "Abdeckung durch Geschäfte"
+        "german": "Abdeckung durch Einkaufspassagen"
     },
     "Hide for farm modules of size 1x1": {
         "german": "Ausblenden bei Farmfeldern der Größe 1x1"
@@ -226,7 +226,7 @@ i18n = {
         "german": "Ignorieren"
     },
     "Close and re-open the application!": {
-        "german": "Schließen und öffnen Sie die Anwendung erneut!"
+        "german": "Schlißen und öffnen Sie die Anwendung erneut!"
     }
 }
 
@@ -446,6 +446,7 @@ class VisualizerGUI:
                         asset_url = release["assets"][0]["browser_download_url"]
                         print(asset_url)
 
+                        img_loading = None
                         with open("imgs/loading-buffering.gif", "rb") as f:
                             img_loading = widgets.Image(
                                 value=f.read(),
@@ -467,6 +468,8 @@ class VisualizerGUI:
                     except Exception as e:
                         print(e)
                         self.set_status(str(e))
+                        if img_loading is not None:
+                            hide(img_loading)
                         self.show()
 
                 btn_download.on_click(callback_download)

@@ -1,5 +1,6 @@
 import copy
 import csv
+from datetime import datetime
 import io
 import json
 import math
@@ -3938,6 +3939,7 @@ class Island:
         return {
             "FileVersion": 4,
             "LayoutVersion": "1.0.0.0",
+            "Modified": str(datetime.now().isoformat()),
             "Objects": objects
         }
 
