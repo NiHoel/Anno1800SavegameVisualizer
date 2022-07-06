@@ -26,12 +26,9 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 101511,A7_cultural_props_1x1_05.png,culture_1x1_fenceangle,102851
 101512,A7_cultural_props_1x1_06.png,culture_1x1_fenceend,102850
 101513,A7_cultural_props_1x1_07.png,Culture_1x1_hedge,102855
-101514,A7_cultural_props_1x1_08.png,culture_1x1_hedgeangle,102857
-101515,A7_cultural_props_1x1_09.png,culture_1x1_hedgeend,102856
-101552,A7_cultural_props_1x1_11.png,culture_1x1_hedgewall,102859
 101553,A7_cultural_props_1x1_12.png,culture_1x1_fencewall,102853
-101554,A7_cultural_props_1x1_13.png,culture_1x1_hedgecrossing,102858
 101555,A7_cultural_props_1x1_14.png,culture_1x1_fencecrossing,102852
+102083,A7_park_props_1x1_01.png,Park_1x1_grass,102812,102128
 102085,A7_park_props_1x1_21.png,Park_1x1_bigtree,102133
 102086,A7_park_props_1x1_23.png,Park_1x1_smalltree,102814,102130
 102088,A7_park_props_1x1_06.png,Park_1x1_hedge,102819
@@ -39,10 +36,6 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 102090,A7_park_props_1x1_07.png,park_1x1_hedgeangle,102821
 102091,A7_park_props_1x1_11.png,park_1x1_hedgecrossing,102822
 102092,A7_park_props_1x1_09.png,park_1x1_hedgewall,102823
-102094,A7_park_props_1x1_05.png,park_1x1_fenceend,102830
-102095,A7_cultural_props_1x1_05.png,park_1x1_fenceangle,102831
-102096,A7_park_props_1x1_12.png,park_1x1_fencecrossing,102832
-102097,A7_park_props_1x1_10.png,park_1x1_fencewall,102833
 102098,A7_park_props_1x1_03.png,Park_1x1_fencegate,102834,102149
 102099,A7_park_props_1x1_27.png,Park_1x1_path,102824
 102100,A7_park_props_1x1_28.png,park_1x1_pathend,102825,102140
@@ -72,8 +65,6 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 103119,A7_cultural_props_1x1_16_front.png,Culture_1x1_hedgegate,103123
 110935,A7_botanic_garden.png,Culture_03 (BotanicalGarden),114141
 111104,A7_botanic_module.png,C03_M06_empty,111083,111086,111088,111087,111089,111090,111091,111092,111093,112610,112609,111094,111095,111096,111097,111098,111099,111100,111101,111102,114310,114311
-111829,A7_park_props_1x1_26.png,Park_1x1_bush_03,102087
-111830,A7_park_props_1x1_01.png,Colony park_1x1_grass Mercier Unlocked,102083,102812
 112685,A7_airship_hangar.png,Monument_arctic_01_00,112687,112688,112689
 112691,A7_gas_red.png,Mining_arctic_01_slot (Gas Mine Slot),113750
 112726,A7_airship_landing_plattform.png,Kontor_airship_arctic_01,116003,116004

@@ -70,6 +70,9 @@ i18n = {
     "Exclusion": {
         "german": "Ausschluss"
     },
+    "Roof colors of residences": {
+      "german": "Dachfarben der Wohnhäuser"
+    },
     "Farms and modules identical": {
         "german": "Farmen und Module identisch"
     },
@@ -78,6 +81,9 @@ i18n = {
     },
     "Coverage by stores": {
         "german": "Abdeckung durch Einkaufspassagen"
+    },
+    "Portraits of residents": {
+        "german": "Einwohnerportraits"
     },
     "Hide for farm modules of size 1x1": {
         "german": "Ausblenden bei Farmfeldern der Größe 1x1"
@@ -349,13 +355,15 @@ class VisualizerGUI:
         btn_open.on_click(callback_save)
 
         g = Group("color", _("Colors"))
+        g.add_option(Option("store_coverage", _("Coverage by stores")))
+        g.add_option(Option("roof", _("Roof colors of residences")))
         g.add_option(Option("main_building", _("Farms and modules identical"), True))
         g.add_option(Option("vary_farms", _("Vary Farms"), True))
-        g.add_option(Option("store_coverage", _("Coverage by stores")))
         g.add_option(Option("random", _("Random")))
         self.groups.append(g)
 
         g = Group("icon", _("Icons"))
+        g.add_option(Option("residents", _("Portraits of residents")))
         g.add_option(Option("no_1x1_modules", _("Hide for farm modules of size 1x1")))
         g.add_option(Option("no_1x1_ornaments", _("Hide for ornaments of size 1x1")))
         self.groups.append(g)

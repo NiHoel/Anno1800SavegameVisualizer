@@ -3257,10 +3257,15 @@ class ADConfig:
     * colors: json (coloring information for groups of buildings)
     """
 
+
     def __init__(self):
         self.presets = json.load(open(os.getcwd() + "/tools/Anno Designer/presets.json", encoding="utf8"))
         self.colors = json.load(open(os.getcwd() + "/tools/Anno Designer/colors.json", encoding="utf8"))
+        self.special_templates = ["RoofColDef", "DefColFace", "RoofColFace"]
+        self.resident_icons = dict()
+        self.roof_colors = dict()
         self.island_outlines = dict()
+
         self.default_color = {
             "A": 255,
             "R": 255,
@@ -3293,6 +3298,17 @@ class ADConfig:
                     t["Color"] = copy.deepcopy(c["Color"])
 
             guid = int(b.get("Guid"))
+
+            if t.get("Template") in self.special_templates:
+                template = t.get("Template")
+
+                if template == "RoofColDef":
+                    self.roof_colors[guid] = copy.deepcopy(t.get("Color"))
+                elif template == "DefColFace":
+                    self.resident_icons[guid] = t.get("Icon")
+
+                continue
+
             if t["Template"] in A7PARAMS["scenarios"]:
                 self.scenario_templates[A7PARAMS["scenarios"][t["Template"]]][guid] = t
             else:
@@ -3750,12 +3766,14 @@ class Island:
                     "upgrades" (guids of buffs affecting the building), "guid", 
                     "identifier" (save specific, internal object number)
     
-        * "color" : "main_building": Use the same color for a farm and its modules
+        * "color" : "store_coverage": Mix blue, green, and red if department, furniture and drug store reach a residence
+                    "roof": use roof colors for residences
+                    "main_building": Use the same color for a farm and its modules
                     "vary_farms": Slightly vary luminosity of farms
-                    "store_coverage": Mix blue, green, and red if department, furniture and drug store reach a residence
                     "random" : Use random colors for all buildings and modules
     
-        * "icon" : "no_1x1_ornaments" : don't show icons on 1x1 buildings or ornaments
+        * "icon" : "residents": use resident portraits as icons for residences
+                   "no_1x1_ornaments" : don't show icons on 1x1 buildings or ornaments
                    "no_1x1_modules": don't show icons on 1x1 modules
     
         Usage:
@@ -3774,6 +3792,8 @@ class Island:
         if "store_coverage" in c_options:
             self.calculate_coverage()
 
+        ad_config = self.session.world.ad_config
+
         # process buildings
         for b in self.buildings.values():
             if isinstance(b, Module) or (exclude_blueprints and b.is_blueprint) or type(b) in e_options:
@@ -3786,6 +3806,9 @@ class Island:
 
             if obj["Template"] in e_options:
                 continue
+
+            if "residents" in i_options and b.guid in ad_config.resident_icons:
+                obj["Icon"] = ad_config.resident_icons[b.guid]
 
             if "no_1x1_ornaments" in i_options and obj["Size"] == "1,1":
                 obj["Icon"] = None
@@ -3806,7 +3829,7 @@ class Island:
 
             main_building = False
 
-            if isinstance(b, Residence) and "store_coverage" in c_options:
+            if isinstance(b, Residence) and obj["Size"] == "3,3" and "store_coverage" in c_options:
                 c = 255 * np.array(b.stores)
                 obj["Color"] = {
                     "A": 255,
@@ -3822,6 +3845,9 @@ class Island:
                     "G": 255 if b.index == 2 else 0,
                     "B": 255 if b.index == 1 else 0
                 }
+
+            elif "roof" in c_options and b.guid in ad_config.roof_colors:
+                obj["Color"] = ad_config.roof_colors[b.guid]
 
             elif "random" in c_options:
                 val = hash(abs(b.identifier).to_bytes(8, byteorder='little'))
