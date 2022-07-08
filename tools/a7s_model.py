@@ -3284,6 +3284,7 @@ class ADConfig:
 
             t = copy.deepcopy(b)
             t["Icon"] = t["IconFileName"]
+            t["Radius"] = t["InfluenceRadius"]
             for key in ["Header", "Faction", "Group", "Localization", "IconFileName"]:
                 if key in t:
                     del t[key]
