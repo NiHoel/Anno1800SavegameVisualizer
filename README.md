@@ -45,6 +45,7 @@ Contact me if you fail to understand or resolve the error displayed there. To he
     
 ## Known issues
 * Older savegames may not work or show unexpected behaviour.
+* Heater incorrectly rotated.
 * Auto update fails silently if Anno Designer is running.
 * Some icons are missing in the final layout (from latest DLCs and scenarios).
 
