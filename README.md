@@ -3,6 +3,8 @@
 # Anno 1800 Savegame Visualizer
 Turn your [Anno 1800](https://www.ubisoft.com/de-de/game/anno-1800/) savegames into [Anno Designer](https://github.com/AnnoDesigner/anno-designer) layouts with just a few clicks! Eases the creation of production layout and the process of copying islands.
 
+![Usage demo](imgs/savegame_visualizer_demo.gif)
+
 ## Getting started
 1. Download and install Jupyter Lab: https://github.com/jupyterlab/jupyterlab-desktop/releases/latest - The installation process consists of two stages and opens multiple windows, so make sure not to hide them. Always use the default settings (an exception is the question for whom to install the software, here you can opt for "just me" instead of "everyone")
 2. Download and install .NET:  https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-5.0.17-windows-x64-installer
