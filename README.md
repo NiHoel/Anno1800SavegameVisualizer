@@ -26,6 +26,10 @@ That is normal when you open the software. Run the software as usual and the use
 
 If you have opened one of the two blocks depicted above: Click on the blue bar on the left to collapse it. Make sure you didn't change anything there by accident. If strange things happen afterwards, re-download the software
 
+#### WinError in status bar
+Some virus scanners identify `RdaConsole.exe` as virus
+Add the executable to the exception list of your virus scanner (you may re-do this after an update or moving the folder).
+
 #### Error in the status bar
 Contact me if you fail to understand or resolve the error displayed there. To help me solve the issue, open the log console and copy its content.
 

@@ -3,6 +3,7 @@ VERSION = "v0.7"
 from tools.a7s_model import *
 
 import ipywidgets as widgets
+import pandas as pd
 import requests
 import json
 import os
@@ -176,6 +177,111 @@ i18n = {
     "Blueprints": {
       "german": "Blaupausen"
     },
+    "Routes": {
+            "chinese": "路线",
+            "english": "Routes",
+            "french": "Routes",
+            "german": "Routen",
+            #"guid": 3992,
+            "italian": "Rotte",
+            "japanese": "ルート",
+            "korean": "무역로",
+            "polish": "Szlaki",
+            "russian": "Маршруты",
+            "spanish": "Rutas",
+            "taiwanese": "路線"
+        },
+    "Trade Route Stations": {
+            "chinese": "贸易航线站点",
+            "english": "Trade Route Stations",
+            "french": "Comptoirs de route commerciale",
+            "german": "Handels-​Stationen",
+            #"guid": 4005,
+            "italian": "Stazioni rotta commerciale",
+            "japanese": "取引ルートステーションの拠点",
+            "korean": "항로 기항지",
+            "polish": "Stacje szlaku handlowego",
+            "russian": "Пункты торгового маршрута",
+            "spanish": "Estaciones de ruta comercial",
+            "taiwanese": "貿易路線站點"
+        },
+    "Ships": {
+            "chinese": "船只",
+            "english": "Ships",
+            "french": "Navires",
+            "german": "Schiffe",
+            #"guid": 2736,
+            "italian": "Navi",
+            "japanese": "船",
+            "korean": "배",
+            "polish": "Statki",
+            "russian": "Корабли",
+            "spanish": "Barcos",
+            "taiwanese": "船隻"
+        },
+    "Duration": {
+            "chinese": "持续时间",
+            "english": "Duration",
+            "french": "Durée",
+            "german": "Dauer",
+            #"guid": 3898,
+            "italian": "Durata",
+            "japanese": "持続時間",
+            "korean": "지속 시간",
+            "polish": "Czas trwania",
+            "russian": "Длительность",
+            "spanish": "Duración",
+            "taiwanese": "持續時間"
+        },
+    "Travel Time": {
+            "chinese": "航行时间",
+            "english": "Travel Time",
+            "french": "Durée du voyage",
+            "german": "Reisezeit",
+            #"guid": 12736,
+            "italian": "Durata viaggio",
+            "japanese": "移動時間",
+            "korean": "이동 시간",
+            "polish": "Czas podróży",
+            "russian": "Время путешествия",
+            "spanish": "Tiempo de viaje",
+            "taiwanese": "航行時間"
+        },
+    "Trade Routes": {
+            "chinese": "贸易航线",
+            "english": "Trade Routes",
+            "french": "Routes commerciales",
+            "german": "Handelsrouten",
+            #"guid": 4010,
+            "italian": "Rotte commerciali",
+            "japanese": "取引ルート",
+            "korean": "무역로",
+            "polish": "Szlaki handlowe",
+            "russian": "Торговые маршруты",
+            "spanish": "Rutas de comercio",
+            "taiwanese": "貿易航線"
+        },
+    "Buildings": {
+            "chinese": "建筑",
+            "english": "Buildings",
+            "french": "Bâtiments",
+            "german": "Gebäude",
+            #"guid": 22659,
+            "italian": "Edifici",
+            "japanese": "建物",
+            "korean": "건물",
+            "polish": "Budynki",
+            "russian": "Сооружения",
+            "spanish": "Edificios",
+            "taiwanese": "建築"
+        },
+    "Loading duration (s)": {
+        "german": "Verladedauer (s)"
+    },
+    "Important Notice: Durations are incorrect if within the last 60 min the route has been changed (stations, goods, ships) or nothing was loaded/unloaded at a station.":
+    {
+        "german": "Wichtiger Hinweis: Angaben zur Dauer sind nicht korrekt, falls innerhalb der letzten 60 Minuten die Route geändert (Stationen, Waren, Schiffe) oder an einer Station nichts ver-/entladen wurde."
+    },
     "Ready": {
         "chinese": "准备就绪",
         "english": "Ready",
@@ -277,6 +383,33 @@ class Group:
 
     def get_options(self):
         return [o.identifier for o in self.options if o.enabled()]
+
+class RouteTable:
+    def __init__(self, routes, loading_duration = 12):
+        self.routes = routes
+        self.df = pd.DataFrame(columns =[_("Routes"), _("Trade Route Stations"), _("Ships"), _("Duration"), _("Travel Time")])
+
+        for r in self.routes:
+            duration = None
+            try:
+                duration = r.round_trip_time()
+            except:
+                pass
+
+            if duration is None:
+                duration = "-"
+                travel_time = "-"
+            else:
+                travel_time = "{:.2f} min".format((duration / 1000 - loading_duration * len(r.stations))/ 60)
+                duration = "{:.2f} min".format(duration / 60 / 1000)
+
+            self.df.loc[len(self.df)] = [r.name, str(len(r.stations)), str(len(r.ships)), duration, travel_time]
+
+    def render(self):
+        return (self.df.style.set_table_styles([{'selector': 'th', 'props': [('padding', '0 6px 0 6px'),('border-bottom', '1px solid black')]}])
+                         .set_properties(**{'text-align': 'center'})
+                         .set_properties(subset = pd.IndexSlice[:,[_("Routes")]], **{'font-weight': '700'})
+                         .hide(axis='index').to_html())
 
 
 class VisualizerGUI:
@@ -397,21 +530,41 @@ class VisualizerGUI:
             for o in g.options:
                 o.widget.observe(callback)
 
-        self.preview_trigger = widgets.IntText(value=0)
-        hide(self.preview_trigger)
+        self.layout_body = widgets.VBox([
+            tab,
+            widgets.HTML(value="")
+        ])
 
-        def show_image(any):
-            return self.img_preview
+        def set_spacing(container):
+            for box in container.children:
+                box.layout.margin = self.vertical_margins
+
+        set_spacing(self.layout_body)
+
+        self.route_table = widgets.HTML(value="")
+        self.input_loading_duration = widgets.BoundedIntText(value=12, min=5, max=400,step=1,
+                                                       description=_("Loading duration (s)") + ":",disabled=False,
+                                                             style = {'description_width': 'initial'} )
+        self.input_loading_duration.observe(callback)
+        self.input_loading_duration.layout.width = "15rem"
+        self.route_body = widgets.VBox([
+            widgets.Label(value = _("Important Notice: Durations are incorrect if within the last 60 min the route has been changed (stations, goods, ships) or nothing was loaded/unloaded at a station.")),
+            self.input_loading_duration,
+            self.route_table
+        ])
+        set_spacing(self.route_body)
+
+        tab = widgets.Tab(children=[self.layout_body, self.route_body])
+        titles = [_("Buildings"), _("Trade Routes")]
+        for i in range(len(tab.children)):
+            tab.set_title(i, titles[i])
 
         vbox = widgets.VBox([
             widgets.HBox([self.island_selector, btn_open]),
-            tab,
-            widgets.HTML(value="")
-            # widgets.interactive(show_image, any=self.preview_trigger)
+            tab
         ])
 
-        for box in vbox.children:
-            box.layout.margin = self.vertical_margins
+        set_spacing(vbox)
 
         return vbox
 
@@ -568,6 +721,7 @@ class VisualizerGUI:
             show(self.progress_decoding)
 
             self.world = World(Interpreter(path, progress_bar=self.progress_decoding),
+                               extract_routes=True,
                                progress_bar=self.progress_decoding)
 
             self.ordered_sessions = []
@@ -589,12 +743,13 @@ class VisualizerGUI:
                 isl = list(s.islands.values())
                 isl.sort(key=lambda x: x.name)
                 for i in isl:
-                    islands.append(("{}: {}".format(s.name, i.name), i))
+                    if isinstance(i, Island):
+                        islands.append(("{}: {}".format(s.name, i.name), i))
 
             self.island_selector.options = islands
 
             show(self.body)
-            self.body.children[1].titles = [g.name for g in self.groups]
+            self.layout_body.children[1].titles = [g.name for g in self.groups]
 
             self.on_change(init=True)
 
@@ -622,7 +777,10 @@ class VisualizerGUI:
 
         island = self.get_island()
         if island is None:
+            self.route_table.value = RouteTable(self.world.trade_routes, self.input_loading_duration.value).render()
             return
+
+        self.route_table.value = RouteTable(island.routes, self.input_loading_duration.value).render()
 
         try:
             ad_config = island.get_layout(options=self.get_options())
@@ -679,9 +837,9 @@ class VisualizerGUI:
                 self.img_preview.layout.max_width = "1024px"
                 self.img_preview.layout.max_height = "1024px"
                 self.img_preview_id = path.stem
-                self.body.children = self.body.children[:-1] + (self.img_preview,)
+                self.layout_body.children = self.layout_body.children[:-1] + (self.img_preview,)
                 self.set_status(_("Preview updated"))
-                # self.preview_trigger.value = int(path.stem)
+
         except Exception as e:
             self.set_status(_("Failed to generate preview: ") + str(e))
 
