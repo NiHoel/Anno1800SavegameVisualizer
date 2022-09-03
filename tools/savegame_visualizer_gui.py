@@ -747,6 +747,8 @@ class VisualizerGUI:
                         islands.append(("{}: {}".format(s.name, i.name), i))
 
             self.island_selector.options = islands
+            if len(islands) > 0:
+                self.island_selector.value = islands[0][1]
 
             show(self.body)
             self.layout_body.children[1].titles = [g.name for g in self.groups]
