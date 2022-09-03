@@ -3763,7 +3763,7 @@ class Island:
         """
 
         rect = self.rectangle
-        array = self.session.streets[rect[0][1]:rect[1][1], rect[0][0]:rect[1][0]]
+        array = self.session.get_streets()[rect[0][1]:rect[1][1], rect[0][0]:rect[1][0]]
         # array = np.transpose(array)
         array = np.flip(array)
         return array
@@ -4087,14 +4087,11 @@ class Session:
         self.name = None
         if self.guid in A7PARAMS["session_names"]:
             self.name = A7PARAMS["session_names"][self.guid][LANG]
-        street_node = manager.find("./WorldManager/StreetMap")
+        self.street_node = manager.find("./WorldManager/StreetMap")
+        self.__streets__ = None
         self.dimensions = np.array(
-            [hex_to_int(street_node.find("./StreetID/x")), hex_to_int(street_node.find("./StreetID/y"))])
-        street_arr = hex_to_int_list(street_node.find("./StreetID/val"), 1)
-        if street_arr is None:
-            self.streets = np.zeros(shape=self.dimensions, dtype=int)
-        else:
-            self.streets = np.array(street_arr).reshape(self.dimensions)
+            [hex_to_int(self.street_node.find("./StreetID/x")), hex_to_int(self.street_node.find("./StreetID/y"))])
+
         self.islands = dict()
         self.islands_by_name = dict()
 
@@ -4183,6 +4180,16 @@ class Session:
 
     def get_island_by_id(self, idx: int) -> Island:
         return self.islands.get(idx)
+
+    def get_streets(self):
+        if self.__streets__ is None:
+            street_arr = hex_to_int_list(self.street_node.find("./StreetID/val"), 1)
+            if street_arr is None:
+                self.__streets__ = np.zeros(shape=self.dimensions, dtype=int)
+            else:
+                self.__streets__ = np.array(street_arr).reshape(self.dimensions)
+
+        return self.__streets__
 
     def __str__(self):
         if self.guid in A7PARAMS["session_names"]:
