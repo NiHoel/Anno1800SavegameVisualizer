@@ -2953,12 +2953,12 @@ class Interpreter:
     to turn the hexadecimal values into meaningful ints, floats and strings
     """
 
-    def __init__(self, savegame_path: str, keep_files=False, progress_bar=None):
+    def __init__(self, savegame_path: str, keep_files=False, decode_all=False, progress_bar=None):
         path = pathlib.Path(savegame_path)
         if not path.exists():
             raise Exception("File or path do not exist: {}".format(path))
 
-        self.tree = self.extract(savegame_path, keep_files, progress_bar=progress_bar)
+        self.tree = self.extract(savegame_path, keep_files, decode_all, progress_bar=progress_bar)
         self.node_to_rule = dict()
         self.tag_rules = dict()
         self.rules_cached = False
