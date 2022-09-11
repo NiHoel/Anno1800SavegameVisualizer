@@ -3741,6 +3741,9 @@ class Island:
             if b.size is None:
                 continue
 
+            if b.guid == 117741: #Enbesa river slot
+                continue
+
             s = b.rotated_size
 
             if s is None:
@@ -3887,6 +3890,9 @@ class Island:
         # process buildings
         for b in self.buildings.values():
             if isinstance(b, Module) or (exclude_blueprints and b.is_blueprint) or type(b) in e_options:
+                continue
+
+            if b.guid == 117741: #Enbesa river slot
                 continue
 
             obj = b.generate_ad_object()
