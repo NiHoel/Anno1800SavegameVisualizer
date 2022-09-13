@@ -3042,7 +3042,8 @@ class Interpreter:
             if progress_bar is not None:
                 progress_bar.value = 0.1 + 0.6 * (processed_size / total_size + file.stat().st_size / total_size * 0.8)
 
-            data = ET.parse(str(file.with_suffix(".xml")))
+            parser = ET.XMLParser(huge_tree=True)
+            data = ET.parse(str(file.with_suffix(".xml")), parser)
             if tree is None:
                 tree = data
             else:
