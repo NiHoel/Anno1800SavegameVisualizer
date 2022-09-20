@@ -225,6 +225,7 @@
       <Convert Path="//block/x" Type="Int16" />
       <Convert Path="//block/y" Type="Int16" />
       <Convert Path="//StreetID/val" Type="Byte" Structure="List"/>  
+      <Convert Path="//IDVar" Type="Byte" Structure="List"/>  
 
       
       <!-- Ship properties -->

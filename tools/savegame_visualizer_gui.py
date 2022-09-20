@@ -1,4 +1,4 @@
-VERSION = "v1.1"
+VERSION = "v1.2"
 
 from tools.a7s_model import *
 
@@ -619,6 +619,9 @@ class VisualizerGUI:
                             self.model.children = tuple([img_loading] + list(self.model.children[1:]))
 
                         zip_response = requests.get(asset_url)
+                        cfg_path = pathlib.Path(os.getcwd() + "/tools/Anno Designer/AnnoDesigner.exe.config")
+                        if cfg_path.exists():
+                            cfg_path.unlink()
                         with zipfile.ZipFile(BytesIO(zip_response.content)) as archive:
                             archive.extractall(path=os.getcwd())
 
