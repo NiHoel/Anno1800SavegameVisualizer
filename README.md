@@ -52,6 +52,8 @@ Contact me if you fail to understand or resolve the error displayed there. To he
 ## Known issues
 * Older savegames may not work or show unexpected behaviour.
 * Auto update fails silently if Anno Designer is running.
+* Island outlines are missing (Scenario 3) or not updated (NW islands with new mine slots)
+* New buildings lack icons and an appropriate color scheme
 
 ## Disclaimer
 The software is provided without warranty of any kind. The work was NOT endorsed by Ubisoft Blue Byte in any kind. All the assets from Anno 1800 game are © by Ubisoft.
