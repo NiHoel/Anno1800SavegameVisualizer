@@ -2230,96 +2230,194 @@ A7PARAMS = {
                  'spanish': 'Isla del Dolor', 'taiwanese': '多洛爾島'}},
     "third_parties": [19, 22, 86, 20, 16, 21, 100, 101, 99, 97],
     "streets": {
-        1: {'id': 1, 'name': 'Dirt Street', 'guid': 1000178, 'road': True, 'paved': False, 'speed': 1, 'harbour': False,
-            'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+        11: {'id': 11, 'name': 'Quay System', 'identifier': 'HarbourSystem', 'template': 'Harbour', 'guid': 1010567,
+             'road': False, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        12: {'id': 12, 'name': 'Quay System Base', 'identifier': 'HarbourSystem', 'template': 'Harbour', 'guid': 100446,
+             'road': False, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        17: {'id': 17, 'name': 'Quay System Base Invisible', 'identifier': 'HarbourSystem', 'template': 'Harbour',
+             'guid': 101008, 'road': False, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        14: {'id': 14, 'name': 'invisible quay (dummyblocker)', 'identifier': 'HarbourSystem', 'template': 'Harbour',
+             'guid': 100691, 'road': False, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        15: {'id': 15, 'name': 'DEPRECATED_UNUSED Quay System Lowered', 'identifier': 'HarbourSystem',
+             'template': 'Harbour', 'guid': 100694, 'road': False, 'paved': False, 'speed': 1, 'harbour': True,
+             'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        16: {'id': 16, 'name': 'DEPRECATED_UNUSED Quay System Lowered Rounded', 'identifier': 'HarbourSystem',
+             'template': 'Harbour', 'guid': 100695, 'road': False, 'paved': False, 'speed': 1, 'harbour': True,
+             'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        1: {'id': 1, 'name': 'Dirt Street', 'identifier': 'Road', 'template': 'Road', 'guid': 1000178, 'road': True,
+            'paved': False, 'speed': 1, 'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False,
+            'canal': False, 'dirt_canal': False, 'color': {'A': 255, 'R': 220, 'G': 187, 'B': 124}},
+        2: {'id': 2, 'name': 'Stone Street', 'identifier': 'Road', 'template': 'Road', 'guid': 1010035, 'road': True,
+            'paved': True, 'speed': 1.5, 'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False,
+            'canal': False, 'dirt_canal': False, 'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}},
+        3: {'id': 3, 'name': 'Rails', 'identifier': 'Rail', 'template': 'Rail', 'guid': 1010136, 'road': False,
+            'paved': False, 'speed': 1, 'harbour': False, 'rail': True, 'bridge': False, 'irrigation': False,
+            'canal': False, 'dirt_canal': False, 'color': {'A': 255, 'R': 115, 'G': 94, 'B': 66}},
+        4: {'id': 4, 'name': 'Crossing Rails-Street', 'identifier': 'Road', 'template': 'Road', 'guid': 1010165,
+            'road': True, 'paved': False, 'speed': 1, 'harbour': False, 'rail': True, 'bridge': False,
+            'irrigation': False, 'canal': False, 'dirt_canal': False,
             'color': {'A': 255, 'R': 220, 'G': 187, 'B': 124}},
-        2: {'id': 2, 'name': 'Stone Street', 'guid': 1010035, 'road': True, 'paved': True, 'speed': 1.5,
-            'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+        6: {'id': 6, 'name': 'Crossing Rails-FastStreet', 'identifier': 'Road', 'template': 'Road', 'guid': 1010183,
+            'road': True, 'paved': True, 'speed': 1.5, 'harbour': False, 'rail': True, 'bridge': False,
+            'irrigation': False, 'canal': False, 'dirt_canal': False,
             'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}},
-        3: {'id': 3, 'name': 'Rails', 'guid': 1010136, 'road': False, 'paved': False, 'speed': 1, 'harbour': False,
-            'rail': True, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
-            'color': {'A': 255, 'R': 115, 'G': 94, 'B': 66}},
-        4: {'id': 4, 'name': 'Crossing Rails-Street', 'guid': 1010165, 'road': True, 'paved': False, 'speed': 1,
-            'harbour': False, 'rail': True, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
-            'color': {'A': 255, 'R': 220, 'G': 187, 'B': 124}},
-        6: {'id': 6, 'name': 'Crossing Rails-FastStreet', 'guid': 1010183, 'road': True, 'paved': True, 'speed': 1.5,
-            'harbour': False, 'rail': True, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
-            'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}},
-        7: {'id': 7, 'name': 'RailsUnderBuilding', 'guid': 1010584, 'road': False, 'paved': False, 'speed': 1,
-            'harbour': False, 'rail': True, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
-            'color': {'A': 255, 'R': 115, 'G': 94, 'B': 66}},
-        63: {'id': 63, 'name': 'Crossing Rails-Quay', 'guid': 80138, 'road': True, 'paved': True, 'speed': 1.5,
-             'harbour': True, 'rail': True, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+        7: {'id': 7, 'name': 'RailsUnderBuilding', 'identifier': 'Rail', 'template': 'Rail', 'guid': 1010584,
+            'road': False, 'paved': False, 'speed': 1, 'harbour': False, 'rail': True, 'bridge': False,
+            'irrigation': False, 'canal': False, 'dirt_canal': False, 'color': {'A': 255, 'R': 115, 'G': 94, 'B': 66}},
+        63: {'id': 63, 'name': 'Crossing Rails-Quay', 'identifier': 'Road', 'template': 'Road', 'guid': 80138,
+             'road': True, 'paved': True, 'speed': 1.5, 'harbour': True, 'rail': True, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
              'color': {'A': 255, 'R': 176, 'G': 176, 'B': 176}},
-        10: {'id': 10, 'name': 'Dirt Bridge Groundplate', 'guid': 101383, 'road': True, 'paved': False, 'speed': 1,
-             'harbour': False, 'rail': False, 'bridge': True, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+        10: {'id': 10, 'name': 'Dirt Bridge Groundplate', 'identifier': 'Road', 'template': 'Road', 'guid': 101383,
+             'road': True, 'paved': False, 'speed': 1, 'harbour': False, 'rail': False, 'bridge': True,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
              'color': {'A': 255, 'R': 220, 'G': 187, 'B': 124}},
-        19: {'id': 19, 'name': 'Stone Bridge Groundplate', 'guid': 101588, 'road': True, 'paved': True, 'speed': 1.5,
-             'harbour': False, 'rail': False, 'bridge': True, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+        19: {'id': 19, 'name': 'Stone Bridge Groundplate', 'identifier': 'Road', 'template': 'Road', 'guid': 101588,
+             'road': True, 'paved': True, 'speed': 1.5, 'harbour': False, 'rail': False, 'bridge': True,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
              'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}},
-        25: {'id': 25, 'name': 'Simple Street Colony01', 'guid': 101308, 'road': True, 'paved': False, 'speed': 1,
-             'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+        25: {'id': 25, 'name': 'Simple Street Colony01', 'identifier': 'Road', 'template': 'Road', 'guid': 101308,
+             'road': True, 'paved': False, 'speed': 1, 'harbour': False, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
              'color': {'A': 255, 'R': 220, 'G': 187, 'B': 124}},
-        26: {'id': 26, 'name': 'Fast Street Colony01', 'guid': 101309, 'road': True, 'paved': True, 'speed': 1.5,
-             'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+        26: {'id': 26, 'name': 'Fast Street Colony01', 'identifier': 'Road', 'template': 'Road', 'guid': 101309,
+             'road': True, 'paved': True, 'speed': 1.5, 'harbour': False, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
              'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}},
-        41: {'id': 41, 'name': 'Snow Street', 'guid': 112113, 'road': True, 'paved': False, 'speed': 1,
-             'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+        30: {'id': 30, 'name': 'Quay System Colony01', 'identifier': 'HarbourSystem', 'template': 'Harbour',
+             'guid': 101339, 'road': False, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        31: {'id': 31, 'name': 'Quay System Colony01 Base', 'identifier': 'HarbourSystem', 'template': 'Harbour',
+             'guid': 102460, 'road': False, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        32: {'id': 32, 'name': 'Quay System Colony01 Base Invisible', 'identifier': 'HarbourSystem',
+             'template': 'Harbour', 'guid': 102459, 'road': False, 'paved': False, 'speed': 1, 'harbour': True,
+             'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        41: {'id': 41, 'name': 'Snow Street', 'identifier': 'Road', 'template': 'Road', 'guid': 112113, 'road': True,
+             'paved': False, 'speed': 1, 'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False,
+             'canal': False, 'dirt_canal': False, 'color': {'A': 255, 'R': 220, 'G': 187, 'B': 124}},
+        38: {'id': 38, 'name': 'Quay System Colony03', 'identifier': 'HarbourSystem', 'template': 'Harbour',
+             'guid': 113459, 'road': False, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        40: {'id': 40, 'name': 'Quay System Colony03 Base', 'identifier': 'HarbourSystem', 'template': 'Harbour',
+             'guid': 114826, 'road': False, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        39: {'id': 39, 'name': 'Quay System Colony03 Invisible', 'identifier': 'HarbourSystem', 'template': 'Harbour',
+             'guid': 113478, 'road': False, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        5: {'id': 5, 'name': 'AF | Rails', 'identifier': 'Rail', 'template': 'Rail', 'guid': 119035, 'road': False,
+            'paved': False, 'speed': 1, 'harbour': False, 'rail': True, 'bridge': False, 'irrigation': False,
+            'canal': False, 'dirt_canal': False, 'color': {'A': 255, 'R': 115, 'G': 94, 'B': 66}},
+        45: {'id': 45, 'name': 'AF | Crossing Rails-Street', 'identifier': 'Road', 'template': 'Road', 'guid': 273697,
+             'road': True, 'paved': False, 'speed': 1, 'harbour': False, 'rail': True, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
              'color': {'A': 255, 'R': 220, 'G': 187, 'B': 124}},
-        5: {'id': 5, 'name': 'AF | Rails', 'guid': 119035, 'road': False, 'paved': False, 'speed': 1, 'harbour': False,
-            'rail': True, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
-            'color': {'A': 255, 'R': 115, 'G': 94, 'B': 66}},
-        45: {'id': 45, 'name': 'AF | Crossing Rails-Street', 'guid': 273697, 'road': True, 'paved': False, 'speed': 1,
-             'harbour': False, 'rail': True, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
-             'color': {'A': 255, 'R': 220, 'G': 187, 'B': 124}},
-        46: {'id': 46, 'name': 'AF | Crossing Rails-FastStreet', 'guid': 273698, 'road': True, 'paved': True,
-             'speed': 1.5, 'harbour': False, 'rail': True, 'bridge': False, 'irrigation': False, 'canal': False,
-             'dirt_canal': False, 'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}},
-        47: {'id': 47, 'name': 'AF | Crossing Rails-Pipe', 'guid': 273699, 'road': False, 'paved': False, 'speed': 1,
-             'harbour': False, 'rail': True, 'bridge': False, 'irrigation': True, 'canal': False, 'dirt_canal': False,
-             'color': {'A': 255, 'R': 115, 'G': 94, 'B': 66}},
-        51: {'id': 51, 'name': 'Canal', 'guid': 112842, 'road': False, 'paved': False, 'speed': 1, 'harbour': False,
-             'rail': False, 'bridge': False, 'irrigation': True, 'canal': False, 'dirt_canal': False,
-             'color': {'A': 255, 'R': 100, 'G': 149, 'B': 237}},
-        54: {'id': 54, 'name': 'Crossing Canal-Street', 'guid': 117786, 'road': True, 'paved': False, 'speed': 1,
-             'harbour': False, 'rail': False, 'bridge': False, 'irrigation': True, 'canal': False, 'dirt_canal': False,
-             'color': {'A': 255, 'R': 220, 'G': 187, 'B': 124}},
-        53: {'id': 53, 'name': 'Crossing Canal-FastStreet', 'guid': 127913, 'road': True, 'paved': True, 'speed': 1.5,
-             'harbour': False, 'rail': False, 'bridge': False, 'irrigation': True, 'canal': False, 'dirt_canal': False,
+        46: {'id': 46, 'name': 'AF | Crossing Rails-FastStreet', 'identifier': 'Road', 'template': 'Road',
+             'guid': 273698, 'road': True, 'paved': True, 'speed': 1.5, 'harbour': False, 'rail': True, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
              'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}},
-        27: {'id': 27, 'name': 'AF | Fast Street', 'guid': 119029, 'road': True, 'paved': True, 'speed': 1.5,
-             'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
-             'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}},
-        52: {'id': 52, 'name': 'AF | Dirt Street', 'guid': 114523, 'road': True, 'paved': False, 'speed': 1,
-             'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+        47: {'id': 47, 'name': 'AF | Crossing Rails-Pipe', 'identifier': 'Rail', 'template': 'Rail', 'guid': 273699,
+             'road': False, 'paved': False, 'speed': 1, 'harbour': False, 'rail': True, 'bridge': False,
+             'irrigation': True, 'canal': False, 'dirt_canal': False, 'color': {'A': 255, 'R': 115, 'G': 94, 'B': 66}},
+        51: {'id': 51, 'name': 'Canal', 'identifier': 'WaterCanal', 'template': 'WaterCanal', 'guid': 112842,
+             'road': False, 'paved': False, 'speed': 1, 'harbour': False, 'rail': False, 'bridge': False,
+             'irrigation': True, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 135, 'G': 206, 'B': 235}},
+        54: {'id': 54, 'name': 'Crossing Canal-Street', 'identifier': 'Road', 'template': 'Road', 'guid': 117786,
+             'road': True, 'paved': False, 'speed': 1, 'harbour': False, 'rail': False, 'bridge': False,
+             'irrigation': True, 'canal': False, 'dirt_canal': False,
              'color': {'A': 255, 'R': 220, 'G': 187, 'B': 124}},
-        44: {'id': 44, 'name': 'Quay Street Moderate', 'guid': 601443, 'road': True, 'paved': False, 'speed': 1,
-             'harbour': True, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+        53: {'id': 53, 'name': 'Crossing Canal-FastStreet', 'identifier': 'Road', 'template': 'Road', 'guid': 127913,
+             'road': True, 'paved': True, 'speed': 1.5, 'harbour': False, 'rail': False, 'bridge': False,
+             'irrigation': True, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}},
+        27: {'id': 27, 'name': 'AF | Fast Street', 'identifier': 'Road', 'template': 'Road', 'guid': 119029,
+             'road': True, 'paved': True, 'speed': 1.5, 'harbour': False, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}},
+        52: {'id': 52, 'name': 'AF | Dirt Street', 'identifier': 'Road', 'template': 'Road', 'guid': 114523,
+             'road': True, 'paved': False, 'speed': 1, 'harbour': False, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 220, 'G': 187, 'B': 124}},
+        57: {'id': 57, 'name': 'Quay System Africa', 'identifier': 'HarbourSystem', 'template': 'Harbour',
+             'guid': 117729, 'road': False, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        58: {'id': 58, 'name': 'Quay System Base Africa', 'identifier': 'HarbourSystem', 'template': 'Harbour',
+             'guid': 117730, 'road': False, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        59: {'id': 59, 'name': 'Quay System Base Invisible (Africa)', 'identifier': 'HarbourSystem',
+             'template': 'Harbour', 'guid': 117731, 'road': False, 'paved': False, 'speed': 1, 'harbour': True,
+             'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        18: {'id': 18, 'name': 'Quay System Base full corners', 'identifier': 'HarbourSystem', 'template': 'Harbour',
+             'guid': 601492, 'road': False, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        29: {'id': 29, 'name': 'Quay System Base Invisible full corners', 'identifier': 'HarbourSystem',
+             'template': 'Harbour', 'guid': 601493, 'road': False, 'paved': False, 'speed': 1, 'harbour': True,
+             'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        55: {'id': 55, 'name': 'Quay System Colony01 Base full corners', 'identifier': 'HarbourSystem',
+             'template': 'Harbour', 'guid': 132528, 'road': False, 'paved': False, 'speed': 1, 'harbour': True,
+             'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        56: {'id': 56, 'name': 'Quay System Colony01 Base Invisible full corners', 'identifier': 'HarbourSystem',
+             'template': 'Harbour', 'guid': 132529, 'road': False, 'paved': False, 'speed': 1, 'harbour': True,
+             'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 224, 'G': 224, 'B': 224}},
+        44: {'id': 44, 'name': 'Quay Street Moderate', 'identifier': 'Road', 'template': 'Road', 'guid': 601443,
+             'road': True, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
              'color': {'A': 255, 'R': 176, 'G': 176, 'B': 176}},
-        43: {'id': 43, 'name': 'Quay Street SA', 'guid': 131865, 'road': True, 'paved': False, 'speed': 1,
-             'harbour': True, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
-             'color': {'A': 255, 'R': 176, 'G': 176, 'B': 176}},
-        76: {'id': 76, 'name': 'Courtyard Groundplate', 'guid': 24774, 'road': True, 'paved': True, 'speed': 1.5,
-             'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': False,
+        43: {'id': 43, 'name': 'Quay Street SA', 'identifier': 'Road', 'template': 'Road', 'guid': 131865, 'road': True,
+             'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False, 'irrigation': False,
+             'canal': False, 'dirt_canal': False, 'color': {'A': 255, 'R': 176, 'G': 176, 'B': 176}},
+        76: {'id': 76, 'name': 'Courtyard Groundplate', 'identifier': 'Road', 'template': 'Road', 'guid': 24774,
+             'road': True, 'paved': True, 'speed': 1.5, 'harbour': False, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': False,
              'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}},
-        70: {'id': 70, 'name': 'Canal System #1 (beautiful pond)', 'guid': 601933, 'road': False, 'paved': False,
-             'speed': 1, 'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': True,
-             'dirt_canal': False, 'color': {'A': 255, 'R': 100, 'G': 149, 'B': 237}},
-        71: {'id': 71, 'name': '- Crossing Canal-Street', 'guid': 451, 'road': True, 'paved': False, 'speed': 1,
+        70: {'id': 70, 'name': 'Canal System #1 (beautiful pond)', 'identifier': 'PedestrianZone Canal',
+             'template': 'OrnamentalBuilding', 'guid': 601933, 'road': False, 'paved': False, 'speed': 1,
              'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': True, 'dirt_canal': False,
+             'color': {'A': 255, 'R': 135, 'G': 206, 'B': 235}},
+        71: {'id': 71, 'name': '- Crossing Canal-Street', 'identifier': 'Road', 'template': 'Road', 'guid': 451,
+             'road': True, 'paved': False, 'speed': 1, 'harbour': False, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': True, 'dirt_canal': False,
              'color': {'A': 255, 'R': 220, 'G': 187, 'B': 124}},
-        72: {'id': 72, 'name': '- Crossing Canal-FastStreet', 'guid': 452, 'road': True, 'paved': True, 'speed': 1.5,
-             'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': True, 'dirt_canal': False,
+        72: {'id': 72, 'name': '- Crossing Canal-FastStreet', 'identifier': 'Road', 'template': 'Road', 'guid': 452,
+             'road': True, 'paved': True, 'speed': 1.5, 'harbour': False, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': True, 'dirt_canal': False,
              'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}},
-        73: {'id': 73, 'name': 'Canal System #2 (sewers)', 'guid': 453, 'road': False, 'paved': False, 'speed': 1,
-             'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': True,
+        73: {'id': 73, 'name': 'Canal System #2 (sewers)', 'identifier': 'PedestrianZone Sewer',
+             'template': 'OrnamentalBuilding', 'guid': 453, 'road': False, 'paved': False, 'speed': 1, 'harbour': False,
+             'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': True,
              'color': {'A': 255, 'R': 99, 'G': 103, 'B': 67}},
-        74: {'id': 74, 'name': '- Crossing DirtCanal-Street', 'guid': 510, 'road': True, 'paved': False, 'speed': 1,
-             'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': False, 'dirt_canal': True,
+        74: {'id': 74, 'name': '- Crossing DirtCanal-Street', 'identifier': 'Road', 'template': 'Road', 'guid': 510,
+             'road': True, 'paved': False, 'speed': 1, 'harbour': False, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': True,
              'color': {'A': 255, 'R': 220, 'G': 187, 'B': 124}},
-        75: {'id': 75, 'name': '- Crossing DirtCanal-FastStreet', 'guid': 511, 'road': True, 'paved': True,
-             'speed': 1.5, 'harbour': False, 'rail': False, 'bridge': False, 'irrigation': False, 'canal': False,
-             'dirt_canal': True, 'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}}},
+        75: {'id': 75, 'name': '- Crossing DirtCanal-FastStreet', 'identifier': 'Road', 'template': 'Road', 'guid': 511,
+             'road': True, 'paved': True, 'speed': 1.5, 'harbour': False, 'rail': False, 'bridge': False,
+             'irrigation': False, 'canal': False, 'dirt_canal': True,
+             'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}}},
     "directions": {0: "Up", 1: "Left", 2: "Down", 3: "Right"},
     "direction_offsets": {601460: -1, 601463: 1, 131777: 1, 131778: 1},
     "farm_modules": {1010262: 1010270, 1010263: 1010271, 1010264: 1010272, 1010265: 1010273, 1010267: 1010275,
@@ -2977,6 +3075,14 @@ def is_road(idx):
         return False
 
     return s[idx]["road"]
+
+
+def is_quay(idx):
+    s = A7PARAMS["streets"]
+    if not idx in s:
+        return False
+
+    return s[idx]["harbour"] and not s[idx]["road"] and not s[idx]["rail"]
 
 
 def vary_color(color, random_value: float = None):
@@ -3754,6 +3860,7 @@ class Island:
 
         self.__store_coverage_computed__ = False
         self.__building_grid__ = None
+        self.__building_grid_no_blueprints__ = None
 
     def __set_area_manager__(self, manager: ET._Element):
         self.manager = manager
@@ -3829,18 +3936,24 @@ class Island:
     def add_route(self, route):
         self.routes.add(route)
 
-    def get_building_grid(self):
+    def get_building_grid(self, exclude_blueprints=False):
         """
         Returns an np.array of objects where each cell points to the building that occupies the corresponding tile
         """
-
-        if not self.__building_grid__ is None:
-            return self.__building_grid__
+        if exclude_blueprints:
+            if not self.__building_grid_no_blueprints__ is None:
+                return self.__building_grid_no_blueprints__
+        else:
+            if not self.__building_grid__ is None:
+                return self.__building_grid__
 
         grid = np.empty(shape=(self.rectangle[1] - self.rectangle[0]), dtype=object)
 
         for b in self.buildings.values():
             if b.size is None:
+                continue
+
+            if b.is_blueprint and exclude_blueprints:
                 continue
 
             if b.guid == 117741:  # Enbesa river slot
@@ -3858,7 +3971,11 @@ class Island:
                 for y in range(to_int(p[1]), to_int(p[1] + s[1])):
                     grid[x, y] = b
 
-        self.__building_grid__ = grid
+        if exclude_blueprints:
+            self.__building_grid_no_blueprints__ = grid
+        else:
+            self.__building_grid__ = grid
+
         return grid
 
     def get_streets(self):
@@ -4104,7 +4221,9 @@ class Island:
             objects.append(obj)
 
         # process streets
-        grid = np.copy(self.get_building_grid())
+        grid = np.copy(self.get_building_grid(exclude_blueprints=exclude_blueprints))
+
+        exclude_quay = ("quay" in e_options)
 
         streets = self.get_streets()
         ad_config = self.session.world.ad_config
@@ -4114,6 +4233,9 @@ class Island:
                 if street is None:
                     continue
 
+                if exclude_quay and is_quay(street["id"]):
+                    continue
+
                 if not grid[x, y] is None and not street.get("road"):
                     continue
 
@@ -4121,22 +4243,21 @@ class Island:
                 if obj is None:
                     obj = {
                         "Guid": street.get("guid"),
-                        "Identifier": "Road",
-                        "Template": "Road",
+                        "Identifier": street.get("identifier"),
+                        "Template": street.get("template"),
                         "Size": "1,1",
                         "Position": "{},{}".format(x, y),
                         "Road": True if street.get("road") else False
                     }
 
                     if street.get("rail"):
-                        obj["Identifier"] = "Rail"
-                        obj["Template"] = "Rail"
                         obj["Icon"] = "A7_rails"
 
                 obj["Borderless"] = True
                 obj["Color"] = street.get("color")
 
                 objects.append(obj)
+                grid[x, y] = True
 
         # process outline
         if ("outline" not in e_options and
@@ -4155,7 +4276,7 @@ class Island:
 
             for obj in ad_config.get_island_outline(self.island_template_name):
                 pos = trafo([int(x) for x in obj["Position"].split(",")])
-                if grid[pos[0], pos[1]] is not None or A7PARAMS["streets"].get(streets[pos[0], pos[1]]) is not None:
+                if grid[pos[0], pos[1]] is not None:
                     continue
 
                 obj = copy.deepcopy(obj)

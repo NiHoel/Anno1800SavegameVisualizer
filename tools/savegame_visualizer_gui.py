@@ -177,6 +177,20 @@ i18n = {
     "Blueprints": {
       "german": "Blaupausen"
     },
+    "Quay": {
+            "chinese": "码头",
+            "english": "Quay",
+            "french": "Quai",
+            "german": "Kaimauer",
+            #"guid": 1010567,
+            "italian": "Banchina",
+            "japanese": "波止場",
+            "korean": "선창",
+            "polish": "Nabrzeże",
+            "russian": "Пристань",
+            "spanish": "Embarcadero",
+            "taiwanese": "碼頭"
+        },
     "Routes": {
             "chinese": "路线",
             "english": "Routes",
@@ -514,6 +528,7 @@ class VisualizerGUI:
         g = Group("exclude", _("Exclusion"))
         g.add_option(Option("outline", _("Island outline")))
         g.add_option(Option("blueprints", _("Blueprints")))
+        g.add_option(Option("quay", _("Quay")))
         self.groups.append(g)
 
         def callback(event):
