@@ -5,6 +5,9 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 403,A7_highlife_skyliner_monument.png,HighLife_monument_00,404,135709,406
 648,A7_airship_hangar_southamerica.png,AirshipHangar_Moderate_01_00,649,651,636,692,693,695,635
 686,A7_dam_a.png,GGJDam_01_03,949,680,685
+1372,A7_bauxit.png,Mining_20_slot (Bauxite Ore Mine),1308
+1375,A7_helium.png,Mining_21_slot (SA GasWell),1353
+2654,A7_airship_platform_southamerica.png,airship landing platform colony01,963
 3327,A7_airport_cafe_ow.png,DLC11 Cafe Moderate,3356
 3330,A7_airport_cafetables_ow.png,DLC11 Cafe Tables Moderate,3357
 3331,A7_airport_clock_ow.png,DLC11 Clock Moderate,3358
@@ -13,6 +16,7 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 3339,A7_airport_seats_large_ow.png,DLC11 Benches Large Moderate,3362
 3340,A7_airport_sign_ow.png,DLC11 Sign Moderate,3363
 3341,A7_airport_arrivals_ow.png,DLC11 Gate Moderate,3368
+4259,A7_airship_platform_post.png,Platform module post Passage,4513
 4260,A7_post_office.png,Service_arctic_02 (Post Office),112684
 24134,A7_fish_ggj_1.png,Aquafarm,24658
 24794,A7_hacienda_module_farm.png,Hacienda universal farm blank,24798,25003,25005,25006,25009,25019,25020,25128
@@ -27,29 +31,19 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 100586,A7_harbour_kontor.png,Harbor_office,101286,117860
 100783,A7_oil_habour_01.png,Harbor_14a (Oil Harbor I),101404,101403,101329,101405,101406,119259,119281,270172,119031,119032,119033
 100784,A7_oil_storage.png,Harbor_15 (Oil Storage),101330,119034
+100849,A7_oil.png,Random slot oil pump,116037,102498,101062
+101061,A7_clay.png,Mining_03_slot (Clay Pit Slot),100417
 101331,A7_oil.png,Heavy_10 (Oil Heavy Industry),1010561
 101497,A7_cultural_props_1x1_02.png,Culture_1x1_benches,102846
 101498,A7_cultural_props_1x1_03.png,Culture_1x1_fence,102849,102093
 101510,A7_cultural_props_1x1_04.png,Culture_1x1_fencegate,102854
-101511,A7_cultural_props_1x1_05.png,culture_1x1_fenceangle,102851
-101512,A7_cultural_props_1x1_06.png,culture_1x1_fenceend,102850
 101513,A7_cultural_props_1x1_07.png,Culture_1x1_hedge,102855
-101553,A7_cultural_props_1x1_12.png,culture_1x1_fencewall,102853
-101555,A7_cultural_props_1x1_14.png,culture_1x1_fencecrossing,102852
 102083,A7_park_props_1x1_01.png,Park_1x1_grass,102812,102128
 102085,A7_park_props_1x1_21.png,Park_1x1_bigtree,102133
 102086,A7_park_props_1x1_23.png,Park_1x1_smalltree,102814,102130
 102088,A7_park_props_1x1_06.png,Park_1x1_hedge,102819
-102089,A7_park_props_1x1_08.png,park_1x1_hedgeend,102820
-102090,A7_park_props_1x1_07.png,park_1x1_hedgeangle,102821
-102091,A7_park_props_1x1_11.png,park_1x1_hedgecrossing,102822
-102092,A7_park_props_1x1_09.png,park_1x1_hedgewall,102823
 102098,A7_park_props_1x1_03.png,Park_1x1_fencegate,102834,102149
 102099,A7_park_props_1x1_27.png,Park_1x1_path,102824
-102100,A7_park_props_1x1_28.png,park_1x1_pathend,102825,102140
-102101,A7_park_props_1x1_29.png,park_1x1_pathangle,102826,102141
-102102,A7_park_props_1x1_30.png,park_1x1_pathcrossing,102827,102142
-102103,A7_park_props_1x1_31.png,park_1x1_pathwall,102828,102143
 102104,A7_park_props_1x1_13.png,Park_1x1_benches,102835,102150
 102105,A7_park_props_1x1_14.png,Park_1x1_statue_grass,102836
 102106,A7_park_props_2x2_05.png,Park_2x2_horsestatue,102838
@@ -74,6 +68,7 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 110935,A7_botanic_garden.png,Culture_03 (BotanicalGarden),114141
 111104,A7_botanic_module.png,C03_M06_empty,111083,111086,111088,111087,111089,111090,111091,111092,111093,112610,112609,111094,111095,111096,111097,111098,111099,111100,111101,111102,114310,114311
 112685,A7_airship_hangar.png,Monument_arctic_01_00,112687,112688,112689
+112691,A7_gas_red.png,Mining_arctic_01_slot (Gas Mine Slot),113750
 112726,A7_airship_landing_plattform.png,Kontor_airship_arctic_01,116003,116004,4258
 113452,A7_music_pavillion.png,Entertainment_musicpavillion_empty,112486,114148,114149,114150,114151
 114435,A7_cultural_1x1_01.png,Culture_1x1_plaza,114894,117633
@@ -82,11 +77,13 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 117744,A7_paper.png,River_colony02_02 (Paper Mill),120273
 118938,A7_research_center.png,ResearchCenter_01,118939,118940
 119026,A7_tractor.png,Africa_tractor_module_01 (Tractor),119027
+129024,A7_riverslot.png,Oasis_Riverslot,117741,129025
 132765,A7_eiffel_tower.png,Tourist_monument_00,132766,132770,133928,133930,133931,133932,133933
 269837,A7_tractor.png,Tractor_module_01 (Tractor),269839,269849
+1000029,A7_mineral_desposits.png,Random slot mining,1000253,614,618,1010500,1010501,1010503,1010504,1010505,1010507
 1010266,A7_wood_log.png,Agriculture_05 (Timber Yard),24657
 1010310,A7_niter.png,Coastal_02 (Niter Coast Building),101303
-1010311,A7_gold_ore.png,Mining_08 (Gold Ore Mine),101311,116029,1308,1353
+1010311,A7_gold_ore.png,Mining_08 (Gold Ore Mine),101311,116029,116038
 1010371,A7_warehouse.png,Logistic_02(Warehouse I),100516,100517,269869,101323,101324,101325,112656,112657,112658,114509,114537,114635
 1010470,A7_zoo.png,Culture_01 (Zoo),102282
 1010471,A7_museum.png,Culture_02 (Museum),102283

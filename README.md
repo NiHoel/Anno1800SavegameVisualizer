@@ -6,7 +6,7 @@ Turn your [Anno 1800](https://www.ubisoft.com/de-de/game/anno-1800/) savegames i
 ![Usage demo](imgs/savegame_visualizer_demo.gif)
 
 ## Getting started
-1. Download and install Jupyter Lab: https://github.com/jupyterlab/jupyterlab-desktop/releases/latest - The installation process consists of two stages and opens multiple windows, so make sure not to hide them. Always use the default settings (an exception is the question for whom to install the software, here you can opt for "just me" instead of "everyone")
+1. Download and install Jupyter Lab: https://github.com/jupyterlab/jupyterlab-desktop/releases/latest - The installation process consists of two stages and opens multiple windows, so make sure not to hide them. Always use the default settings (an exception is the question for whom to install the software, here you can opt for "just me" instead of "everyone"). The second step installs a Python environment. <span style="color: red;">The path must NOT contain spaces or special characters.</span>
 2. Download and install .NET:  https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-5.0.17-windows-x64-installer
 3. Download the latest release of this repository: https://github.com/nihoel/Anno1800SavegameVisualizer/releases/latest
 4. Extract the archive to some directory on your computer. Make sure to not change anything inside the tools folder!
@@ -52,8 +52,7 @@ Contact me if you fail to understand or resolve the error displayed there. To he
 ## Known issues
 * Older savegames may not work or show unexpected behaviour.
 * Auto update fails silently if Anno Designer is running.
-* Island outlines are missing (Scenario 3) or not updated (NW islands with new mine slots)
-* New buildings lack icons and an appropriate color scheme
+* New buildings do not have appropriate color scheme
 
 ## Disclaimer
 The software is provided without warranty of any kind. The work was NOT endorsed by Ubisoft Blue Byte in any kind. All the assets from Anno 1800 game are © by Ubisoft.
