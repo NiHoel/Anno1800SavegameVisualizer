@@ -4777,7 +4777,8 @@ class World:
                 self.ships[idx] = Ship(s, guid, idx, self)
 
             for i in node.findall("./MetaGameManager/SessionTradeRouteManager/RouteMap/None"):
-                if not has_value(i):
+                # skip ids and NPC trade routes
+                if not has_value(i) and hex_to_int(i.find("./Owner/id")) < 4:
                     self.trade_routes.append(Route(i, self))
 
         if progress_bar is None:
