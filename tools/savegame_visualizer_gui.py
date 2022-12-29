@@ -148,8 +148,19 @@ i18n = {
         "spanish": "Objetos equipados",
         "taiwanese": "已裝備物品"
     },
-    "Buffs": {
-        "german": "Buffs"
+    "Effects": {
+        "chinese": "效果",
+        "english": "Effects",
+        "french": "Effets",
+        "german": "Effekte",
+        #"guid": 134656,
+        "italian": "Effetti",
+        "japanese": "効果",
+        "korean": "영향",
+        "polish": "Efekty",
+        "russian": "Эффекты",
+        "spanish": "Efectos",
+        "taiwanese": "效果"
     },
     "Productivity": {
         "chinese": "生产力",
@@ -296,6 +307,37 @@ i18n = {
     {
         "german": "Wichtiger Hinweis: Angaben zur Dauer sind nicht korrekt, falls innerhalb der letzten 60 Minuten die Route geändert (Stationen, Waren, Schiffe) oder an einer Station nichts ver-/entladen wurde."
     },
+    "Residence": {
+        "chinese": "住所",
+        "english": "Residence",
+        "french": "Résidence",
+        "german": "Wohngebäude",
+        "guid": 100004,
+        "italian": "Residenza",
+        "japanese": "住居",
+        "korean": "주거지",
+        "polish": "Dom",
+        "russian": "Жилое здание",
+        "spanish": "Residencia",
+        "taiwanese": "住所"
+    },
+    "All Residences": {
+        "chinese": "所有住所",
+        "english": "All Residences",
+        "french": "Toutes les résidences",
+        "german": "Alle Wohnhäuser",
+        #"guid": 103502,
+        "italian": "Tutte le residenze",
+        "japanese": "すべての住居",
+        "korean": "모든 주거지",
+        "polish": "Wszystkie domy mieszkalne",
+        "russian": "Все жилые здания",
+        "spanish": "Todas las residencias",
+        "taiwanese": "所有住所"
+    },
+    "Townhall Coverage": {
+      "german": "Rathausabdeckung"
+    },
     "Ready": {
         "chinese": "准备就绪",
         "english": "Ready",
@@ -425,6 +467,35 @@ class RouteTable:
                          .set_properties(subset = pd.IndexSlice[:,[_("Routes")]], **{'font-weight': '700'})
                          .hide(axis='index').to_html())
 
+class EffectTable:
+    def __init__(self, effects_summary: object):
+        self.effects_summary = effects_summary
+        self.df = pd.DataFrame(columns =[_("Residence"), _("Effects")])
+
+        def th_string(summary):
+            return "" if summary.townhall_counter == 0 else "{:.2%} {}; ".format(
+                summary.townhall_counter / summary.building_counter, _("Townhall Coverage"))
+
+        for summary in self.effects_summary["residences"]:
+            if summary.empty():
+                continue
+
+            self.df.loc[len(self.df)] = [summary.get_residence_name(), th_string(summary) + str(summary)]
+
+        if not effects_summary["blueprints"].empty():
+            self.df.loc[len(self.df)] = [_("Blueprints"), th_string(effects_summary["blueprints"])]
+
+        if not len(self.df) == 0:
+            summary = effects_summary["all"]
+            self.df.loc[len(self.df)] = [_("All Residences"), th_string(summary) + str(summary)]
+
+
+    def render(self):
+        return (self.df.style.set_table_styles([{'selector': 'th', 'props': [('padding', '0 6px 0 6px'),('border-bottom', '1px solid black')]}])
+                         .set_properties(**{'text-align': 'center'})
+                         .set_properties(subset = pd.IndexSlice[:,[_("Residence")]], **{'font-weight': '700'})
+                         .hide(axis='index').to_html())
+
 
 class VisualizerGUI:
     def __init__(self):
@@ -519,7 +590,7 @@ class VisualizerGUI:
         g.add_option(Option("residents", _("Residents")))
         g.add_option(Option("count_modules", _("No. of Modules")))
         g.add_option(Option("items", _("Items Equipped")))
-        g.add_option(Option("upgrades", _("Buffs")))
+        g.add_option(Option("upgrades", _("Effects")))
         g.add_option(Option("productivity", _("Productivity")))
         g.add_option(Option("guid", _("GUID of the asset")))
         g.add_option(Option("identifier", _("Object ID")))
@@ -556,12 +627,14 @@ class VisualizerGUI:
 
         set_spacing(self.layout_body)
 
-        self.route_table = widgets.HTML(value="")
+
         self.input_loading_duration = widgets.BoundedIntText(value=12, min=5, max=400,step=1,
                                                        description=_("Loading duration (s)") + ":",disabled=False,
                                                              style = {'description_width': 'initial'} )
         self.input_loading_duration.observe(callback)
         self.input_loading_duration.layout.width = "15rem"
+
+        self.route_table = widgets.HTML(value="")
         self.route_body = widgets.VBox([
             widgets.Label(value = _("Important Notice: Durations are incorrect if within the last 60 min the route has been changed (stations, goods, ships) or nothing was loaded/unloaded at a station.")),
             self.input_loading_duration,
@@ -569,8 +642,10 @@ class VisualizerGUI:
         ])
         set_spacing(self.route_body)
 
-        tab = widgets.Tab(children=[self.layout_body, self.route_body])
-        titles = [_("Buildings"), _("Trade Routes")]
+        self.effect_table = widgets.HTML(value="")
+
+        tab = widgets.Tab(children=[self.layout_body, self.route_body, self.effect_table])
+        titles = [_("Buildings"), _("Trade Routes"), _("Effects")]
         for i in range(len(tab.children)):
             tab.set_title(i, titles[i])
 
@@ -801,6 +876,7 @@ class VisualizerGUI:
             return
 
         self.route_table.value = RouteTable(island.routes, self.input_loading_duration.value).render()
+        self.effect_table.value = EffectTable(island.get_upgrades_summary()).render()
 
         try:
             ad_config = island.get_layout(options=self.get_options())
