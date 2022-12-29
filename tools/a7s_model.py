@@ -13341,7 +13341,7 @@ class Island:
                 elif not obj.find("./Residence7/*") is None:
                     self.buildings[identifier] = Residence(obj, self)
                     self.count_residences += 1
-                elif has_value(obj.find("./ModuleOwner/BuildingModules")):
+                elif has_value(obj.find("./ModuleOwner/BuildingModules")) or has_value(obj.find("./ModuleOwner/BinArray")):
                     self.buildings[identifier] = Farm(obj, self)
                     self.count_production_buildings += 1
                 elif not obj.find("./Factory7/*") is None:
@@ -13360,20 +13360,12 @@ class Island:
             except:
                 pass
 
-        
         for b in self.buildings.values():
             if isinstance(b, Farm):
+                converted = b.process_modules(self.buildings)
+                self.count_modules += converted
+                self.count_other_buildings -= converted
 
-                for k in ["additional_module", "fertilizer_module"]:
-                    setattr(b, k, self.buildings.get(getattr(b, k)))
-
-        for b in self.buildings.values():
-            if isinstance(b, Module):
-                parent = self.buildings.get(b.main_building)
-                b.main_building = parent
-
-                if isinstance(parent, Farm) and not parent.additional_module == b and not parent.fertilizer_module == b:
-                    parent.modules.append(b)
 
     def __set_island_template__(self, template: ET._Element, rect: np.array, name: str):
         self.island_template = template
@@ -13651,7 +13643,7 @@ class Island:
                 main_building = True
 
             if isinstance(b, Farm) and not Module in e_options:
-                for m in b.modules + [b.additional_module, b.fertilizer_module]:
+                for m in b.modules:
                     if m is None:
                         continue
 
@@ -14106,30 +14098,73 @@ class Farm(Building):
     Defines the following attributes:
     * modules: np.array of floats (nx2) array denoting the positions of modules
     * count_modules: int
-    * module_size: np.array of int (see Building.size)
-    * additional_module: Module (tractor barn or silo, if constructed)
-    * fertilizer_module: Module (if constructed)
     """
 
     def __init__(self, node: ET._Element, island):
         super().__init__(node, island)
-        modules = hex_to_float_list(node.find("./ModuleOwner/BuildingModules"))
-        if modules is None:
-            self.module_centers = np.array([])
-        else:
-            self.module_centers = np.array(modules).reshape(-1, 2)
         self.modules = []
-        self.count_modules = len(self.module_centers)
+        self.modules_count = 0
 
-        module_guid = A7PARAMS["farm_modules"].get(self.guid)
-        if not module_guid is None:
-            t = self.island.session.world.ad_config.get_template(module_guid, self.island.session.guid)
-            if not t is None and not t["BuildBlocker"] is None:
-                sz = t["BuildBlocker"]
-                self.module_size = np.array([sz["z"], sz["x"]])
+    def process_modules(self, buildings):
+        arr = self.node.find("./ModuleOwner/BinArray")
+        if arr is not None:
+            return self.process_modules_gu16(buildings)
+        else:
+            return self.process_modules_pre_gu16(buildings)
 
-        self.additional_module = hex_to_int(node.find("./ModuleOwner/AdditionalModule/ObjectID"))
-        self.fertilizer_module = hex_to_int(node.find("./ModuleOwner/FertilizerModule/ObjectID"))
+    def process_modules_gu16(self, buildings):
+        arr = hex_to_int_list(self.node.find("./ModuleOwner/BinArray"), 8)
+        if len(arr) == 0:
+            return 0
+
+        def add(i):
+            m = buildings.get(i)
+            if m is None:
+                return 0
+
+            convert = 0
+            if not isinstance(m, Module):
+                m = Module(m.node, m.island)
+                buildings[i] = m
+                convert = 1
+
+            self.modules.append(m)
+            return convert
+
+        converted = 0
+        identifier = arr[0]
+        converted += add(identifier)
+
+        # unclear why there is one more entry than modules and this entry is not necessarily 0
+        for i in range(1, len(arr) - 1):
+            identifier += arr[i] + 1
+            converted += add(identifier)
+
+        self.modules_count = len(self.modules)
+        return converted
+
+    def process_modules_pre_gu16(self, buildings):
+        for k in ["AdditionalModule", "FertilizerModule"]:
+            m = hex_to_int(self.node.find("./ModuleOwner/{}/ObjectID".format(k)))
+            m = buildings.get(m)
+
+            if m is not None:
+                self.modules.append(m)
+
+        for b in self.buildings.values():
+            if isinstance(b, Module):
+                parent = buildings.get(b.main_building)
+
+                if not self == parent:
+                    continue
+
+                b.main_building = self
+
+                if not b in self.modules:
+                    self.modules.append(b)
+
+        self.modules_count = len(self.modules)
+        return 0
 
 
 class Module(Building):
