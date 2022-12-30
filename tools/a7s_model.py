@@ -13786,11 +13786,14 @@ class Island:
             if area is None:
                 area = self.get_building_grid(False)
 
+            def coords_2d(b):
+                return np.array([b.position[0], b.position[2]])
+
             p = b.get_relative_position()
-            center = p + np.array([1.5, 1.5])
+            center = coords_2d(b)
             r_th = int(ad_config.get_template(b.guid)["Radius"])
-            for x in range(p[0] - r_th - 2, p[0] + r_th + 2):
-                for y in range(p[1] - r_th - 2, p[1] + r_th + 2):
+            for x in range(p[0] - r_th - 4, p[0] + r_th + 4):
+                for y in range(p[1] - r_th - 4, p[1] + r_th + 4):
                     h = area[x][y]
 
                     if h is None or h.guid not in residences or h in visited:
@@ -13798,7 +13801,7 @@ class Island:
 
                     visited.add(h)
 
-                    if np.linalg.norm(center - h.get_relative_position() - np.array([1, 1])) <= r_th:
+                    if np.linalg.norm(center - coords_2d(h)) <= r_th:
                         if h.is_blueprint:
                             blueprints.townhall_counter += 1
                             all_residences.townhall_counter += 1
