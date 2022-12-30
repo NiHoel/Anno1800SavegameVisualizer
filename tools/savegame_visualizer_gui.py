@@ -483,7 +483,7 @@ class EffectTable:
             self.df.loc[len(self.df)] = [summary.get_residence_name(), th_string(summary) + str(summary)]
 
         if not effects_summary["blueprints"].empty():
-            self.df.loc[len(self.df)] = [_("Blueprints"), th_string(effects_summary["blueprints"])]
+            self.df.loc[len(self.df)] = [_("Blueprints"), th_string(effects_summary["blueprints"])[:-2]]
 
         if not len(self.df) == 0:
             summary = effects_summary["all"]

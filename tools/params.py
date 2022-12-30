@@ -3217,7 +3217,6 @@ A7PARAMS = {
                             'german': 'Doedel Oasis', 'italian': 'Doedel Oasis', 'japanese': 'Doedel Oasis',
                             'korean': 'Doedel Oasis', 'polish': 'Doedel Oasis', 'russian': 'Doedel Oasis',
                             'spanish': 'Doedel Oasis', 'taiwanese': 'Doedel Oasis'}},
-    "third_parties": [19, 22, 86, 20, 16, 21, 100, 101, 99, 97],
     "streets": {
         11: {'id': 11, 'name': 'Quay System', 'identifier': 'HarbourSystem', 'template': 'Harbour', 'guid': 1010567,
              'road': False, 'paved': False, 'speed': 1, 'harbour': True, 'rail': False, 'bridge': False,
@@ -3409,17 +3408,6 @@ A7PARAMS = {
              'color': {'A': 255, 'R': 169, 'G': 169, 'B': 169}}},
     "directions": {0: "Up", 1: "Left", 2: "Down", 3: "Right"},
     "direction_offsets": {601460: -1, 601463: 1, 131777: 1, 131778: 1},
-    "farm_modules": {1010262: 1010270, 1010263: 1010271, 1010264: 1010272, 1010265: 1010273, 1010267: 1010275,
-                     1010269: 1010277, 100654: 100656, 100655: 100657, 101331: 101332, 1010470: 100455, 1010471: 100454,
-                     100448: 100455, 1010329: 1010334, 1010330: 1010335, 1010331: 1010336, 1010332: 1010337,
-                     1010333: 1010338, 101251: 101253, 101263: 101280, 101269: 101281, 101270: 101282, 101272: 101283,
-                     1010561: 100524, 102282: 100455, 102283: 100454, 110935: 111104, 114141: 111104, 112676: 112677,
-                     112682: 112683, 112690: 113751, 249947: 249950, 269850: 1010270, 269851: 1010270, 114448: 114490,
-                     114447: 114488, 114450: 114492, 114451: 114494, 114452: 114495, 114453: 114496, 114439: 114499,
-                     114456: 114498, 601470: 601463, 24836: 100524, 24844: 24845, 24794: 1010334, 24798: 1010334,
-                     25003: 101282, 25005: 101253, 25006: 1010338, 25009: 1010337, 25019: 1010273, 25020: 25890,
-                     25128: 1010270, 24768: 24770, 962: 964, 963: 2274, 4258: 4259, 5457: 8026, 5463: 5464, 5814: 5815,
-                     24658: 1010277},
     "decentered_buildings": {114751: [[-2.0, -1.5], [-2.0, 1.5], [2.0, 1.5], [2.0, -1.5]],
                              5191: [[-2.5, -1.5], [-0.5, -1.5], [-0.5, 1.5], [-2.5, 1.5], [0.5, 1.5], [1.5, 1.5],
                                     [1.5, -1.5], [0.5, -1.5]],
@@ -5045,6 +5033,7 @@ A7PARAMS = {
     ],
     "residence_effects": [
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": -30,
@@ -5083,6 +5072,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -5198,6 +5188,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": -100,
@@ -5230,6 +5221,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": -100,
@@ -5272,6 +5264,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": -100,
@@ -5320,6 +5313,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -5426,6 +5420,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -5459,6 +5454,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -5516,6 +5512,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -5549,6 +5546,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -5586,6 +5584,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -5636,6 +5635,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -5670,6 +5670,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -5784,6 +5785,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -5897,6 +5899,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -5942,6 +5945,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": -100,
@@ -5979,6 +5983,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": -100,
@@ -6020,6 +6025,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -6058,6 +6064,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -6170,6 +6177,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -6218,6 +6226,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": -20,
@@ -6290,6 +6299,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": -30,
@@ -6362,6 +6372,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": -40,
@@ -6434,6 +6445,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -6547,6 +6559,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -6667,6 +6680,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -6787,6 +6801,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc3"
             ],
@@ -6821,6 +6836,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc3"
             ],
@@ -6854,6 +6870,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc3"
             ],
@@ -6887,6 +6904,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc3"
             ],
@@ -6922,6 +6940,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc3"
             ],
@@ -6966,6 +6985,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc3"
             ],
@@ -7005,6 +7025,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -7046,6 +7067,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc10"
             ],
@@ -7091,6 +7113,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": -5,
@@ -7192,6 +7215,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -7224,6 +7248,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -7273,6 +7298,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -7306,6 +7332,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -7339,6 +7366,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "effects": [
                 {
                     "consumptionModifier": 0,
@@ -7454,6 +7482,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc1"
             ],
@@ -7501,6 +7530,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc3"
             ],
@@ -7535,6 +7565,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc3"
             ],
@@ -7569,6 +7600,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc3"
             ],
@@ -7602,6 +7634,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc3"
             ],
@@ -7636,6 +7669,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc6"
             ],
@@ -7670,6 +7704,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc6"
             ],
@@ -7703,6 +7738,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc6"
             ],
@@ -7736,6 +7772,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc6"
             ],
@@ -7770,6 +7807,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -7811,6 +7849,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -7852,6 +7891,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -7892,6 +7932,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -7932,6 +7973,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -7965,6 +8007,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc6"
             ],
@@ -8005,6 +8048,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc6"
             ],
@@ -8038,6 +8082,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc6"
             ],
@@ -8078,6 +8123,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc6"
             ],
@@ -8141,6 +8187,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc8"
             ],
@@ -8223,6 +8270,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc8"
             ],
@@ -8270,6 +8318,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -8390,6 +8439,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -8510,6 +8560,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -8630,6 +8681,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -8750,6 +8802,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -8870,6 +8923,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -8999,6 +9053,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -9128,6 +9183,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -9257,6 +9313,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -9386,6 +9443,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -9515,6 +9573,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -9568,6 +9627,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -9621,6 +9681,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -9678,6 +9739,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc4"
             ],
@@ -9775,6 +9837,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc4"
             ],
@@ -9864,6 +9927,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -9960,6 +10024,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc9"
             ],
@@ -10015,6 +10080,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc8"
             ],
@@ -10124,6 +10190,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc8"
             ],
@@ -10226,6 +10293,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc8"
             ],
@@ -10328,6 +10396,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc8"
             ],
@@ -10430,6 +10499,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": True,
             "dlcs": [
                 "dlc8"
             ],
@@ -10547,6 +10617,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -10607,6 +10678,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -10660,6 +10732,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -10719,6 +10792,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -10779,6 +10853,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -10838,6 +10913,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -10891,6 +10967,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -10950,6 +11027,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -11002,6 +11080,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -11061,6 +11140,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -11121,6 +11201,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -11180,6 +11261,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -11239,6 +11321,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -11298,6 +11381,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -11357,6 +11441,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc8"
             ],
@@ -11414,6 +11499,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -11464,6 +11550,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -11510,6 +11597,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -11560,6 +11648,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -11611,6 +11700,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -11658,6 +11748,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -11708,6 +11799,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -11758,6 +11850,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -11809,6 +11902,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -11859,6 +11953,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -11910,6 +12005,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -11961,6 +12057,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -12007,6 +12104,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -12057,6 +12155,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],
@@ -12108,6 +12207,7 @@ A7PARAMS = {
             ]
         },
         {
+            "allowStacking": False,
             "dlcs": [
                 "dlc9"
             ],

@@ -1089,7 +1089,7 @@ class NPCIsland:
 
 
 class ResidenceEffectsSummaryEntry:
-    def __init__(self, residence: json, effects_map: Dict[int, object]):
+    def __init__(self, residence: object or None, effects_map: Dict[int, object]):
         self.residence = residence
         self.effects_map = effects_map
         self.effects_counter = dict()
@@ -1097,12 +1097,13 @@ class ResidenceEffectsSummaryEntry:
         self.townhall_counter = 0
 
     def get_residence_name(self):
-        return self.residence["locaText"][LANG]
+        return "" if self.residence is None else self.residence["locaText"][LANG]
 
     def add_list(self, upgrades: [int]):
         self.building_counter += 1
+        applied = set()
         for guid in upgrades:
-            if guid not in self.effects_map:
+            if guid not in self.effects_map or guid in applied:
                 continue
 
             if guid in self.effects_counter:
@@ -1110,13 +1111,28 @@ class ResidenceEffectsSummaryEntry:
             else:
                 self.effects_counter[guid] = 1
 
+            effect = self.effects_map[guid]
+            if "allowStacking" in effect and effect["allowStacking"] is False:
+                applied.add(guid)
+
     def empty(self):
         return len(self.effects_counter) == 0 and self.townhall_counter == 0
 
     def __str__(self):
         isFirst = True
         result = ""
-        for guid, count in self.effects_counter.items():
+
+        def comp(item):
+            effect = self.effects_map.get(item[0])
+
+            if "panoramaLevel" in effect:
+                return " {}{}".format(str(effect["residences"][0])[-1], 9-effect["panoramaLevel"])
+
+            return effect["locaText"][LANG]
+
+        l = list(self.effects_counter.items())
+        l.sort(key=comp)
+        for guid, count in l:
             if not isFirst:
                 result += "; "
 
@@ -1630,16 +1646,15 @@ class Island:
             p = b.get_relative_position()
             center = coords_2d(b)
             r_th = int(ad_config.get_template(b.guid)["Radius"])
-            for x in range(p[0] - r_th - 4, p[0] + r_th + 4):
-                for y in range(p[1] - r_th - 4, p[1] + r_th + 4):
+            for x in range(p[0] - r_th, p[0] + r_th + 2):
+                for y in range(p[1] - r_th, p[1] + r_th + 2):
                     h = area[x][y]
 
                     if h is None or h.guid not in residences or h in visited:
                         continue
 
-                    visited.add(h)
-
                     if np.linalg.norm(center - coords_2d(h)) <= r_th:
+                        visited.add(h)
                         if h.is_blueprint:
                             blueprints.townhall_counter += 1
                             all_residences.townhall_counter += 1
@@ -2144,7 +2159,7 @@ class World:
             self.sessions[session.guid] = session
 
             if progress_bar is not None:
-                progress_bar.value = 0.7 + 0.3 * len(self.sessions) / count_sessions
+                progress_bar.value = 0.7 + 0.25 * len(self.sessions) / count_sessions
 
         if extract_routes:
             for s in node.findall(
