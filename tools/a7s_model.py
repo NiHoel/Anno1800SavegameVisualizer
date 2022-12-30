@@ -2007,7 +2007,7 @@ class Farm(Building):
             if m is not None:
                 self.modules.append(m)
 
-        for b in self.buildings.values():
+        for b in buildings.values():
             if isinstance(b, Module):
                 parent = buildings.get(b.main_building)
 
