@@ -484,7 +484,7 @@ class Interpreter:
         if progress_bar is None:
             print("Decoding ...")
         else:
-            progress_bar.value = 0.1
+            progress_bar.value = 0.05
 
         total_size = 0
         for file in files:
@@ -506,7 +506,7 @@ class Interpreter:
                          str(file.with_suffix(".bin")), "-y"])
 
             if progress_bar is not None:
-                progress_bar.value = 0.1 + 0.6 * (processed_size / total_size + file.stat().st_size / total_size * 0.8)
+                progress_bar.value = 0.05 + 0.6 * (processed_size / total_size + file.stat().st_size / total_size * 0.8)
 
             parser = ET.XMLParser(huge_tree=True)
             data = ET.parse(str(file.with_suffix(".xml")), parser)
@@ -518,7 +518,7 @@ class Interpreter:
             processed_size += file.stat().st_size
 
             if progress_bar is not None:
-                progress_bar.value = 0.1 + 0.6 * processed_size / total_size
+                progress_bar.value = 0.05 + 0.6 * processed_size / total_size
 
         if not keep_files:
             try:
@@ -527,7 +527,7 @@ class Interpreter:
                 pass
 
         if progress_bar is not None:
-            progress_bar.value = 0.7
+            progress_bar.value = 0.65
 
         return tree
 
@@ -1061,7 +1061,7 @@ class NPCIsland:
         self.session = session
         self.manager = None
         self.island_template = None
-        self.rectangle = None
+        self.rectangle = np.array([400, 400])
         self.island_template_name = None
         self.buildings = dict()
         self.routes = set()
@@ -2159,7 +2159,7 @@ class World:
             self.sessions[session.guid] = session
 
             if progress_bar is not None:
-                progress_bar.value = 0.7 + 0.25 * len(self.sessions) / count_sessions
+                progress_bar.value = 0.65 + 0.3 * len(self.sessions) / count_sessions
 
         if extract_routes:
             for s in node.findall(

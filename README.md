@@ -44,6 +44,7 @@ Contact me if you fail to understand or resolve the error displayed there. To he
 
 ## Special Thanks
 * [StingMcRay](https://github.com/StingMcRay) for extracting and adding necessary information to the Anno Designer files
+* DarKHawK for fixing the harbour areas of the DLC 12 islands
 * The [Anno Designer](https://github.com/AnnoDesigner/anno-designer) team for their great tool (which is part of the distributed binaries)
 * [Taubenangriff](https://github.com/taubenangriff) for his support on extracting savegames and the two tools included in the binaries:
     * [RdaConsole](https://github.com/anno-mods/RdaConsole)
