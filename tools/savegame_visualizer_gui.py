@@ -441,6 +441,13 @@ class Group:
     def get_options(self):
         return [o.identifier for o in self.options if o.enabled()]
 
+
+CSS_TABLE_STRIPED = [
+                        {'selector': 'th', 'props': [('padding', '0 6px 0 6px'),('border-bottom', '1px solid black')]},
+                        {'selector': 'tr:nth-child(even)', 'props': [('background', '#E0E0E0')]}
+                     ]
+
+
 class RouteTable:
     def __init__(self, routes, loading_duration = 12):
         self.routes = routes
@@ -463,7 +470,7 @@ class RouteTable:
             self.df.loc[len(self.df)] = [r.name, str(len(r.stations)), str(len(r.ships)), duration, travel_time]
 
     def render(self):
-        return (self.df.style.set_table_styles([{'selector': 'th', 'props': [('padding', '0 6px 0 6px'),('border-bottom', '1px solid black')]}])
+        return (self.df.style.set_table_styles(CSS_TABLE_STRIPED)
                          .set_properties(**{'text-align': 'center'})
                          .set_properties(subset = pd.IndexSlice[:,[_("Routes")]], **{'font-weight': '700'})
                          .hide(axis='index').to_html())
@@ -474,7 +481,7 @@ class EffectTable:
         self.df = pd.DataFrame(columns =[_("Residence"), _("Effects")])
 
         def th_string(summary):
-            return "" if summary.townhall_counter == 0 else "{:.2%} {}; ".format(
+            return "" if summary.townhall_counter == 0 else "{:.2%} {}<br/>".format(
                 summary.townhall_counter / summary.building_counter, _("Townhall Coverage"))
 
         for summary in self.effects_summary["residences"]:
@@ -492,7 +499,7 @@ class EffectTable:
 
 
     def render(self):
-        return (self.df.style.set_table_styles([{'selector': 'th', 'props': [('padding', '0 6px 0 6px'),('border-bottom', '1px solid black')]}])
+        return (self.df.style.set_table_styles(CSS_TABLE_STRIPED)
                          .set_properties(**{'text-align': 'center'})
                          .set_properties(subset = pd.IndexSlice[:,[_("Residence")]], **{'font-weight': '700'})
                          .hide(axis='index').to_html())

@@ -1134,7 +1134,7 @@ class ResidenceEffectsSummaryEntry:
         l.sort(key=comp)
         for guid, count in l:
             if not isFirst:
-                result += "; "
+                result += "<br/>"
 
             isFirst = False
             result += "{:.2%} {}".format(count / self.building_counter, self.effects_map.get(guid)["locaText"][LANG])
