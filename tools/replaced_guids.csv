@@ -4,9 +4,8 @@ This File is based on Anno Designer Presets version
 GUID , Icon Filename , IdentifierName , Replaced Guids
 403,A7_highlife_skyliner_monument.png,HighLife_monument_00,404,135709,406
 648,A7_airship_hangar_southamerica.png,AirshipHangar_Moderate_01_00,649,651,636,692,693,695,635
-686,A7_dam_a.png,GGJDam_01_03,949,680,685
-1372,A7_bauxit.png,Mining_20_slot (Bauxite Ore Mine),1308
-1375,A7_helium.png,Mining_21_slot (SA GasWell),1353
+686,A7_dam_a.png,GGJDam_01_03,949,680,685,6006
+1353,A7_helium.png,Mining_colony01_21 (SA Gas Well),1375
 2654,A7_airship_platform_southamerica.png,airship landing platform colony01,963
 3327,A7_airport_cafe_ow.png,DLC11 Cafe Moderate,3356
 3330,A7_airport_cafetables_ow.png,DLC11 Cafe Tables Moderate,3357
@@ -18,7 +17,7 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 3341,A7_airport_arrivals_ow.png,DLC11 Gate Moderate,3368
 4259,A7_airship_platform_post.png,Platform module post Passage,4513
 4260,A7_post_office.png,Service_arctic_02 (Post Office),112684
-24134,A7_fish_ggj_1.png,Aquafarm,24658
+6117,A7_stadium.png,DLC12 monument stadium 00,6118,6121
 24794,A7_hacienda_module_farm.png,Hacienda universal farm blank,24798,25003,25005,25006,25009,25019,25020,25128
 24829,A7_basin.png,Basin,24828
 25547,A7_tractor.png,Scenario02_tractor_module_01 (Tractor),25548
@@ -33,6 +32,11 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 100784,A7_oil_storage.png,Harbor_15 (Oil Storage),101330,119034
 100849,A7_oil.png,Random slot oil pump,116037,102498,101062
 101061,A7_clay.png,Mining_03_slot (Clay Pit Slot),100417
+101274,A7_police_advanced.png,Institution_colony01_01 (Police),6258
+101275,A7_fire_brigade_advanced.png,Institution_colony01_02 (Fire Department),6259
+101276,A7_hospital_advanced.png,Institution_colony01_03 (Hospital),6260
+101281,A7_general_module_01.png,Agriculture_colony01_09_field (Cattle Pasture),8002
+101283,A7_general_module_01.png,Agriculture_colony01_11_field (Alpaca Pasture),8027
 101331,A7_oil.png,Heavy_10 (Oil Heavy Industry),1010561
 101497,A7_cultural_props_1x1_02.png,Culture_1x1_benches,102846
 101498,A7_cultural_props_1x1_03.png,Culture_1x1_fence,102849,102093
@@ -78,13 +82,18 @@ GUID , Icon Filename , IdentifierName , Replaced Guids
 118938,A7_research_center.png,ResearchCenter_01,118939,118940
 119026,A7_tractor.png,Africa_tractor_module_01 (Tractor),119027
 129024,A7_riverslot.png,Oasis_Riverslot,117741,129025
+132370,A7_docks_lighthouse_02.png,Docklands_Orna_Lighthouse02,132506
 132765,A7_eiffel_tower.png,Tourist_monument_00,132766,132770,133928,133930,133931,133932,133933
 269837,A7_tractor.png,Tractor_module_01 (Tractor),269839,269849
-1000029,A7_mineral_desposits.png,Random slot mining,1000253,614,618,1010500,1010501,1010503,1010504,1010505,1010507
+1000029,A7_mineral_desposits.png,Random slot mining,1000253,614,618,1010500,1010501,1010503,1010504,1010505,1010507,1372,1386,1387
 1010266,A7_wood_log.png,Agriculture_05 (Timber Yard),24657
+1010269,A7_pigs.png,Agriculture_08 (Pig Farm),24658
 1010310,A7_niter.png,Coastal_02 (Niter Coast Building),101303
-1010311,A7_gold_ore.png,Mining_08 (Gold Ore Mine),101311,116029,116038
-1010371,A7_warehouse.png,Logistic_02(Warehouse I),100516,100517,269869,101323,101324,101325,112656,112657,112658,114509,114537,114635
+1010311,A7_gold_ore.png,Mining_08 (Gold Ore Mine),101311,116029,116038,1388
+1010371,A7_warehouse.png,Logistic_02(Warehouse I),420006,100516,100517,269869,101323,101324,101325,112656,112657,112658,114509,114537,114635
+1010462,A7_police_advanced.png,Institution_01 (Police),6353
+1010463,A7_fire_brigade_advanced.png,Institution_02 (Fire Department),6354
+1010464,A7_hospital_advanced.png,Institution_03 (Hospital),6355
 1010470,A7_zoo.png,Culture_01 (Zoo),102282
 1010471,A7_museum.png,Culture_02 (Museum),102283
 1010489,A7_world_fair_2.png,Monument_01_00,1010490,101336,1010491,1010492

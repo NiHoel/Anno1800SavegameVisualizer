@@ -53,7 +53,7 @@ Contact me if you fail to understand or resolve the error displayed there. To he
 ## Known issues
 * Older savegames may not work or show unexpected behaviour.
 * Auto update fails silently if Anno Designer is running.
-* New stuff from Game Update 16 does not show up yet. This requires an update of the Anno Designer presets.
+* New stuff from Game Update 16 is always red.
 
 ## Disclaimer
 The software is provided without warranty of any kind. The work was NOT endorsed by Ubisoft Blue Byte in any kind. All the assets from Anno 1800 game are © by Ubisoft.

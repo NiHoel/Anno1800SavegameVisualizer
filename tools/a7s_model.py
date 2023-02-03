@@ -753,17 +753,17 @@ class ADConfig:
                 continue
 
             t = copy.deepcopy(b)
-            t["Icon"] = t["IconFileName"]
-            t["Radius"] = t["InfluenceRadius"]
+            t["Icon"] = t.get("IconFileName")
+            t["Radius"] = t.get("InfluenceRadius")
             for key in ["Header", "Faction", "Group", "Localization", "IconFileName"]:
                 if key in t:
                     del t[key]
 
             for c in self.colors["AvailableSchemes"][0]["Colors"]:
-                applies = (c["TargetTemplate"] == t["Template"] and
+                applies = (c["TargetTemplate"] == t.get("Template") and
                            (c["TargetIdentifiers"] is None or
                             len(c["TargetIdentifiers"]) == 0 or
-                            t["Identifier"] in c["TargetIdentifiers"]))
+                            t.get("Identifier") in c["TargetIdentifiers"]))
 
                 if applies:
                     t["Color"] = copy.deepcopy(c["Color"])
