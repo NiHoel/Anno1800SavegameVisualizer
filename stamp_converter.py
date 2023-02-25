@@ -36,6 +36,7 @@ def extract_stamp(path: pathlib.Path):
 def stamp_to_json(tree, ad_config):
     region = hex_to_int(tree.find("StampPath"))
     session = REGION_TO_SESSION.get(region)
+    exclude_quay = False
 
     objects = []
 
@@ -84,7 +85,7 @@ def stamp_to_json(tree, ad_config):
                 rotated = rot % 2 == 1
                 rotated_size = np.array([size[1], size[0]]) if rotated else size
         
-        tl_pos = pos - rotated_size / 2
+        tl_pos = [-pos[1] - rotated_size[0]/2 + 0.5, -pos[0] - rotated_size[1]/2 + 0.5]
       
 
         del obj["BuildBlocker"]
@@ -95,22 +96,104 @@ def stamp_to_json(tree, ad_config):
         obj["Direction"] = A7PARAMS["directions"][rot]
 
         obj["Size"] = "{},{}".format(rotated_size[0], rotated_size[1])
-        obj["Position"] = "{},{}".format(tl_pos[1] + 0.5, tl_pos[0] - 0.5)
+        obj["Position"] = "{},{}".format(round(tl_pos[0]), round(tl_pos[1]))
 
         objects.append(obj)
     
-    """
+    def get_street_object(guid, x, y):
+        obj = ad_config.get_template(guid, session)
+        if obj is None:
+            obj = {
+                "Guid": street.get("guid"),
+                "Identifier": street.get("identifier"),
+                "Template": street.get("template"),
+                "Size": "1,1",
+                "Position": "{},{}".format(x, y),
+                "Road": True if street.get("road") else False
+            }
+        else:
+            obj["Position"] = "{},{}".format(x, y)
+
+        obj["Borderless"] = True
+        obj["Color"] = street.get("color")
+
+        return obj
+
+    def trafo(coords, y = None):
+        x = coords
+        if y is None:
+            y = coords[1]
+            x = coords[0]
+        return round(-y), round(-x)
+
     index = 0
-    street = None
+    street = A7PARAMS["streets"].get(1)
+    street_dict = dict()
     for node in tree.getroot().findall("StreetInfo/"):
         if index % 2 == 0:
-            street = A7PARAMS["streets"].get(hex_to_int(node))
+            guid = hex_to_int(node)
+            for s in A7PARAMS["streets"].values():
+                if guid == s["guid"]:
+                    street = s
+                    break
         else:
-            
-        
+            if exclude_quay and is_quay(street["id"]):
+                continue
+
+            for tile_node in node.getchildren():
+                pos = tile_node.getchildren()
+                x,y = trafo(hex_to_float(pos[0]), hex_to_float(pos[1]))
+
+                obj = get_street_object(street.get("guid"), x, y)
+
+                objects.append(obj)
+                street_dict[obj["Position"]] = obj
+
         index += 1
-    """        
-            
+
+
+    rail =  A7PARAMS["streets"].get(3)
+    for track_node in tree.getroot().findall("RailwayInfos/"):
+        start_end = list(track_node.getchildren())
+        start = hex_to_int_list(start_end[0])
+        end = hex_to_int_list(start_end[1])
+
+        print(start, end)
+
+        sx, sy = trafo(start)
+        ex, ey = trafo(end)
+
+        dx = 0
+        dy = 0
+
+        x = sx
+        y = sy
+
+        if sx < ex:
+            dx = 1
+        elif sx > ex:
+            dx = -1
+
+        if sy < ey:
+            dy = 1
+        elif sy > ey:
+            dy = -1
+
+        def add_rail(x,y):
+            obj = street_dict.get("{},{}".format(x, y))
+            if obj is None:
+                obj = get_street_object(rail.get("guid"), x, y)
+                objects.append(obj)
+
+            obj["Icon"] = "A7_rails"
+
+        if not dx == 0:
+            for x in range(sx, ex + dx, dx):
+                add_rail(x,y)
+        if not dy == 0:
+            for y in range(sy, ey + dy, dy):
+                add_rail(x,y)
+
     
     return {
         "FileVersion": 4,
