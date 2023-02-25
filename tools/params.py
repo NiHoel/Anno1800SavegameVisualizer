@@ -1,6 +1,14 @@
 A7PARAMS = {
     "languages": ["chinese", "english", "french", "german", "italian", "japanese", "korean", "polish", "russian",
                   "spanish", "taiwanese"],
+    "session_to_region": {
+        180023 : 5000000,
+        180025 : 5000001,
+        110934 : 5000000,
+        180045 : 160001,
+        112132 : 114327,
+        100811: 1583
+    },
     "island_sizes": {'campaign_colony01_atoll_01': [384, 384], 'campaign_colony01_burnt_island_01': [192, 192],
                      'campaign_colony01_la_isla_01': [320, 320], 'campaign_colony01_prosperity_01': [320, 320],
                      'campaign_colony01_prologue': [320, 320], 'campaign_colony01_prologue_deco': [384, 384],

@@ -13,12 +13,24 @@ import zlib
 from datetime import datetime
 
 import copy
+import importlib
 import lxml.etree as ET
 import numpy as np
-from ipywidgets import *
 from typing import Dict
 
 from tools.params import A7PARAMS
+
+LANG = "english"
+if importlib.util.find_spec("ipywidgets") is not None :
+    from ipywidgets import *
+    lang_widget = Dropdown(options=A7PARAMS["languages"], value=LANG)
+
+    def set_language(lang: str):
+        global LANG
+        LANG = lang_widget.value
+
+    lang_widget.observe(set_language)
+    display(lang_widget)
 
 def get_documents_path():
     import ctypes.wintypes
@@ -53,18 +65,6 @@ try:
 except:
     pass
 
-LANG = "english"
-
-lang_widget = Dropdown(options=A7PARAMS["languages"], value=LANG)
-
-
-def set_language(lang: str):
-    global LANG
-    LANG = lang_widget.value
-
-
-lang_widget.observe(set_language)
-display(lang_widget)
 
 
 def execute(args):
@@ -1600,6 +1600,109 @@ class Island:
             "Objects": objects
         }
 
+    def get_stamp(self, options: dict = {}):
+        """
+
+        Args:
+            options: See get_layout()
+
+        Returns: XML Tree that can be saved and used as a stamp in Anno
+
+        """
+        if len(self.buildings) == 0:
+            return None
+
+        e_options = options.get("exclude", {})
+        l_options = options.get("label", {})
+        c_options = options.get("color", {})
+        i_options = options.get("icon", {})
+
+        exclude_blueprints = ("blueprints" in e_options)
+
+        root = ET.Element("Content")
+
+        stamp_path = ET.Element("StampPath")
+        stamp_path.text = str(self.session.get_region_guid())
+        root.append(stamp_path)
+
+        counts = dict()
+
+        buildings = ET.Element("BuildingInfo")
+        for b in self.buildings.values():
+            if b.is_blueprint and exclude_blueprints:
+                continue
+
+            btree = ET.Element("None")
+
+            if b.guid in counts:
+                counts[b.guid] += 1
+            else:
+                counts[b.guid] = 1
+
+            def add(name: str, value):
+                node = ET.Element(name)
+                node.text = str(value)
+                btree.append(node)
+
+            pos = b.get_relative_position()
+            add("Pos", "{} {}".format(pos[1], -pos[0]))
+            add("Dir", b.direction)
+            add("GUID", b.guid)
+            if b.variation is not None:
+                add("Variation", b.variation)
+
+            if hasattr(b, "modules"):
+                add("ComplexOwnerID", self.identifier)
+
+            if hasattr(b, "main_building"):
+                add("ComplexOwnerID", getattr(b, "main_building").identifier)
+
+            buildings.append(btree)
+
+        icon_guid = ET.Element("IconGUID")
+        icon_guid.text = str(max(counts, key=counts.get))
+
+        root.append(icon_guid)
+        root.append(buildings)
+
+        # process streets
+        exclude_quay = ("quay" in e_options)
+
+        streets = self.get_streets()
+        street_dict = dict()
+        count = 0
+        for x in range(len(streets)):
+            for y in range(len(streets[0])):
+                street = A7PARAMS["streets"].get(streets[x, y])
+                if street is None:
+                    continue
+
+                if exclude_quay and is_quay(street["id"]):
+                    continue
+
+                guid = street.get("guid")
+                if guid not in street_dict:
+                    street_dict[guid] = ET.Element("None")
+
+                street_node = ET.Element("None")
+                street_node.text = "{} {}".format(y, -x)
+                street_dict[guid].append(street_node)
+                count += 1
+
+        street_info = ET.Element("StreetInfo")
+        for guid, value in street_dict.items():
+            guid_node = ET.Element("None")
+            guid_node.text = str(guid)
+            street_info.append(guid_node)
+            street_info.append(value)
+        root.append(street_info)
+
+        street_count = ET.Element("StreetCount")
+        street_count.text = str(count)
+        root.append(street_count)
+
+        return root
+
     def get_upgrades_summary(self):
         residences = dict()
         index = 0
@@ -1773,6 +1876,9 @@ class Session:
                     i.__set_island_template__(elem, np.array([position, position + size]), path.stem)
                     break
 
+    def get_region_guid(self):
+        return A7PARAMS["session_to_region"].get(self.guid)
+
     def get_island(self, name: str) -> Island:
         '''
         Args:
@@ -1821,6 +1927,7 @@ class Building:
     * guid: int
     * identifier: int
     * is_blueprint: bool
+    * variation: int or None
     * upgrades: list of int (GUIDs of applied effects)
     * productivity: float (if available)
     * position: np.array of floats (x,y,z) where
@@ -1848,6 +1955,7 @@ class Building:
         if self.direction is None:
             self.direction = 0
         self.discrete_rotation = int(round(self.direction / math.pi * 2) % 4)
+        self.variation = hex_to_int(node.find("Variation"))
 
         self.bounding_rectangle = None
         if self.guid in A7PARAMS["decentered_buildings"]:
@@ -1985,6 +2093,7 @@ class Farm(Building):
                 convert = 1
 
             self.modules.append(m)
+            m.main_building = self
             return convert
 
         converted = 0
@@ -2006,6 +2115,7 @@ class Farm(Building):
 
             if m is not None:
                 self.modules.append(m)
+                m.main_building = self
 
         for b in buildings.values():
             if isinstance(b, Module):
@@ -2031,6 +2141,7 @@ class Module(Building):
 
     def __init__(self, node: ET._Element, island):
         super().__init__(node, island)
+        # will be replaced by reference to building once all buildings are loaded
         self.main_building = hex_to_int(node.find("./BuildingModule/ParentFactoryID"))
 
 
