@@ -6,10 +6,13 @@ Turn your [Anno 1800](https://www.ubisoft.com/de-de/game/anno-1800/) savegames i
 ![Usage demo](imgs/savegame_visualizer_demo.gif)
 
 ## Getting started
-1. Download and install Jupyter Lab: https://github.com/jupyterlab/jupyterlab-desktop/releases/latest - The installation process consists of two stages and opens multiple windows, so make sure not to hide them. Always use the default settings (an exception is the question for whom to install the software, here you can opt for "just me" instead of "everyone"). The second step installs a Python environment. <span style="color: red;">The path must NOT contain spaces or special characters.</span>
+1. Download and install Jupyter Lab: https://github.com/jupyterlab/jupyterlab-desktop/releases/latest - The installation process consists of two stages.
+    1. Install Jupter Lab. At the end of the installation dialog choose to start the application.
+    2. A welcome dialog appears with a warning at the bottom that no python environment is found. Click this message.
+    3. A new dialog appears to install a JupyterLab Desktop Server. <span style="color: red;">The path must NOT contain spaces or special characters.</span>
 2. Download and install .NET:  https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-5.0.17-windows-x64-installer
 3. Download the latest release of this repository: https://github.com/nihoel/Anno1800SavegameVisualizer/releases/latest
-4. Extract the archive to some directory on your computer. Make sure to not change anything inside the tools folder!
+4. Extract the archive. Make sure to not change anything inside the tools folder!
 5. Double click on savegame_visualizer.ipynb (must open in Jupyter Lab).
 6. The two images at the top of the software show which buttons you need to click to run the software.
 7. If you have some basic coding skills in Python, you can open savegame_inspector.ipynb to further explore a savegame.
