@@ -1,5 +1,8 @@
 import argparse
 import pathlib
+import shutil
+import subprocess
+import sys
 import zlib
 
 from tools.a7s_model import *
@@ -9,36 +12,83 @@ REGION_TO_SESSION = {
     5000001: 180025,
     160001: 180045,
     114327: 112132,
+    650: 655,
+    24719: 24734,
+    1583: 100811,
+    5858: 5864,
 }
 
+DEFAULT_OPTIONS = {
+    "exclude": [],
+    "color": ["main_building", "vary_farms"],
+    "icon": ["residents"],
+    "type": ["png"],
+}
 
-def extract_stamp(path: pathlib.Path):
-    temp_path = TEMP_PATH / path.parent.name / path.stem
-    temp_file = temp_path / path.stem
-    temp_path.mkdir(parents=True, exist_ok=True)
+def execute(args, verbose=False):
+    exit_code = subprocess.call(args, stdout=subprocess.DEVNULL)
+
+    if exit_code == 0:
+        return
+
+    executable = pathlib.Path(args[0]).stem + ".exe"
+    if verbose:
+        print(subprocess.list2cmdline(args))
+
+    raise Exception(
+        "Executing {} failed. Please ensure that the file is not corrupt or try running this application in a different directory.".format(
+            executable))
+
+def extract_stamp(path: pathlib.Path, temp_path, xml_path = None):
+    temp_file = temp_path / "stamp"
+    temp_bin_file = temp_file.with_suffix(".bin")
     tools_path = pathlib.Path(os.getcwd() + "/tools")
 
-
-    if not temp_file.with_suffix(".xml").exists():
-        content = open(path, 'rb').read()
+    content = open(path, 'rb').read()
+    if content[0:2] == b'\x78\xda':
+        if args.verbose:
+            print("Decompress to", temp_bin_file)
         content = zlib.decompress(content)
-        with open(temp_file.with_suffix(".bin"), 'wb') as f:
+        with open(temp_bin_file, 'wb') as f:
             f.write(content)
+    else:
+        shutil.copy(path, temp_bin_file)
 
+    if xml_path is not None:
+        if args.verbose:
+            print("Decompress", xml_path)
         execute([str(tools_path / "FileDBReader/FileDBReader.exe"), "decompress",
-                 # "-i", str(tools_path / "FileDBReader/FileFormats/stamp.xml"),
-                 "-f", str(temp_file.with_suffix(".bin")), "-y"])
+                 "-i", str(tools_path / "FileDBReader/FileFormats/stamp.xml"),
+                 "-f", str(temp_bin_file), "-y"], args.verbose)
+        shutil.copy(temp_file.with_suffix(".xml"), xml_path)
 
+    if args.verbose:
+        print("Decompress", temp_bin_file.with_suffix(".xml"))
+    execute([str(tools_path / "FileDBReader/FileDBReader.exe"), "decompress",
+             "-f", str(temp_bin_file), "-y"], args.verbose)
+
+    if args.verbose:
+        print("Parse XML tree")
     parser = ET.XMLParser(huge_tree=True)
     return ET.parse(str(temp_file.with_suffix(".xml")), parser)
 
 
-def stamp_to_json(tree, ad_config):
+def stamp_to_json(tree, ad_config, options = DEFAULT_OPTIONS):
     region = hex_to_int(tree.find("StampPath"))
     session = REGION_TO_SESSION.get(region)
-    exclude_quay = False
 
     objects = []
+    def get(name):
+        o = getattr(options, name)
+        return [] if o is None else o
+
+    e_options = get("exclude")
+    c_options = get("color")
+    i_options = get("icon")
+
+    exclude_blueprints = ("blueprints" in e_options)
+    exclude_quay = ("quay" in e_options)
+
 
     for node in tree.getroot().findall("BuildingInfo/"):
         guid = hex_to_int(node.find("./GUID"))
@@ -49,7 +99,6 @@ def stamp_to_json(tree, ad_config):
         rot = int(round(direction / math.pi * 2) % 4)
         pos = hex_to_float_list(node.find("./Pos"), 4)
         variation = hex_to_int(node.find("./Variation"))
-
 
         if not ad_config.has_template(guid, session):
             continue
@@ -77,6 +126,8 @@ def stamp_to_json(tree, ad_config):
             corners = m_rot @ corners
             bounding_rectangle = np.array([np.min(corners, axis=1), np.max(corners, axis=1)])
             rotated_size = to_int((bounding_rectangle[1] - bounding_rectangle[0])[::-1])
+            pos += bounding_rectangle[1]
+            tl_pos = [-pos[1] +0.5, -pos[0]+0.5]
         else:
 
             if not obj["BuildBlocker"] is None:
@@ -85,7 +136,7 @@ def stamp_to_json(tree, ad_config):
                 rotated = rot % 2 == 1
                 rotated_size = np.array([size[1], size[0]]) if rotated else size
         
-        tl_pos = [-pos[1] - rotated_size[0]/2 + 0.5, -pos[0] - rotated_size[1]/2 + 0.5]
+            tl_pos = [-pos[1] - rotated_size[0]/2 + 0.5, -pos[0] - rotated_size[1]/2 + 0.5]
       
 
         del obj["BuildBlocker"]
@@ -97,6 +148,18 @@ def stamp_to_json(tree, ad_config):
 
         obj["Size"] = "{},{}".format(rotated_size[0], rotated_size[1])
         obj["Position"] = "{},{}".format(round(tl_pos[0]), round(tl_pos[1]))
+
+        if "residents" in i_options and guid in ad_config.resident_icons:
+            obj["Icon"] = ad_config.resident_icons[guid]
+
+        if "no_1x1_ornaments" in i_options and obj["Size"] == "1,1":
+            obj["Icon"] = None
+
+        if "roof" in c_options and guid in ad_config.roof_colors:
+            obj["Color"] = ad_config.roof_colors[guid]
+        elif complex_owner_id is not None and "vary_farms" in c_options:
+            h = hash(abs(complex_owner_id).to_bytes(8, byteorder='little'))
+            obj["Color"] = vary_color(obj["Color"], (h % 1001) / 1000)
 
         objects.append(obj)
     
@@ -158,8 +221,6 @@ def stamp_to_json(tree, ad_config):
         start = hex_to_int_list(start_end[0])
         end = hex_to_int_list(start_end[1])
 
-        print(start, end)
-
         sx, sy = trafo(start)
         ex, ey = trafo(end)
 
@@ -203,46 +264,159 @@ def stamp_to_json(tree, ad_config):
     }
 
 
-def convert_stamp(path: pathlib.Path, ad_config, overwrite: bool = False):
-    try:
 
-        ad_path = path.with_suffix(".ad")
-        if overwrite or not path.with_suffix(".ad").exists():
-            tree = extract_stamp(path)
-            ad_config = stamp_to_json(tree, ad_config)
-            ad_json = json.dumps(ad_config)
+def convert_stamp(path: pathlib.Path, ad_config, args):
+    temp_path = TEMP_PATH/ "stamp_convert" / path.parent.name / path.stem
 
-            with open(str(ad_path), "w") as f:
-                f.write(ad_json)
+    if args.verbose:
+        print("Create", temp_path)
+    temp_path.mkdir(parents=True, exist_ok=True)
 
-        png_path = path.with_suffix(".png")
-        if overwrite or not png_path.exists():
+    dst_path = path.parent
+    if args.destination is not None:
+        dst_path = args.destination
+
+    def path_for(suffix):
+        return (dst_path / path.stem).with_suffix("." + suffix)
+
+    def write_file(suffix):
+        path = path_for(suffix)
+        return suffix in args.type and (args.overwrite or not path.exists())
+
+    if args.verbose:
+        print("Check file to create")
+    create_file = False
+
+    for t in args.type:
+        if write_file(t):
+            create_file = True
+            break
+
+    if not create_file:
+        if args.verbose:
+            print("Skip because no file to create", path)
+        return
+
+    print("Processing", path)
+    xml_path = path_for("xml")
+    tree = extract_stamp(path, temp_path, xml_path if write_file("xml") else None)
+
+    if args.verbose:
+        print("Convert stamp to json")
+    ad = stamp_to_json(tree, ad_config, args)
+    if ad is None or len(ad["Objects"]) == 0:
+        if args.verbose:
+            print("Skip because no object in ad")
+        return
+    ad_json = json.dumps(ad)
+
+
+    ad_path = str(temp_path / "stamp.ad")
+    if args.verbose:
+        print("Save temp ad", ad_path)
+    with open(ad_path, "w") as f:
+        f.write(ad_json)
+
+    if write_file("ad"):
+        if args.verbose:
+            print("Save ad", path_for("ad"))
+        shutil.copy(ad_path, path_for("ad"))
+
+    if write_file("png"):
+        png_path = path_for("png")
+
+        if args.verbose:
+            print("Save png", png_path)
+
+        e_options = getattr(args, "exclude")
+        if e_options is None:
+            e_options = []
+        render_statistics = "statistics" not in e_options
+        render_grid = "grid" not in e_options
+        if args.overwrite or not png_path.exists():
             execute(
                 [os.getcwd() + "/tools/Anno Designer/AnnoDesigner.exe",
-                 "export", str(ad_path), str(png_path),
-                 "--renderGrid", "True",
-                 "--renderStatistics", "True",
+                 "export", ad_path, str(png_path),
+                 "--renderGrid", str(render_grid),
+                 "--renderStatistics", str(render_statistics),
                  "--renderVersion", "False",
-                 "--gridSize", str(100)])
-
-    except Exception as e:
-        print(e)
-        raise e
+                 "--gridSize", str(args.gridSize)], args.verbose)
 
 
-parser = argparse.ArgumentParser(description='Convert stamps into Anno Designer files and images and vice versa.')
-parser.add_argument('paths', metavar='path', type=str, nargs='+',
-                    help='files or folders to be converted')
-parser.add_argument('-o', "--overwrite", action='store_true', help="Overwrite destination files")
+if __name__ == "__main__":
+    os.chdir(str(pathlib.Path(sys.argv[0]).parent))
 
-args = parser.parse_args()
+    parser = argparse.ArgumentParser(description='Convert stamps into Anno Designer files and images.')
+    parser.add_argument('source', metavar='source', type=str, nargs='*')
+    parser.add_argument('-s', '--source', type=str, nargs='*',
+                        help='Files or folders to be converted. If the argument is not provided, all stamps in the default location are processed.')
+    parser.add_argument('-d', '--destination', type=str, nargs='?',
+                        help='Destination path. If the argument is not provided, output files are saved next to their source files.')
+    parser.add_argument('-o', "--overwrite", action='store_true', help="Overwrite destination files")
+    parser.add_argument('-g', "--gridSize", type=int, default=20, help="Length of one tile (in the output image) in pixels. Default: 20")
+    parser.add_argument('-t', "--type", type=str, action='extend', nargs='*', help="{} {}".format('''File types to create. Specify one or more of the following strings:
+                                                                         "png" (image), "ad" (Anno Designer file), "xml". If the argument is not provided, the following values are used by default: ''', DEFAULT_OPTIONS["type"]))
+    parser.add_argument('-c', "--color", type=str, action='extend', nargs='*', help="{} {}".format('''Change colour of buildings. Use zero (empty string), one or more of the following strings as values for the argument:
+    "roof": use roof colors for residences;
+    "main_building": Use the same color for a farm and its modules;
+    "vary_farms": Slightly vary luminosity of farms;
+    "random" : Use random colors for all buildings and modules.
+    If the argument is not provided, the following values are used by default: ''', DEFAULT_OPTIONS["color"]))
+    parser.add_argument('-i', "--icon", type=str, action='extend', nargs='*', help="{} {}".format('''Change icon of buildings. 
+    "residents": use resident portraits as icons for residences;
+    "no_1x1_ornaments" : don't show icons on 1x1 buildings or ornaments;
+    "no_1x1_modules": don't show icons on 1x1 modules.
+    If the argument is not provided, the following values are used by default: ''', DEFAULT_OPTIONS["icon"]))
+    #parser.add_argument('-l', "--label", type=str, action='extend', nargs='*', help='''Uses a stat of the building as the label. Possible values are:
+    #"residents", "productivity", "count_modules",
+    #"upgrades" (guids of buffs affecting the building), "guid",
+    #"identifier" (save specific, internal object number)''')
+    parser.add_argument('-e', "--exclude", type=str, action='extend', nargs='*', help="{} {}".format('''Exclude certain object types:
+    "statistics" (statistics panel at the right of the exported image), "blueprints", "quay", "StorageBuilding", "Farmfield", "SupportBuilding", "PublicServiceBuilding",
+    "OrnamentalBuilding", "OrnamentalBuilding_Park", ... (basically all Anno Designer templates)
+    If the argument is not provided, the following values are used by default: ''', DEFAULT_OPTIONS["exclude"]))
+    parser.add_argument('-v', "--verbose", action='store_true', help="verbose output")
 
-for path in args.paths:
-    path = pathlib.Path(path) # no resolve
+    args = parser.parse_args()
+    if args.source is None or len(args.source) == 0:
+        args.source = [get_documents_path() / "Anno 1800" / "stamps"]
 
-    if not path.exists():
-        continue
+    for option in DEFAULT_OPTIONS.keys():
+        value = getattr(args, option)
+        if value is None or len(value) == 0:
+            setattr(args,option, DEFAULT_OPTIONS[option])
 
+    if args.destination is not None:
+        try:
+            args.destination = pathlib.Path(args.destination)
+            args.destination.mkdir(parents=True, exist_ok=True)
+        except Exception as e:
+            print("Could not create destination path: " + str(e))
+            os.system("PAUSE")
+            exit(1)
+
+    error_count = 0
     ad_config = ADConfig()
-    if path.suffix == "":
-        convert_stamp(path, ad_config, args.overwrite)
+    for entry in args.source:
+        entry = pathlib.Path(entry) # no resolve
+
+        if not entry.exists():
+            continue
+
+        if entry.is_dir():
+            paths = list(entry.glob("**/*"))
+        else:
+            paths = [entry]
+
+        for path in paths:
+            try:
+                if path.is_file() and path.suffix == "":
+
+                    convert_stamp(path, ad_config, args)
+            except Exception as e:
+                error_count += 1
+                if args.verbose:
+                    print(e)
+
+    if error_count > 0 and args.verbose:
+        os.system("PAUSE")
