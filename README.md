@@ -15,7 +15,7 @@ Generate layout images for all your stamps.
 ## Advanced Usage
 The executable can be used as a command line tool with many options (ask [ChatGPT](https://chat.openai.com) how to do it, paste the output of `stamp_converter.exe -h` to get tailored responses)
 * Drop a single stamp onto the executable to only convert that one
-* Save in `D:\Pictures`: `-d "D:\Pictures`
+* Save in `D:\Pictures`: `-d "D:\Pictures"`
 * Generate Anno Designer files `-t ad`
 * Exclude grid and building statistics: `-e grid statistics`
 
