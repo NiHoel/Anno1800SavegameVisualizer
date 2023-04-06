@@ -66,7 +66,6 @@ except:
     pass
 
 
-
 def execute(args):
     exit_code = subprocess.call(args)
 
@@ -320,6 +319,21 @@ def save(ad_config, path):
     with open(path, "w") as f:
         f.write(ad_json)
 
+def save_stamp(xml, path):
+    if xml is None:
+        print("Abort. Stamp would be empty.")
+        return
+
+    temp_path = TEMP_PATH / "stamp"
+    with open(temp_path.with_suffix(".xml"), "wb") as f:
+        f.write(ET.tostring(xml, pretty_print=True))
+
+    subprocess.call(
+        [os.getcwd() + "/tools/FileDBReader/FileDBReader.exe", "compress",
+         "-i", os.getcwd() + "/tools/FileDBReader/FileFormats/stamp.xml",
+         "-y", "-c", "3", "-o", "", "-f", str(temp_path.with_suffix(".xml"))])
+
+    shutil.copy(temp_path.with_suffix(""), str(pathlib.Path.cwd() / path))
 
 def has_value(node):
     if node is None:
@@ -1207,6 +1221,12 @@ class Island:
                 elif obj.find("./ItemContainer/SocketContainer/SocketItems") is not None:
                     self.buildings[identifier] = Guildhouse(obj, self)
                     self.count_other_buildings += 1
+                elif hex_to_int(obj.find("guid")) in A7PARAMS["harbor_warehouses"]:
+                    self.buildings[identifier] = HarborWarehouse(obj, self)
+                    self.count_other_buildings += 1
+                elif hex_to_int(obj.find("guid")) in A7PARAMS["slots"]:
+                    self.buildings[identifier] = Slot(obj, self)
+                    self.count_other_buildings += 1
                 else:
                     self.buildings[identifier] = Building(obj, self)
                     self.count_other_buildings += 1
@@ -1378,7 +1398,8 @@ class Island:
         * "exclude": Exclude certain object types (some are class names, so no quotation marks)
                     "outline" (island outline)
                     "blueprints"
-                    Possible values are: Farm, Factory, Powerplant, Residence, Store,
+                    "quay"
+                    Possible values are: Farm, Factory, Powerplant, Residence, Slot, Store,
                         "StorageBuilding", "Farmfield", "SupportBuilding", "PublicServiceBuilding",
                         "OrnamentalBuilding", "OrnamentalBuilding_Park", ... (basically all Anno Designer templates)
 
@@ -1606,18 +1627,30 @@ class Island:
         Args:
             options: See get_layout()
 
-        Returns: XML Tree that can be saved and used as a stamp in Anno
+        Returns: XML Tree that can be saved and used as a stamp in Anno or None (if stamp does not contain any buildings)
 
         """
         if len(self.buildings) == 0:
             return None
 
         e_options = options.get("exclude", {})
-        l_options = options.get("label", {})
-        c_options = options.get("color", {})
-        i_options = options.get("icon", {})
 
         exclude_blueprints = ("blueprints" in e_options)
+        street_types = dict()
+
+        for s in A7PARAMS["streets"].values():
+            if not s.get("rail") and not s.get("bridge"):
+                street_types[s["id"]] = s
+                continue
+
+            for s_ in A7PARAMS["streets"].values():
+                def comp(attr):
+                    return s[attr] == s_[attr]
+
+                if not s_.get("rail") and not s_.get("bridge") and comp("road") and comp("paved") and comp("harbour") \
+                        and comp("irrigation") and comp("canal") and comp("dirt_canal"):
+                    street_types[s["id"]] = s_
+                    break
 
         root = ET.Element("Content")
 
@@ -1628,36 +1661,58 @@ class Island:
         counts = dict()
 
         buildings = ET.Element("BuildingInfo")
-        for b in self.buildings.values():
+        tl = self.rectangle[1]
+        processed_buildings = set()
+
+        def process_building(b):
+            if b is None or b in processed_buildings:
+                return
+
+            if isinstance(b, HarborWarehouse) or isinstance(b, Slot):
+                return
+
             if b.is_blueprint and exclude_blueprints:
-                continue
+                return
 
             btree = ET.Element("None")
-
-            if b.guid in counts:
-                counts[b.guid] += 1
-            else:
-                counts[b.guid] = 1
 
             def add(name: str, value):
                 node = ET.Element(name)
                 node.text = str(value)
                 btree.append(node)
 
-            pos = b.get_relative_position()
-            add("Pos", "{} {}".format(pos[1], -pos[0]))
+            pos = b.position[::2] - tl - np.array([0.5, 0.5])
+            # print(b.position[::2], pos)
+            add("Pos", "{} {}".format(pos[0], pos[1]))
             add("Dir", b.direction)
             add("GUID", b.guid)
             if b.variation is not None:
                 add("Variation", b.variation)
 
+            if b.is_blueprint:
+                add("IsBluePrint", True)
+
             if hasattr(b, "modules"):
-                add("ComplexOwnerID", self.identifier)
+                add("ComplexOwnerID", b.identifier)
 
             if hasattr(b, "main_building"):
-                add("ComplexOwnerID", getattr(b, "main_building").identifier)
+                main_building = getattr(b, "main_building")
+                process_building(main_building)
+                add("ComplexOwnerID", main_building.identifier)
+            else:
+                if b.guid in counts:
+                    counts[b.guid] += 1
+                else:
+                    counts[b.guid] = 1
 
             buildings.append(btree)
+            processed_buildings.add(b)
+
+        for b in self.buildings.values():
+            process_building(b)
+
+        if len(buildings) == 0:
+            return None
 
         icon_guid = ET.Element("IconGUID")
         icon_guid.text = str(max(counts, key=counts.get))
@@ -1668,12 +1723,14 @@ class Island:
         # process streets
         exclude_quay = ("quay" in e_options)
 
-        streets = self.get_streets()
+        rect = self.rectangle
+        sz = rect[1] - rect[0]
+        streets = self.session.get_streets()[rect[0][1]:rect[1][1], rect[0][0]:rect[1][0]]
         street_dict = dict()
         count = 0
         for x in range(len(streets)):
             for y in range(len(streets[0])):
-                street = A7PARAMS["streets"].get(streets[x, y])
+                street = street_types.get(streets[x, y])
                 if street is None:
                     continue
 
@@ -1685,7 +1742,12 @@ class Island:
                     street_dict[guid] = ET.Element("None")
 
                 street_node = ET.Element("None")
-                street_node.text = "{} {}".format(y, -x)
+                street_node_x = ET.Element("None")
+                street_node_y = ET.Element("None")
+                street_node_x.text = str(y - sz[1])
+                street_node_y.text = str(x - sz[0])
+                street_node.append(street_node_x)
+                street_node.append(street_node_y)
                 street_dict[guid].append(street_node)
                 count += 1
 
@@ -1700,6 +1762,91 @@ class Island:
         street_count = ET.Element("StreetCount")
         street_count.text = str(count)
         root.append(street_count)
+
+        # process rails
+        # the implementation does not exactly reproduce the rail network
+        # neighboured but disconnected segments might be connected
+        railway_infos = ET.Element("RailwayInfos")
+        node_list = []
+
+        for n in self.manager.find("./AreaRailwayManager/RailwayNodeGraph/Nodes"):
+            node = hex_to_int_list(n)
+
+            if node is not None:
+                node_list.append(node)
+
+        def is_track(start, end):
+            def trafo(arr):
+                return [arr[1] - rect[0][1], arr[0] - rect[0][0]]
+
+            sx, sy = trafo(start)
+            ex, ey = trafo(end)
+
+            dx = 0
+            dy = 0
+
+            x = sx
+            y = sy
+
+            if sx < ex:
+                dx = 1
+            elif sx > ex:
+                dx = -1
+
+            if sy < ey:
+                dy = 1
+            elif sy > ey:
+                dy = -1
+
+            def is_rail(x, y):
+                s = streets[x, y]
+                if s is None or s == 0:
+                    return False
+
+                return A7PARAMS["streets"].get(s)["rail"]
+
+            if not dx == 0:
+                for x in range(sx, ex + dx, dx):
+                    if not is_rail(x, y):
+                        return False
+
+            if not dy == 0:
+                for y in range(sy, ey + dy, dy):
+                    if not is_rail(x, y):
+                        return False
+
+            return True
+
+        def process_lane(x=None, y=None):
+            prev_node = None
+
+            for node in node_list:
+                if node[0] != x and node[1] != y:
+                    continue
+
+                if prev_node is not None and is_track(prev_node, node):
+                    track_node = ET.Element("None")
+
+                    for n in [prev_node, node]:
+                        xml_node = ET.Element("None")
+                        xml_node.text = "{} {}".format(n[0] - rect[1][0], n[1] - rect[1][1])
+                        track_node.append(xml_node)
+
+                    railway_infos.append(track_node)
+
+                prev_node = node
+
+        for n in self.manager.find("./AreaRailwayManager/RailwayNodeGraph/HorizontalEdges"):
+            y = hex_to_int(n)
+            if y is not None:
+                process_lane(y=y)
+
+        for n in self.manager.find("./AreaRailwayManager/RailwayNodeGraph/VerticalEdges"):
+            x = hex_to_int(n)
+            if x is not None:
+                process_lane(x=x)
+
+        root.append(railway_infos)
 
         return root
 
@@ -2042,6 +2189,13 @@ class Building:
 
         return obj
 
+class HarborWarehouse(Building):
+    def __init__(self, node: ET._Element, island):
+        super().__init__(node, island)
+
+class Slot(Building):
+    def __init__(self, node: ET._Element, island):
+        super().__init__(node, island)
 
 class Residence(Building):
     """

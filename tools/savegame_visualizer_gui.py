@@ -1,18 +1,18 @@
 VERSION = "v4.2"
 
-from tools.a7s_model import *
+import json
+import lxml.etree as ET
+import os
+import sys
+import zipfile
+from io import BytesIO
 
 import ipywidgets as widgets
 import pandas as pd
 import requests
-import json
-import os
-import sys
-import zipfile
-
-from io import BytesIO
 
 from PyQt5.QtWidgets import QFileDialog, QApplication
+from tools.a7s_model import *
 
 # try:
 #     from tkinter import Tk
@@ -31,6 +31,9 @@ i18n = {
     },
     "Open in Anno Designer": {
         "german": "In Anno Designer öffnen"
+    },
+    "Save as stamp": {
+        "german": "Als Stempel speichern"
     },
     "Island": {
         "chinese": "岛屿",
@@ -203,6 +206,20 @@ i18n = {
             "spanish": "Embarcadero",
             "taiwanese": "碼頭"
         },
+    "Slots": {
+            "chinese": "矿产资源",
+            "english": "Mineral Resource",
+            "french": "Ressource minérale",
+            "german": "Rohstoffvorkommen",
+            #"guid": 1591,
+            "italian": "Risorsa mineraria",
+            "japanese": "鉱物資源",
+            "korean": "광물 자원",
+            "polish": "Surowiec mineralny",
+            "russian": "Минеральные ресурсы",
+            "spanish": "Recursos minerales",
+            "taiwanese": "礦產資源"
+        },
     "Routes": {
             "chinese": "路线",
             "english": "Routes",
@@ -367,6 +384,9 @@ i18n = {
         "spanish": "Abrir",
         "taiwanese": "開啟"
     },
+    "Stamp saved": {
+      "german": "Stempel gespeichert"
+    },
     "Failed to read file: ": {
         "german": "Datei konnte nicht gelesen werden: "
     },
@@ -396,7 +416,13 @@ i18n = {
     },
     "Close and re-open the application!": {
         "german": "Schlißen und öffnen Sie die Anwendung erneut!"
-    }
+    },
+    "Failed to save stamp.": {
+        "german": "Speichern des Stempels fehlgeschlagen."
+    },
+    "Abort. Stamp would be empty.": {
+        "german": "Abbruch. Stempel wäre leer."
+    },
 }
 
 
@@ -444,7 +470,7 @@ class Group:
 
 CSS_TABLE_STRIPED = [
                         {'selector': 'th', 'props': [('padding', '0 6px 0 6px'),('border-bottom', '1px solid black')]},
-                        {'selector': 'tr:nth-child(even)', 'props': [('background', '#E0E0E0')]}
+                        {'selector': 'tr:nth-child(even)', 'props': [('background', '#E0E0E0'), ('color', 'black')]}
                      ]
 
 
@@ -468,6 +494,8 @@ class RouteTable:
                 duration = "{:.2f} min".format(duration / 60 / 1000)
 
             self.df.loc[len(self.df)] = [r.name, str(len(r.stations)), str(len(r.ships)), duration, travel_time]
+
+        self.df.sort_values(_("Routes"), inplace=True)
 
     def render(self):
         return (self.df.style.set_table_styles(CSS_TABLE_STRIPED)
@@ -496,7 +524,6 @@ class EffectTable:
         if not len(self.df) == 0:
             summary = effects_summary["all"]
             self.df.loc[len(self.df)] = [_("All Residences"), th_string(summary) + str(summary)]
-
 
     def render(self):
         return (self.df.style.set_table_styles(CSS_TABLE_STRIPED)
@@ -573,12 +600,19 @@ class VisualizerGUI:
         self.island_selector = widgets.Dropdown(options=[], description=_("Island") + ":")
         self.island_selector.layout.margin = self.horizontal_margins
 
-        def callback_save(btn):
+        def callback_open_in_ad(btn):
             self.open_in_ad()
+
+        def callback_save_stamp(btn):
+            self.save_stamp()
 
         btn_open = widgets.Button(description=_("Open in Anno Designer"))
         btn_open.layout.width="12rem"
-        btn_open.on_click(callback_save)
+        btn_open.on_click(callback_open_in_ad)
+
+        btn_save = widgets.Button(description=_("Save as stamp"))
+        btn_save.layout.width="12rem"
+        btn_save.on_click(callback_save_stamp)
 
         g = Group("color", _("Colors"))
         g.add_option(Option("store_coverage", _("Coverage by stores")))
@@ -608,6 +642,7 @@ class VisualizerGUI:
         g.add_option(Option("outline", _("Island outline")))
         g.add_option(Option("blueprints", _("Blueprints")))
         g.add_option(Option("quay", _("Quay")))
+        g.add_option(Option("Slot", _("Slots")))
         self.groups.append(g)
 
         def callback(event):
@@ -658,7 +693,7 @@ class VisualizerGUI:
             tab.set_title(i, titles[i])
 
         vbox = widgets.VBox([
-            widgets.HBox([self.island_selector, btn_open]),
+            widgets.HBox([self.island_selector, btn_open, btn_save]),
             tab
         ])
 
@@ -976,3 +1011,39 @@ class VisualizerGUI:
             subprocess.Popen([os.getcwd() + "/tools/Anno Designer/AnnoDesigner.exe", "open", str(path)])
         except:
             self.set_status(_("Failed to open Anno Designer. File was saved to: ") + str(path))
+
+    def save_stamp(self):
+        island = self.get_island()
+        if island is None:
+            return
+
+        try:
+            xml = island.get_stamp(options=self.get_options())
+
+            if xml is None:
+                self.set_status(_("Abort. Stamp would be empty."))
+
+            path = TEMP_PATH / "stamp"
+            with open(path.with_suffix(".xml"), "wb") as f:
+                f.write(ET.tostring(xml, pretty_print=True))
+
+            subprocess.call(
+                [os.getcwd() + "/tools/FileDBReader/FileDBReader.exe", "compress",
+                 "-i", os.getcwd() + "/tools/FileDBReader/FileFormats/stamp.xml",
+                 "-y", "-c", "3", "-o", "", "-f", str(path.with_suffix(".xml"))])
+
+            region = "The Old World"
+            try:
+                region = A7PARAMS["region_names"].get(island.session.get_region_guid())["english"]
+            except:
+                pass
+            stamp_path = get_documents_path() / "Anno 1800" / "stamps" / region / "Islands"
+            stamp_path.mkdir(parents=True, exist_ok=True)
+
+            dst_path = stamp_path / re.sub(r'[^\w_. -]', '_', island.name)
+            shutil.copy(path.with_suffix(""), dst_path)
+            self.set_status("{}: {}".format(_("Stamp saved"), dst_path))
+
+        except Exception as e:
+            self.set_status(_("Failed to save stamp."))
+            print(e)
