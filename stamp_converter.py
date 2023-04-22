@@ -347,8 +347,8 @@ if __name__ == "__main__":
     os.chdir(str(pathlib.Path(sys.argv[0]).parent))
 
     parser = argparse.ArgumentParser(description='Convert stamps into Anno Designer files and images.')
-    parser.add_argument('source', metavar='source', type=str, nargs='*')
-    parser.add_argument('-s', '--source', type=str, nargs='*',
+    parser.add_argument('source', metavar='source', type=str, action='extend', nargs='*')
+    parser.add_argument('-s', '--source', type=str, action='extend', nargs='*',
                         help='Files or folders to be converted. If the argument is not provided, all stamps in the default location are processed.')
     parser.add_argument('-d', '--destination', type=str, nargs='?',
                         help='Destination path. If the argument is not provided, output files are saved next to their source files.')
@@ -378,6 +378,8 @@ if __name__ == "__main__":
     parser.add_argument('-v', "--verbose", action='store_true', help="verbose output")
 
     args = parser.parse_args()
+    if args.verbose:
+        print("Source:", args.source)
     if args.source is None or len(args.source) == 0:
         args.source = [get_documents_path() / "Anno 1800" / "stamps"]
 
