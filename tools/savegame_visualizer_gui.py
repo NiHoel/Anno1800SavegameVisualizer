@@ -330,13 +330,27 @@ i18n = {
         "english": "Residence",
         "french": "Résidence",
         "german": "Wohngebäude",
-        "guid": 100004,
+        #"guid": 100004,
         "italian": "Residenza",
         "japanese": "住居",
         "korean": "주거지",
         "polish": "Dom",
         "russian": "Жилое здание",
         "spanish": "Residencia",
+        "taiwanese": "住所"
+    },
+    "Residences": {
+        "chinese": "住所",
+        "english": "Residences",
+        "french": "Résidences",
+        "german": "Wohngebäude",
+        #"guid": 22976,
+        "italian": "Residenze",
+        "japanese": "住居",
+        "korean": "주거지",
+        "polish": "Domy mieszkalne",
+        "russian": "Жилые здания",
+        "spanish": "Residencias",
         "taiwanese": "住所"
     },
     "All Residences": {
@@ -512,18 +526,22 @@ class EffectTable:
             return "" if summary.townhall_counter == 0 else "{:.2%} {}<br/>".format(
                 summary.townhall_counter / summary.building_counter, _("Townhall Coverage"))
 
+        def name_with_count(name, count):
+            return "{}<br/>({} {})".format(name, count, _("Residences"))
+
         for summary in self.effects_summary["residences"]:
             if summary.empty():
                 continue
 
-            self.df.loc[len(self.df)] = [summary.get_residence_name(), th_string(summary) + str(summary)]
+            self.df.loc[len(self.df)] = [name_with_count(summary.get_residence_name(), summary.building_counter), th_string(summary) + str(summary)]
 
-        if not effects_summary["blueprints"].empty():
-            self.df.loc[len(self.df)] = [_("Blueprints"), th_string(effects_summary["blueprints"])[:-2]]
+        summary = effects_summary["blueprints"]
+        if not summary.empty():
+            self.df.loc[len(self.df)] = [name_with_count(_("Blueprints"), summary.building_counter) , th_string(summary)[:-2]]
 
         if not len(self.df) == 0:
             summary = effects_summary["all"]
-            self.df.loc[len(self.df)] = [_("All Residences"), th_string(summary) + str(summary)]
+            self.df.loc[len(self.df)] = [name_with_count(_("All Residences"), summary.building_counter), th_string(summary) + str(summary)]
 
     def render(self):
         return (self.df.style.set_table_styles(CSS_TABLE_STRIPED)
