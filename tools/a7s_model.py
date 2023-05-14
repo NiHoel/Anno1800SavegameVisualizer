@@ -333,6 +333,14 @@ def save_stamp(xml, path):
          "-i", os.getcwd() + "/tools/FileDBReader/FileFormats/stamp.xml",
          "-y", "-c", "3", "-o", "", "-f", str(temp_path.with_suffix(".xml"))])
 
+    with open(str(temp_path.with_suffix(".xml")), "r+b") as f:
+        uncompressed = f.read()
+        compressed = zlib.compress(uncompressed, 8)
+        compressed += b'\x78\xda\x03\x00\x00\x00\x00\x01'
+        sidecar = struct.pack("i", len(uncompressed))
+        compressed += sidecar
+        f.write(compressed)
+
     shutil.copy(temp_path.with_suffix(""), str(pathlib.Path.cwd() / path))
 
 def has_value(node):
