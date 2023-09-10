@@ -1904,8 +1904,8 @@ class Island:
             p = b.get_relative_position()
             center = coords_2d(b)
             r_th = int(ad_config.get_template(b.guid)["Radius"])
-            for x in range(p[0] - r_th, p[0] + r_th + 2):
-                for y in range(p[1] - r_th, p[1] + r_th + 2):
+            for x in range(max(0, p[0] - r_th), min(len(area), p[0] + r_th + 2)):
+                for y in range(max(0, p[1] - r_th), min(len(area[x]), p[1] + r_th + 2)):
                     h = area[x][y]
 
                     if h is None or h.guid not in residences or h in visited:
