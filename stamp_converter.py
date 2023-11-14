@@ -1,4 +1,5 @@
 import argparse
+import traceback
 import pathlib
 import shutil
 import subprocess
@@ -98,7 +99,18 @@ def stamp_to_json(tree, ad_config, options = DEFAULT_OPTIONS):
             direction = 0
         rot = int(round(direction / math.pi * 2) % 4)
         pos = hex_to_float_list(node.find("./Pos"), 4)
-        variation = hex_to_int(node.find("./Variation"))
+        if args.verbose and (pos is None or guid is None):
+            print("Skip node because attribute is missing:")
+            print("-"*60)
+            print("GUID:", guid)
+            print("ComplexOwnerID:", complex_owner_id)
+            print("Pos:", pos)
+            print("Dir:", direction)
+            print("Variation:", guid)
+            ET.tostring(node, pretty_print=True)
+            print("-"*60)
+            
+            continue
 
         if not ad_config.has_template(guid, session):
             continue
@@ -418,7 +430,10 @@ if __name__ == "__main__":
             except Exception as e:
                 error_count += 1
                 if args.verbose:
-                    print(e)
+                    print("Exception while converting:")
+                    print("-"*60)
+                    traceback.print_exc(file=sys.stdout)
+                    print("-"*60)
 
     if error_count > 0 and args.verbose:
         os.system("PAUSE")

@@ -61,6 +61,9 @@ Some virus scanners identify `RdaConsole.exe` or `FileDBReader.exe` as virus
 * Make sure no files were deleted by the anti-virus software after extracting the zip. Check the `tools` and `tools\FileDBReader` folders and compare them with the content of the zip.
 * Make sure that windows allows to execute the `tools\RDAConsole.exe` and `tools\FileDBReader\FileDBReader.exe`. Double-click on them and if Windows displays a security warning, click on further information and allow it.
 
+An island does not open with the following error in the status bar: `'Island' object has no attribute 'rectangle'`
+* Place a blueprint or building in all four corners of the island, do the same on all neighbouring islands. Save and open in visualizer.
+
 #### Error in the status bar
 Contact me if you fail to understand or resolve the error displayed there. To help me solve the issue, open the log console and copy its content.
 
