@@ -1,4 +1,4 @@
-VERSION = "v5.1"
+VERSION = "v5.2s"
 
 import json
 import lxml.etree as ET
