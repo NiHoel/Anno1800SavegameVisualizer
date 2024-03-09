@@ -32,8 +32,10 @@ Turn your [Anno 1800](https://www.ubisoft.com/de-de/game/anno-1800/) savegames i
 ## Getting started
 1. Download and install Jupyter Lab: https://github.com/jupyterlab/jupyterlab-desktop/releases/latest - The installation process consists of two stages.
     1. Install Jupter Lab. At the end of the installation dialog choose to start the application.
-    2. A welcome dialog appears with a warning at the bottom that no python environment is found. Click this message.
-    3. A new dialog appears to install a JupyterLab Desktop Server. <span style="color: red;">The path must NOT contain spaces or special characters.</span>
+    2. A welcome dialog appears with a warning at the bottom that no python environment is found. Click the highlighted text:
+
+![Install Python environment for JupyterLab](imgs/jupyterlab_create_new_environment.png)
+
 2. Download and install .NET:  https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/sdk-6.0.407-windows-x64-installer
 3. Download the `Anno1800SavegameVisualizer.zip` from: https://github.com/nihoel/Anno1800SavegameVisualizer/releases/latest
 4. Extract the archive. Make sure to not change anything inside the tools folder!
@@ -54,6 +56,9 @@ That is normal when you open the software. Run the software as usual and the use
 ![Code expanded](imgs/code_expanded.png)
 
 If you have opened one of the two blocks depicted above: Click on the blue bar on the left to collapse it. Make sure you didn't change anything there by accident. If strange things happen afterwards, re-download the software
+
+#### Executing FileDBReader.exe failed
+* Make sure to install the .NET framework (see Getting started)
 
 #### WinError in status bar
 Some virus scanners identify `RdaConsole.exe` or `FileDBReader.exe` as virus
