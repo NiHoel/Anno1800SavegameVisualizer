@@ -99,6 +99,9 @@ def stamp_to_json(tree, ad_config, options = DEFAULT_OPTIONS):
             direction = 0
         rot = int(round(direction / math.pi * 2) % 4)
         pos = hex_to_float_list(node.find("./Pos"), 4)
+        if pos is None:
+            pos = [0,0]
+        
         if args.verbose and (pos is None or guid is None):
             print("Skip node because attribute is missing:")
             print("-"*60)
@@ -106,7 +109,6 @@ def stamp_to_json(tree, ad_config, options = DEFAULT_OPTIONS):
             print("ComplexOwnerID:", complex_owner_id)
             print("Pos:", pos)
             print("Dir:", direction)
-            print("Variation:", guid)
             ET.tostring(node, pretty_print=True)
             print("-"*60)
             
