@@ -515,17 +515,24 @@ class Interpreter:
         processed_size = 0
         for file in files:
 
-            if not file.with_suffix(".xml").exists():
+            xml_file = file.with_suffix(".xml")
+            if not xml_file.exists():
                 content = open(file, 'rb').read()
                 content = zlib.decompress(content)
                 with open(file.with_suffix(".bin"), 'wb') as f:
                     f.write(content)
 
-                execute([str(tools_path / "FileDBReader/FileDBReader.exe"), "decompress", "-i",
-                         str(tools_path / (
-                             "FileDBReader/FileFormats/a7s_all.xml" if decode_all else "FileDBReader/FileFormats/a7s_hex.xml")),
-                         "-f",
-                         str(file.with_suffix(".bin")), "-y"])
+                if decode_all:
+                    execute([str(tools_path / "FileDBReader/FileDBReader.exe"), "decompress", "-i",
+                             str(tools_path / "FileDBReader/FileFormats/a7s_all.xml" ),
+                             "-f",
+                             str(file.with_suffix(".bin")), "-y"])
+                else:
+                    execute([str(tools_path / "SavegameReader/SavegameReader.exe"), "decompress",
+                             "-f", str(file.with_suffix(".bin")), "-y"])
+
+                if xml_file.stat().st_size == 0:
+                    xml_file.unlink()
 
             if progress_bar is not None:
                 progress_bar.value = 0.05 + 0.6 * (processed_size / total_size + file.stat().st_size / total_size * 0.8)
